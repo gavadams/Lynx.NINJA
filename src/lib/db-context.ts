@@ -11,7 +11,7 @@ export async function setUserContext(userId: string) {
 // Helper function to get user context from session
 export function getUserContextFromSession(session: any): string | null {
   if (!session?.user?.id) return null
-  return session.user.id
+  return session.user.email
 }
 
 // Wrapper for database operations that need RLS

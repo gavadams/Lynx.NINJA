@@ -44,7 +44,7 @@ export async function GET(
         User!TeamMember_invitedBy_fkey(displayName)
       `)
       .eq('id', invitationId)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (error || !invitation) {

@@ -33,7 +33,7 @@ export async function GET() {
     const { data: user, error } = await supabase
       .from('User')
       .select('username, displayName')
-      .eq('id', session.user.id)
+      .eq('id', session.user.email)
       .single()
 
     if (error || !user) {

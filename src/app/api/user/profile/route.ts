@@ -42,7 +42,7 @@ export async function GET() {
           isActive
         )
       `)
-      .eq('id', session.user.id)
+      .eq('id', session.user.email)
       .single()
 
     if (error) {
@@ -51,7 +51,7 @@ export async function GET() {
         const { data: newProfile, error: createError } = await supabase
           .from('User')
           .insert({
-            id: session.user.id,
+            id: session.user.email,
             email: session.user.email,
             username: session.user.email?.split('@')[0] || 'user',
             displayName: session.user.name || session.user.email?.split('@')[0] || 'User',
@@ -177,7 +177,7 @@ export async function PUT(request: NextRequest) {
       .from('User')
       .select('id')
       .eq('username', username)
-      .neq('id', session.user.id)
+      .neq('id', session.user.email)
       .single()
 
     if (existingUserError && existingUserError.code !== 'PGRST116') { // PGRST116 means no rows found
@@ -210,7 +210,7 @@ export async function PUT(request: NextRequest) {
     const { data: profile, error } = await supabase
       .from('User')
       .update(updateData)
-      .eq('id', session.user.id)
+      .eq('id', session.user.email)
       .select()
       .single()
 

@@ -39,7 +39,7 @@ export async function GET(
       .from('Link')
       .select('*')
       .eq('id', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (error || !link) {

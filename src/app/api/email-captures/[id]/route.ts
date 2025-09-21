@@ -35,7 +35,7 @@ export async function GET(
       .from('EmailCapture')
       .select('*')
       .eq('id', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (error || !capture) {
@@ -107,7 +107,7 @@ export async function PUT(
         isActive: isActive !== undefined ? isActive : undefined
       })
       .eq('id', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .select()
       .single()
 
@@ -153,7 +153,7 @@ export async function DELETE(
       .from('EmailCapture')
       .delete()
       .eq('id', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
 
     if (error) {
       console.error("Error deleting email capture:", error)

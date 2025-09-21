@@ -10,7 +10,7 @@ export async function GET() {
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
@@ -31,7 +31,7 @@ export async function GET() {
     const { data: domains, error } = await supabase
       .from('CustomDomain')
       .select('*')
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .order('createdAt', { ascending: false })
 
     if (error) {
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
     const { data: newDomain, error: createError } = await supabase
       .from('CustomDomain')
       .insert({
-        userId: session.user.id,
+        userId: session.user.email,
         domain,
         verificationToken,
         verificationMethod: 'dns'

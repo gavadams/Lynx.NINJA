@@ -35,7 +35,7 @@ export async function GET(
       .from('TeamMember')
       .select('role, status')
       .eq('teamId', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (membershipError || !membership || membership.status !== 'accepted') {
@@ -90,7 +90,7 @@ export async function POST(
       .from('TeamMember')
       .select('role, status')
       .eq('teamId', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (membershipError || !membership || membership.status !== 'accepted') {
@@ -108,7 +108,7 @@ export async function POST(
       .from('Link')
       .select('id, userId, title, url')
       .eq('id', linkId)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (linkError || !link) {
@@ -138,7 +138,7 @@ export async function POST(
       .insert({
         teamId: id,
         linkId: linkId,
-        createdBy: session.user.id
+        createdBy: session.user.email
       })
       .select()
       .single()

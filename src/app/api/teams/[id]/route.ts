@@ -35,7 +35,7 @@ export async function GET(
       .from('TeamMember')
       .select('role, status')
       .eq('teamId', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (membershipError || !membership || membership.status !== 'accepted') {
@@ -117,7 +117,7 @@ export async function PUT(
       .from('TeamMember')
       .select('role, status')
       .eq('teamId', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (membershipError || !membership || membership.status !== 'accepted') {
@@ -189,7 +189,7 @@ export async function DELETE(
       .from('TeamMember')
       .select('role, status')
       .eq('teamId', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (membershipError || !membership || membership.status !== 'accepted') {
@@ -267,7 +267,7 @@ export async function POST(
         userId: invitedUser.id,
         role,
         status: 'pending',
-        invitedBy: session.user.id
+        invitedBy: session.user.email
       })
       .select()
       .single()

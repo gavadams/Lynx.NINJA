@@ -35,7 +35,7 @@ export async function GET(
       .from('Link')
       .select('*')
       .eq('id', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (error || !link) {
@@ -84,7 +84,7 @@ export async function PUT(
       .from('Link')
       .select('id')
       .eq('id', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (checkError || !existingLink) {
@@ -102,7 +102,7 @@ export async function PUT(
       .from('Link')
       .update(updateData)
       .eq('id', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .select()
       .single()
 
@@ -150,7 +150,7 @@ export async function DELETE(
       .from('Link')
       .select('id')
       .eq('id', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (checkError || !existingLink) {
@@ -161,7 +161,7 @@ export async function DELETE(
       .from('Link')
       .delete()
       .eq('id', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
 
     if (error) {
       console.error("Error deleting link:", error)

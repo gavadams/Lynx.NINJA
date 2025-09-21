@@ -35,7 +35,7 @@ export async function POST(
       .from('TeamMember')
       .select('id, status, userId')
       .eq('id', invitationId)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (checkError || !invitation) {

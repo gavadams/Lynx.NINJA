@@ -103,7 +103,7 @@ export async function POST(
         userId: invitedUser.id,
         role,
         status: 'pending',
-        invitedBy: session.user.id
+        invitedBy: session.user.email
       })
       .select()
       .single()

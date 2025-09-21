@@ -44,7 +44,7 @@ export async function GET() {
           email
         )
       `)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .eq('status', 'pending')
       .order('invitedAt', { ascending: false })
 

@@ -35,7 +35,7 @@ export async function DELETE(
       .from('TeamMember')
       .select('role, status')
       .eq('teamId', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (membershipError || !membership || membership.status !== 'accepted') {
@@ -55,7 +55,7 @@ export async function DELETE(
     }
 
     // Check if user is the creator of the team link or has admin/owner permissions
-    const canRemove = teamLink.createdBy === session.user.id || 
+    const canRemove = teamLink.createdBy === session.user.email || 
                      ['owner', 'admin'].includes(membership.role)
 
     if (!canRemove) {

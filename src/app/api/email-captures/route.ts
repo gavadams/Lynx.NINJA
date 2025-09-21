@@ -28,7 +28,7 @@ export async function GET() {
 
     // Get user's email captures with stats using the function
     const { data: captures, error } = await supabase
-      .rpc('get_user_email_captures', { user_id: session.user.id })
+      .rpc('get_user_email_captures', { user_id: session.user.email })
 
     if (error) {
       console.error("Error fetching email captures:", error)
@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
     const { data: newCapture, error: createError } = await supabase
       .from('EmailCapture')
       .insert({
-        userId: session.user.id,
+        userId: session.user.email,
         title,
         description: description || null,
         buttonText: buttonText || 'Subscribe',

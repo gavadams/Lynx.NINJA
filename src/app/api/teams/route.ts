@@ -28,7 +28,7 @@ export async function GET() {
 
     // Get user's teams using the database function
     const { data: teams, error } = await supabase.rpc('get_user_teams', {
-      user_id: session.user.id
+      user_id: session.user.email
     })
 
     if (error) {
@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
       .insert({
         name: name.trim(),
         description: description?.trim() || null,
-        ownerId: session.user.id
+        ownerId: session.user.email
       })
       .select()
       .single()
@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
       .from('TeamMember')
       .insert({
         teamId: team.id,
-        userId: session.user.id,
+        userId: session.user.email,
         role: 'owner',
         status: 'accepted',
         joinedAt: new Date().toISOString()

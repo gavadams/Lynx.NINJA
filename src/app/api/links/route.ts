@@ -31,7 +31,7 @@ export async function GET() {
     const { data: links, error } = await supabase
       .from('Link')
       .select('*')
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .order('order', { ascending: true })
 
     if (error) {
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
     const { data: lastLink } = await supabase
       .from('Link')
       .select('order')
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .order('order', { ascending: false })
       .limit(1)
       .single()
@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
         title,
         url,
         order: newOrder,
-        userId: session.user.id
+        userId: session.user.email
       })
       .select()
       .single()

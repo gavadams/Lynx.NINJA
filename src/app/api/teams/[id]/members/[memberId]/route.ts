@@ -46,7 +46,7 @@ export async function PUT(
     }
 
     // Check if user is the member themselves (for accepting invitations)
-    if (teamMember.userId === session.user.id) {
+    if (teamMember.userId === session.user.email) {
       if (status === 'accepted' && teamMember.status === 'pending') {
         // User is accepting the invitation
         const { data: updatedMember, error: updateError } = await supabase
@@ -90,7 +90,7 @@ export async function PUT(
       .from('TeamMember')
       .select('role, status')
       .eq('teamId', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (membershipError || !membership || membership.status !== 'accepted') {
@@ -172,7 +172,7 @@ export async function DELETE(
     }
 
     // Check if user is the member themselves (for leaving team)
-    if (teamMember.userId === session.user.id) {
+    if (teamMember.userId === session.user.email) {
       // User is leaving the team
       if (teamMember.role === 'owner') {
         return NextResponse.json({ error: "Team owners cannot leave the team. Transfer ownership first." }, { status: 400 })
@@ -196,7 +196,7 @@ export async function DELETE(
       .from('TeamMember')
       .select('role, status')
       .eq('teamId', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (membershipError || !membership || membership.status !== 'accepted') {

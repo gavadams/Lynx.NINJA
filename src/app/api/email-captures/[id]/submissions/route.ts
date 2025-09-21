@@ -40,7 +40,7 @@ export async function GET(
       .from('EmailCapture')
       .select('id')
       .eq('id', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (captureError || !capture) {

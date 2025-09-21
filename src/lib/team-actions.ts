@@ -65,7 +65,7 @@ export async function inviteTeamMember(teamId: string, email: string, role: stri
     }
 
     // Check if user is trying to invite themselves
-    if (invitedUser.id === session.user.id) {
+    if (invitedUser.id === session.user.email) {
       return { 
         success: false, 
         error: `❌ Cannot invite yourself\n\nYou cannot invite yourself to a team. You are already the owner.` 
@@ -78,7 +78,7 @@ export async function inviteTeamMember(teamId: string, email: string, role: stri
         userId: invitedUser.id,
         role,
         status: 'pending',
-        invitedBy: session.user.id
+        invitedBy: session.user.email
       })
       .select()
       .single()
@@ -115,7 +115,7 @@ export async function inviteTeamMember(teamId: string, email: string, role: stri
     const { data: inviter, error: inviterError } = await supabase
       .from('User')
       .select('displayName')
-      .eq('id', session.user.id)
+      .eq('id', session.user.email)
       .single()
 
     // Send email notification (non-blocking)
