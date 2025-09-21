@@ -35,7 +35,7 @@ export async function POST(
       .from('CustomDomain')
       .select('*')
       .eq('id', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (domainError || !domain) {
@@ -53,7 +53,7 @@ export async function POST(
     const { error: deactivateError } = await supabase
       .from('CustomDomain')
       .update({ status: 'verified' })
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .eq('status', 'active')
 
     if (deactivateError) {

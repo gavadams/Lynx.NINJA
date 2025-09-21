@@ -39,7 +39,7 @@ export async function POST(
       .from('CustomDomain')
       .select('*')
       .eq('id', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (domainError || !domain) {
