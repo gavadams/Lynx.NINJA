@@ -190,7 +190,7 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
           <CardContent className="p-8 text-center">
             <h1 className="text-2xl font-bold text-gray-900 mb-4">Profile Not Found</h1>
             <p className="text-gray-600 mb-6">
-              The user you're looking for doesn't exist or has made their profile private.
+              The user you&apos;re looking for doesn&apos;t exist or has made their profile private.
             </p>
             <Button onClick={() => window.history.back()}>
               Go Back

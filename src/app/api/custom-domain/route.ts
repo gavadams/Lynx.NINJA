@@ -69,12 +69,12 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       user: {
-        id: customDomain.user.id,
-        username: customDomain.user.username,
-        displayName: customDomain.user.displayName,
-        profileImage: customDomain.user.profileImage,
-        theme: customDomain.user.theme,
-        bio: customDomain.user.bio
+        id: customDomain.user[0]?.id,
+        username: customDomain.user[0]?.username,
+        displayName: customDomain.user[0]?.displayName,
+        profileImage: customDomain.user[0]?.profileImage,
+        theme: customDomain.user[0]?.theme,
+        bio: customDomain.user[0]?.bio
       },
       links: links || [],
       customDomain: {

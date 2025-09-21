@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate username and check if it's unique
-    let username = email.split('@')[0]
+    const username = email.split('@')[0]
     let usernameCounter = 1
     let finalUsername = username
 

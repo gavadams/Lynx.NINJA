@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
@@ -93,7 +93,7 @@ export async function GET() {
     const browserStatsArray = Object.entries(browserStats).map(([browser, count]) => ({
       browser,
       count
-    })).sort((a, b) => b.count - a.count)
+    })).sort((a, b) => (b.count as number) - (a.count as number))
 
     // Get recent clicks (limit to 10)
     const recentClicks = analytics?.slice(0, 10).map(click => {

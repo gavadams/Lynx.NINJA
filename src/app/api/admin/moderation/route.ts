@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
 
     const offset = (page - 1) * limit
 
-    let data: any = {}
+    const data: any = {}
 
     if (type === 'all' || type === 'links') {
       // Get potentially problematic links

@@ -7,7 +7,7 @@ import QRCode from 'qrcode'
 import { getBaseUrl } from "@/lib/url"
 
 // GET /api/user/profile/qr - Generate QR code for user's profile page
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Get the current user from NextAuth
     const session = await getServerSession(authOptions)

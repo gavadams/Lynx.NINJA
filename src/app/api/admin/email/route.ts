@@ -280,9 +280,9 @@ export async function POST(request: NextRequest) {
           
           const acceptUrl = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/dashboard/teams/invitations/${invitationId}`
           const emailContent = `
-            <h2>You've been invited to join ${invitation.Team.name}</h2>
+            <h2>You've been invited to join ${invitation.Team[0]?.name || 'a team'}</h2>
             <p>Hello!</p>
-            <p>You've been invited by ${invitation.InvitedBy.username} to join the team "${invitation.Team.name}" as a ${invitation.role}.</p>
+            <p>You've been invited by ${invitation.InvitedBy[0]?.username || 'a team member'} to join the team "${invitation.Team[0]?.name || 'a team'}" as a ${invitation.role}.</p>
             <p>Click the link below to accept the invitation:</p>
             <a href="${acceptUrl}" style="background-color: #3b82f6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">Accept Invitation</a>
             <p>If you can't click the link, copy and paste this URL into your browser:</p>
@@ -293,9 +293,9 @@ export async function POST(request: NextRequest) {
           const { data, error } = await resend.emails.send({
             from: getSiteConfig().fromEmail,
             to: [invitation.email],
-            subject: `You've been invited to join ${invitation.Team.name}`,
+            subject: `You've been invited to join ${invitation.Team[0]?.name || 'a team'}`,
             html: emailContent,
-            text: `You've been invited to join ${invitation.Team.name} by ${invitation.InvitedBy.username}. Accept the invitation at: ${acceptUrl}`
+            text: `You've been invited to join ${invitation.Team[0]?.name || 'a team'} by ${invitation.InvitedBy[0]?.username || 'a team member'}. Accept the invitation at: ${acceptUrl}`
           })
 
           if (error) {

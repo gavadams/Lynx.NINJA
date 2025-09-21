@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Plus, Link as LinkIcon, BarChart3, Eye, ExternalLink, Edit, Trash2, GripVertical, Mail, ArrowRight } from "lucide-react"

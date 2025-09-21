@@ -355,8 +355,13 @@ export async function POST(request: NextRequest) {
           const latestInvoice = await stripe.invoices.retrieve(stripeSubscription.latest_invoice as string)
 
           // Create a refund for the latest payment
+          const paymentIntent = (latestInvoice as any).payment_intent
+          if (!paymentIntent) {
+            return NextResponse.json({ error: "No payment intent found for this invoice" }, { status: 400 })
+          }
+          
           const refund = await stripe.refunds.create({
-            payment_intent: latestInvoice.payment_intent as string,
+            payment_intent: paymentIntent as string,
             reason: 'requested_by_customer',
             metadata: {
               admin_action: 'true',

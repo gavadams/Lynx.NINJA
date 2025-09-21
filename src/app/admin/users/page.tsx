@@ -37,7 +37,6 @@ import {
   Users,
   Crown,
   Calendar,
-  Activity
 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import Link from 'next/link'

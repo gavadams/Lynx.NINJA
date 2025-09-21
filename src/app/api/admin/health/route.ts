@@ -1,22 +1,22 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createAdminClient } from "@/lib/admin-auth"
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const supabase = await createAdminClient()
 
     // Check if admin tables exist
-    const { data: adminUsers, error: adminError } = await supabase
+    const { error: adminError } = await supabase
       .from('AdminUser')
       .select('id')
       .limit(1)
 
-    const { data: featureFlags, error: flagsError } = await supabase
+    const { error: flagsError } = await supabase
       .from('FeatureFlag')
       .select('id')
       .limit(1)
 
-    const { data: systemSettings, error: settingsError } = await supabase
+    const { error: settingsError } = await supabase
       .from('SystemSetting')
       .select('id')
       .limit(1)

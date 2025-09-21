@@ -28,7 +28,6 @@ import {
   PoundSterling,
   Percent,
   Calendar,
-  UserX,
   RefreshCw
 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
