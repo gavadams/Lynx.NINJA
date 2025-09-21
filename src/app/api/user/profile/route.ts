@@ -27,7 +27,29 @@ export async function GET() {
       }
     )
 
-    // Get user profile from database with email capture form
+    // First, try to find user by email (in case they exist with different ID)
+    const { data: existingUser, error: emailError } = await supabase
+      .from('User')
+      .select(`
+        *,
+        emailCapture:EmailCapture!User_emailCaptureId_fkey(
+          id,
+          title,
+          description,
+          buttonText,
+          placeholder,
+          successMessage,
+          isActive
+        )
+      `)
+      .eq('email', session.user.email)
+      .single()
+
+    if (existingUser) {
+      return NextResponse.json(existingUser)
+    }
+
+    // If no user found by email, try by ID
     const { data: profile, error } = await supabase
       .from('User')
       .select(`
