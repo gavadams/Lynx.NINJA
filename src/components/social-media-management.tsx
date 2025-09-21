@@ -58,9 +58,15 @@ export function SocialMediaManagement() {
       if (response.ok) {
         const data = await response.json()
         setSocialMediaLinks(data)
+      } else {
+        // If the API returns an error (e.g., table doesn't exist), just set empty array
+        console.warn('Social media API not available yet:', response.status)
+        setSocialMediaLinks([])
       }
     } catch (error) {
       console.error('Error fetching social media links:', error)
+      // Set empty array on error to prevent UI issues
+      setSocialMediaLinks([])
     } finally {
       setLoading(false)
     }
