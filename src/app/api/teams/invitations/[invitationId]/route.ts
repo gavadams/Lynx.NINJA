@@ -53,7 +53,7 @@ export async function GET(
 
     return NextResponse.json({
       id: invitation.id,
-      teamName: invitation.Team.name,
+      teamName: invitation.Team[0]?.name || 'Unknown Team',
       inviterName: invitation.User.displayName || 'A team member',
       role: invitation.role,
       status: invitation.status
