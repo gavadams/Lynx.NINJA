@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - 2024-12-19 23:45:00
+- **Currency Standardization**: Updated all currency references from $ to £ (GBP)
+  - **Admin Dashboard**: Replaced DollarSign icons with PoundSterling icons
+  - **Admin Billing**: Updated MRR display to show £ instead of $
+  - **Documentation**: Updated RESEND_SETUP.md pricing from $20/month to £20/month
+  - **Stripe Configuration**: Confirmed GBP currency is properly configured
+  - **Consistent Branding**: All pricing now displays in British Pounds (£)
+
+### Added - 2024-12-19 23:30:00
+- **Auto-Scroll to Edit Fields**: Comprehensive auto-scroll functionality for all edit fields
+  - **Auto-Scroll Utility**: Created `src/lib/auto-scroll.ts` with smooth scrolling functions
+  - **Custom Hook**: Added `useAutoScroll` hook for easy integration in React components
+  - **Global Provider**: Implemented `AutoScrollProvider` for application-wide auto-scroll
+  - **Modal Auto-Scroll**: Link modal and edit modal now auto-scroll to first edit field when opened
+  - **Settings Auto-Scroll**: Profile settings page auto-scrolls to focused edit fields
+  - **Smooth Animations**: Configurable scroll animations with offset and delay options
+  - **Error Handling**: Graceful fallback when auto-scroll fails
+  - **Performance Optimized**: Efficient scroll detection and minimal re-renders
+
 ### Added - 2024-12-19 20:45:00
 - **Phase 2: Authentication & User Management - COMPLETE**
 - **Supabase Integration**: Switched from Prisma to Supabase client for better integration

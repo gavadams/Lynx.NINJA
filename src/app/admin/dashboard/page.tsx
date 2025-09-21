@@ -7,7 +7,7 @@ import {
   Users, 
   Link as LinkIcon, 
   BarChart3, 
-  DollarSign, 
+  PoundSterling, 
   Activity, 
   AlertTriangle,
   CheckCircle,
@@ -194,7 +194,7 @@ export default function AdminDashboard() {
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <DollarSign className="h-6 w-6 text-gray-400" />
+                <PoundSterling className="h-6 w-6 text-gray-400" />
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>

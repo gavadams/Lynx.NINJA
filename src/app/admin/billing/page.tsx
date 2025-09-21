@@ -25,7 +25,7 @@ import {
   MoreHorizontal,
   XCircle,
   CheckCircle,
-  DollarSign,
+  PoundSterling,
   Percent,
   Calendar,
   UserX,
@@ -230,12 +230,12 @@ export default function BillingPage() {
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <DollarSign className="h-8 w-8 text-green-600" />
+                <PoundSterling className="h-8 w-8 text-green-600" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">MRR</p>
                 <p className="text-2xl font-bold text-gray-900">
-                  ${data.overview.monthlyRecurringRevenue.toFixed(2)}
+                  £{data.overview.monthlyRecurringRevenue.toFixed(2)}
                 </p>
               </div>
             </div>
@@ -434,7 +434,7 @@ export default function BillingPage() {
                       <DropdownMenuItem 
                         onClick={() => handleBillingAction('refund_user', undefined, subscription.User.id)}
                       >
-                        <DollarSign className="h-4 w-4 mr-2" />
+                        <PoundSterling className="h-4 w-4 mr-2" />
                         Process Refund
                       </DropdownMenuItem>
                     </DropdownMenuContent>

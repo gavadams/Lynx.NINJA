@@ -14,6 +14,7 @@ import { DomainManagement } from "@/components/domain-management"
 import { EmailCaptureManagement } from "@/components/email-capture-management"
 import { useFeatureFlag } from "@/lib/feature-flags"
 import { getUserProfileUrl } from "@/lib/config"
+import { useAutoScroll } from "@/hooks/useAutoScroll"
 
 interface UserProfile {
   id: string
@@ -49,6 +50,9 @@ export default function SettingsPage() {
   const customDomainsEnabled = useFeatureFlag('customDomains')
   const emailCaptureEnabled = useFeatureFlag('emailCapture')
   const themesEnabled = useFeatureFlag('themes')
+  
+  // Auto-scroll functionality
+  const { handleFieldFocus } = useAutoScroll()
 
   useEffect(() => {
     fetchProfile()
@@ -124,6 +128,7 @@ export default function SettingsPage() {
       setErrors(prev => ({ ...prev, [field]: '' }))
     }
   }
+
 
   const handleUpgrade = async () => {
     setUpgrading(true)
@@ -241,6 +246,7 @@ export default function SettingsPage() {
                   id="displayName"
                   value={formData.displayName || ''}
                   onChange={(e) => handleInputChange('displayName', e.target.value)}
+                  onFocus={() => handleFieldFocus('displayName')}
                   placeholder="Your display name"
                 />
               </div>
@@ -251,6 +257,7 @@ export default function SettingsPage() {
                   id="username"
                   value={formData.username || ''}
                   onChange={(e) => handleInputChange('username', e.target.value)}
+                  onFocus={() => handleFieldFocus('username')}
                   placeholder="your-username"
                 />
                 <p className="text-xs text-gray-500">
@@ -265,6 +272,7 @@ export default function SettingsPage() {
                 id="bio"
                 value={formData.bio || ''}
                 onChange={(e) => handleInputChange('bio', e.target.value)}
+                onFocus={() => handleFieldFocus('bio')}
                 placeholder="Tell people about yourself..."
                 rows={3}
               />

@@ -68,7 +68,7 @@ RESEND_API_KEY=re_your_api_key_here
 - Perfect for development and small projects
 
 ### Paid Plans:
-- Start at $20/month
+- Start at £20/month
 - Higher limits and additional features
 - Custom domains and advanced analytics
 
