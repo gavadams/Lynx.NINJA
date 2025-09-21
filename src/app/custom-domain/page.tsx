@@ -1,12 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Loader2, ExternalLink } from "lucide-react"
 
-export default function CustomDomainPage() {
+function CustomDomainContent() {
   const searchParams = useSearchParams()
   const domain = searchParams.get('domain')
   const [loading, setLoading] = useState(true)
@@ -35,7 +35,7 @@ export default function CustomDomainPage() {
       } else {
         setError("Failed to load profile for this domain.")
       }
-    } catch (err) {
+    } catch (_err) {
       setError("Failed to load profile for this domain.")
     } finally {
       setLoading(false)
@@ -86,4 +86,22 @@ export default function CustomDomainPage() {
   }
 
   return null
+}
+
+export default function CustomDomainPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <Card className="w-full max-w-md mx-4">
+          <CardContent className="p-8 text-center">
+            <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+            <h1 className="text-xl font-semibold mb-2">Loading</h1>
+            <p className="text-gray-600">Preparing page...</p>
+          </CardContent>
+        </Card>
+      </div>
+    }>
+      <CustomDomainContent />
+    </Suspense>
+  )
 }
