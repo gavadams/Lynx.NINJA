@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
             .update({
               status: 'active',
             })
-            .eq('stripeSubscriptionId', invoice.subscription as string)
+            .eq('stripeSubscriptionId', (invoice as any).subscription as string)
 
           // Update user premium status
           await supabase
@@ -135,14 +135,14 @@ export async function POST(request: NextRequest) {
       case 'invoice.payment_failed': {
         const invoice = event.data.object as Stripe.Invoice
         
-        if (invoice.subscription) {
+        if ((invoice as any).subscription) {
           // Update subscription status
           await supabase
             .from('Subscription')
             .update({
               status: 'past_due',
             })
-            .eq('stripeSubscriptionId', invoice.subscription as string)
+            .eq('stripeSubscriptionId', (invoice as any).subscription as string)
         }
         break
       }
