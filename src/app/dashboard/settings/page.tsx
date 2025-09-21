@@ -11,6 +11,7 @@ import { Save, Loader2, User, Link as LinkIcon } from "lucide-react"
 import PremiumFeatures from "@/components/premium-features"
 import { DomainManagement } from "@/components/domain-management"
 import { EmailCaptureManagement } from "@/components/email-capture-management"
+import { MailingListPreferences } from "@/components/mailing-list-preferences"
 import { useFeatureFlag } from "@/lib/feature-flags"
 import { getUserProfileUrl } from "@/lib/config"
 
@@ -320,6 +321,9 @@ export default function SettingsPage() {
             emailCaptures={emailCaptures}
           />
         )}
+
+        {/* Mailing List Preferences */}
+        <MailingListPreferences />
 
         {/* Premium Features */}
         <Card>

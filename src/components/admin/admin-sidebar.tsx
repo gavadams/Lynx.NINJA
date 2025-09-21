@@ -14,7 +14,8 @@ import {
   Shield,
   Activity,
   CreditCard,
-  Calendar
+  Calendar,
+  Send
 } from "lucide-react"
 
 const navigation = [
@@ -28,6 +29,7 @@ const navigation = [
   { name: "Billing", href: "/admin/billing", icon: CreditCard },
   { name: "Database", href: "/admin/database", icon: Database },
   { name: "Email Tools", href: "/admin/email", icon: Mail },
+  { name: "Mailing Lists", href: "/admin/mailing-lists", icon: Send },
   { name: "Settings", href: "/admin/settings", icon: Settings },
 ]
 

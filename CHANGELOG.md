@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - 2024-12-19 23:55:00
+- **Mailing List System**: Complete email marketing and newsletter management
+  - **Auto-Subscription**: New users automatically subscribed to default mailing list
+  - **User Preferences**: Users can manage their mailing list subscriptions in settings
+  - **Admin Interface**: Full admin panel for managing mailing lists and subscribers
+  - **Unsubscribe System**: Token-based unsubscribe links for email campaigns
+  - **Database Schema**: Complete mailing list tables with subscription tracking
+  - **API Endpoints**: RESTful APIs for subscription management
+  - **Opt-out Required**: Users must explicitly opt out if they don't want emails
+
 ### Added - 2024-12-19 23:45:00
 - **Currency Standardization**: Updated all currency references from $ to £ (GBP)
   - **Admin Dashboard**: Replaced DollarSign icons with PoundSterling icons
