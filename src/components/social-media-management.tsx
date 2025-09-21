@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Plus, Edit, Trash2, ExternalLink, Save, X } from "lucide-react"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+// Removed Dialog import - using simple modal instead
 
 interface SocialMediaLink {
   id: string
@@ -232,91 +232,98 @@ export function SocialMediaManagement() {
         )}
       </CardContent>
 
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              {editingLink ? 'Edit Social Media Link' : 'Add Social Media Link'}
-            </DialogTitle>
-            <DialogDescription>
+      {/* Simple Modal */}
+      {isDialogOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold">
+                {editingLink ? 'Edit Social Media Link' : 'Add Social Media Link'}
+              </h2>
+              <Button variant="outline" size="sm" onClick={() => setIsDialogOpen(false)}>
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+            
+            <p className="text-sm text-gray-600 mb-4">
               {editingLink ? 'Update your social media link details' : 'Add a new social media link to your profile'}
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="platform">Platform</Label>
-              <Select value={formData.platform} onValueChange={(value) => setFormData({ ...formData, platform: value })}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a platform" />
-                </SelectTrigger>
-                <SelectContent>
-                  {SOCIAL_MEDIA_PLATFORMS.map((platform) => (
-                    <SelectItem key={platform.value} value={platform.value}>
-                      <div className="flex items-center space-x-2">
-                        <span>{platform.icon}</span>
-                        <span>{platform.label}</span>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            </p>
+            
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="platform">Platform</Label>
+                <Select value={formData.platform} onValueChange={(value) => setFormData({ ...formData, platform: value })}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a platform" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {SOCIAL_MEDIA_PLATFORMS.map((platform) => (
+                      <SelectItem key={platform.value} value={platform.value}>
+                        <div className="flex items-center space-x-2">
+                          <span>{platform.icon}</span>
+                          <span>{platform.label}</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="url">URL</Label>
+                <Input
+                  id="url"
+                  type="url"
+                  placeholder="https://..."
+                  value={formData.url}
+                  onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="displayName">Display Name (Optional)</Label>
+                <Input
+                  id="displayName"
+                  placeholder="Custom name for this link"
+                  value={formData.displayName}
+                  onChange={(e) => setFormData({ ...formData, displayName: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="order">Display Order</Label>
+                <Input
+                  id="order"
+                  type="number"
+                  min="0"
+                  value={formData.order}
+                  onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
+                />
+              </div>
             </div>
 
-            <div>
-              <Label htmlFor="url">URL</Label>
-              <Input
-                id="url"
-                type="url"
-                placeholder="https://..."
-                value={formData.url}
-                onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="displayName">Display Name (Optional)</Label>
-              <Input
-                id="displayName"
-                placeholder="Custom name for this link"
-                value={formData.displayName}
-                onChange={(e) => setFormData({ ...formData, displayName: e.target.value })}
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="order">Display Order</Label>
-              <Input
-                id="order"
-                type="number"
-                min="0"
-                value={formData.order}
-                onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
-              />
+            <div className="flex justify-end space-x-2 mt-6">
+              <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+                <X className="h-4 w-4 mr-2" />
+                Cancel
+              </Button>
+              <Button onClick={handleSave} disabled={saving || !formData.platform || !formData.url}>
+                {saving ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <Save className="h-4 w-4 mr-2" />
+                    {editingLink ? 'Update' : 'Add'} Link
+                  </>
+                )}
+              </Button>
             </div>
           </div>
-
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
-              <X className="h-4 w-4 mr-2" />
-              Cancel
-            </Button>
-            <Button onClick={handleSave} disabled={saving || !formData.platform || !formData.url}>
-              {saving ? (
-                <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  Saving...
-                </>
-              ) : (
-                <>
-                  <Save className="h-4 w-4 mr-2" />
-                  {editingLink ? 'Update' : 'Add'} Link
-                </>
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+        </div>
+      )}
     </Card>
   )
 }
