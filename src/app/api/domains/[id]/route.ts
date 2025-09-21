@@ -35,7 +35,7 @@ export async function GET(
       .from('CustomDomain')
       .select('*')
       .eq('id', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .single()
 
     if (error || !domain) {
@@ -86,7 +86,7 @@ export async function PUT(
         verificationMethod: verificationMethod || undefined
       })
       .eq('id', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
       .select()
       .single()
 
@@ -132,7 +132,7 @@ export async function DELETE(
       .from('CustomDomain')
       .delete()
       .eq('id', id)
-      .eq('userId', session.user.id)
+      .eq('userId', session.user.email)
 
     if (error) {
       console.error("Error deleting domain:", error)
