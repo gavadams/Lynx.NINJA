@@ -218,7 +218,7 @@ export default function LinkModal({ isOpen, onClose, onSave, link, loading = fal
                         id="scheduledAt"
                         type="datetime-local"
                         value={formData.scheduledAt ? new Date(formData.scheduledAt).toISOString().slice(0, 16) : ''}
-                        onChange={(e) => handleInputChange('scheduledAt', e.target.value ? new Date(e.target.value).toISOString() : null)}
+                        onChange={(e) => handleInputChange('scheduledAt', e.target.value ? new Date(e.target.value).toISOString() : '')}
                         className="text-sm"
                       />
                       <p className="text-xs text-gray-500">
@@ -236,7 +236,7 @@ export default function LinkModal({ isOpen, onClose, onSave, link, loading = fal
                         id="expiresAt"
                         type="datetime-local"
                         value={formData.expiresAt ? new Date(formData.expiresAt).toISOString().slice(0, 16) : ''}
-                        onChange={(e) => handleInputChange('expiresAt', e.target.value ? new Date(e.target.value).toISOString() : null)}
+                        onChange={(e) => handleInputChange('expiresAt', e.target.value ? new Date(e.target.value).toISOString() : '')}
                         className="text-sm"
                       />
                       <p className="text-xs text-gray-500">
@@ -254,7 +254,7 @@ export default function LinkModal({ isOpen, onClose, onSave, link, loading = fal
                         id="password"
                         type="password"
                         value={formData.password || ''}
-                        onChange={(e) => handleInputChange('password', e.target.value || null)}
+                        onChange={(e) => handleInputChange('password', e.target.value || '')}
                         placeholder="Enter password to protect this link"
                         className="text-sm"
                       />

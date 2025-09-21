@@ -65,6 +65,6 @@ export async function GET(request: NextRequest) {
     })
   } catch (error) {
     console.error("Error in public debug:", error)
-    return NextResponse.json({ error: "Internal server error", details: error.message }, { status: 500 })
+    return NextResponse.json({ error: "Internal server error", details: (error as Error).message }, { status: 500 })
   }
 }
