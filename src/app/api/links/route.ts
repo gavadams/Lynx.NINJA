@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     // Get the current user from NextAuth
     const session = await getServerSession(authOptions)
     
-    if (!session?.user?.emailail) {
+    if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
