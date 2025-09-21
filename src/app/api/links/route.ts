@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
         title,
         url,
         order: newOrder,
-        userId: session.user.id,
+        userId: session.user.email,
         scheduledAt: scheduledAt || null,
         expiresAt: expiresAt || null,
         password: password || null
