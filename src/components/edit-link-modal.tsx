@@ -7,7 +7,6 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
 import { X, Save, Calendar, Clock, AlertCircle, Crown } from "lucide-react"
-import { useAutoScroll } from "@/hooks/useAutoScroll"
 
 interface Link {
   id: string
@@ -47,7 +46,6 @@ export function EditLinkModal({ isOpen, onClose, link, onSave, isPremium = false
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
   const [showAdvanced, setShowAdvanced] = useState(false)
-  const { scrollToModalField } = useAutoScroll()
 
   useEffect(() => {
     if (link) {
@@ -61,17 +59,6 @@ export function EditLinkModal({ isOpen, onClose, link, onSave, isPremium = false
     }
   }, [link])
 
-  // Auto-scroll to first edit field when modal opens
-  useEffect(() => {
-    if (isOpen) {
-      // Small delay to ensure modal is fully rendered
-      setTimeout(() => {
-        scrollToModalField('.edit-link-modal').catch(error => {
-          console.warn('Auto-scroll to edit field failed:', error)
-        })
-      }, 100)
-    }
-  }, [isOpen, scrollToModalField])
 
   const handleSave = async () => {
     if (!link) return

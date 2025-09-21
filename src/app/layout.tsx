@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
-import { AutoScrollProvider } from "@/components/auto-scroll-provider";
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { getSiteConfig } from '@/lib/config';
@@ -80,9 +79,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-          <AutoScrollProvider>
-            {children}
-          </AutoScrollProvider>
+          {children}
         </Providers>
       </body>
     </html>
