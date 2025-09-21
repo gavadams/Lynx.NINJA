@@ -18,11 +18,24 @@ export async function PUT(request: NextRequest) {
       }
     )
 
-    // Get the current user
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    // Get the current user from NextAuth
+    const { getServerSession } = await import("next-auth")
+    const { authOptions } = await import("@/lib/auth")
+    const session = await getServerSession(authOptions)
     
-    if (authError || !user) {
+    if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
+    // Get user from database by email
+    const { data: dbUser, error: userError } = await supabase
+      .from('User')
+      .select('id')
+      .eq('email', session.user.email)
+      .single()
+
+    if (userError || !dbUser) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 })
     }
 
     const body = await request.json()
@@ -38,7 +51,7 @@ export async function PUT(request: NextRequest) {
         .from('Link')
         .update({ order: index })
         .eq('id', linkId)
-        .eq('userId', user.id)
+        .eq('userId', dbUser.id)
     )
 
     const results = await Promise.all(updatePromises)
@@ -54,7 +67,7 @@ export async function PUT(request: NextRequest) {
     const { data: links, error: fetchError } = await supabase
       .from('Link')
       .select('*')
-      .eq('userId', user.id)
+      .eq('userId', dbUser.id)
       .order('order', { ascending: true })
 
     if (fetchError) {

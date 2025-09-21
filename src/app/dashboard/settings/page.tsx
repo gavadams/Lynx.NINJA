@@ -1,6 +1,13 @@
 "use client"
 
 import { useState, useEffect } from "react"
+
+// Extend Window interface for auto-save timeout
+declare global {
+  interface Window {
+    autoSaveTimeout?: NodeJS.Timeout
+  }
+}
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -45,6 +52,7 @@ export default function SettingsPage() {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [upgrading, setUpgrading] = useState(false)
   const [emailCaptures, setEmailCaptures] = useState<any[]>([])
+  const [autoSaving, setAutoSaving] = useState(false)
   
   // Feature flags
   const customDomainsEnabled = useFeatureFlag('customDomains')
@@ -119,12 +127,51 @@ export default function SettingsPage() {
     }
   }
 
+  // Auto-save function with debouncing
+  const autoSave = async (updates: Partial<UserProfile>, delay: number = 2000) => {
+    // Clear existing timeout
+    if (window.autoSaveTimeout) {
+      clearTimeout(window.autoSaveTimeout)
+    }
+
+    // Set new timeout
+    window.autoSaveTimeout = setTimeout(async () => {
+      setAutoSaving(true)
+      try {
+        const response = await fetch('/api/user/profile', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updates),
+        })
+
+        if (response.ok) {
+          const updatedProfile = await response.json()
+          setProfile(updatedProfile)
+          console.log('Auto-saved profile changes')
+        } else {
+          console.error('Failed to auto-save profile')
+        }
+      } catch (error) {
+        console.error('Error auto-saving profile:', error)
+      } finally {
+        setAutoSaving(false)
+      }
+    }, delay)
+  }
+
   const handleInputChange = (field: keyof UserProfile, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
+    const updates = { [field]: value }
+    setFormData(prev => ({ ...prev, ...updates }))
+    
     // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }))
     }
+
+    // Auto-save the change
+    autoSave(updates)
   }
 
 
@@ -355,8 +402,21 @@ export default function SettingsPage() {
           </Card>
         )}
 
-        {/* Save Button */}
-        <div className="flex justify-end">
+        {/* Save Button and Auto-save Status */}
+        <div className="flex justify-between items-center">
+          <div className="text-sm text-gray-500">
+            {autoSaving ? (
+              <div className="flex items-center">
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                Auto-saving...
+              </div>
+            ) : (
+              <div className="flex items-center">
+                <div className="h-2 w-2 bg-green-500 rounded-full mr-2"></div>
+                All changes saved
+              </div>
+            )}
+          </div>
           <Button type="submit" disabled={saving}>
             {saving ? (
               <>

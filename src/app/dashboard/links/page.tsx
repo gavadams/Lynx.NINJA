@@ -1,13 +1,39 @@
 "use client"
 
 import { useState, useEffect } from "react"
+
+// Extend Window interface for auto-save timeouts
+declare global {
+  interface Window {
+    [key: string]: NodeJS.Timeout | undefined
+  }
+}
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Plus, Edit, Trash2, Eye, EyeOff, QrCode, User } from "lucide-react"
+import { Plus, Edit, Trash2, Eye, EyeOff, QrCode, User, GripVertical } from "lucide-react"
 import { QRCodeModal } from "@/components/qr-code-modal"
 import { EditLinkModal } from "@/components/edit-link-modal"
 import { ProfileQRModal } from "@/components/profile-qr-modal"
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core'
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
+import {
+  useSortable,
+} from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
 interface Link {
   id: string
@@ -17,6 +43,179 @@ interface Link {
   order: number
   clicks: number
   createdAt: string
+}
+
+// Sortable Link Item Component
+function SortableLinkItem({ 
+  link, 
+  onEdit, 
+  onDelete, 
+  onToggleActive, 
+  onGenerateQR,
+  onAutoSave
+}: {
+  link: Link
+  onEdit: (linkId: string) => void
+  onDelete: (linkId: string) => void
+  onToggleActive: (linkId: string) => void
+  onGenerateQR: (linkId: string, linkTitle: string) => void
+  onAutoSave: (linkId: string, updates: Partial<Link>, delay?: number) => void
+}) {
+  const [isEditingTitle, setIsEditingTitle] = useState(false)
+  const [isEditingUrl, setIsEditingUrl] = useState(false)
+  const [editTitle, setEditTitle] = useState(link.title)
+  const [editUrl, setEditUrl] = useState(link.url)
+
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: link.id })
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  }
+
+  const handleTitleSave = () => {
+    if (editTitle !== link.title && editTitle.trim()) {
+      onAutoSave(link.id, { title: editTitle.trim() })
+    }
+    setIsEditingTitle(false)
+  }
+
+  const handleUrlSave = () => {
+    if (editUrl !== link.url && editUrl.trim()) {
+      onAutoSave(link.id, { url: editUrl.trim() })
+    }
+    setIsEditingUrl(false)
+  }
+
+  const handleTitleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleTitleSave()
+    } else if (e.key === 'Escape') {
+      setEditTitle(link.title)
+      setIsEditingTitle(false)
+    }
+  }
+
+  const handleUrlKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleUrlSave()
+    } else if (e.key === 'Escape') {
+      setEditUrl(link.url)
+      setIsEditingUrl(false)
+    }
+  }
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="bg-white shadow rounded-lg p-4 flex items-center justify-between"
+    >
+      <div className="flex items-center space-x-4">
+        <div 
+          className="flex-shrink-0 cursor-grab active:cursor-grabbing"
+          {...attributes}
+          {...listeners}
+        >
+          <GripVertical className="h-5 w-5 text-gray-400" />
+        </div>
+        <div className="flex-shrink-0">
+          <div className="h-10 w-10 bg-gray-200 rounded flex items-center justify-center">
+            <span className="text-sm font-medium text-gray-600">
+              {link.title.charAt(0).toUpperCase()}
+            </span>
+          </div>
+        </div>
+        <div className="flex-1 min-w-0">
+          {isEditingTitle ? (
+            <Input
+              value={editTitle}
+              onChange={(e) => setEditTitle(e.target.value)}
+              onBlur={handleTitleSave}
+              onKeyDown={handleTitleKeyDown}
+              className="text-sm font-medium h-8"
+              autoFocus
+            />
+          ) : (
+            <p 
+              className="text-sm font-medium text-gray-900 prevent-overflow cursor-pointer hover:bg-gray-50 p-1 rounded"
+              onClick={() => setIsEditingTitle(true)}
+              title="Click to edit title"
+            >
+              {link.title}
+            </p>
+          )}
+          {isEditingUrl ? (
+            <Input
+              value={editUrl}
+              onChange={(e) => setEditUrl(e.target.value)}
+              onBlur={handleUrlSave}
+              onKeyDown={handleUrlKeyDown}
+              className="text-sm text-gray-500 h-8 mt-1"
+              autoFocus
+            />
+          ) : (
+            <p 
+              className="text-sm text-gray-500 url-break cursor-pointer hover:bg-gray-50 p-1 rounded"
+              onClick={() => setIsEditingUrl(true)}
+              title="Click to edit URL"
+            >
+              {link.url}
+            </p>
+          )}
+          <p className="text-xs text-gray-400">
+            {link.clicks} clicks
+          </p>
+        </div>
+      </div>
+      <div className="flex items-center space-x-2">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => onToggleActive(link.id)}
+          title={link.isActive ? "Hide link" : "Show link"}
+        >
+          {link.isActive ? (
+            <Eye className="h-4 w-4" />
+          ) : (
+            <EyeOff className="h-4 w-4" />
+          )}
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => onGenerateQR(link.id, link.title)}
+          title="Generate QR Code"
+        >
+          <QrCode className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => onEdit(link.id)}
+          title="Edit link"
+        >
+          <Edit className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => onDelete(link.id)}
+          title="Delete link"
+        >
+          <Trash2 className="h-4 w-4" />
+        </Button>
+      </div>
+    </div>
+  )
 }
 
 export default function LinksPage() {
@@ -30,6 +229,13 @@ export default function LinksPage() {
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [selectedLink, setSelectedLink] = useState<Link | null>(null)
   const [profileQRModalOpen, setProfileQRModalOpen] = useState(false)
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  )
 
   useEffect(() => {
     fetchLinks()
@@ -70,6 +276,36 @@ export default function LinksPage() {
     } catch (error) {
       console.error("Error adding link:", error)
     }
+  }
+
+  // Auto-save function with debouncing
+  const autoSave = async (linkId: string, updates: Partial<Link>, delay: number = 1000) => {
+    // Clear existing timeout for this link
+    const timeoutKey = `autoSave_${linkId}`
+    if (window[timeoutKey]) {
+      clearTimeout(window[timeoutKey])
+    }
+
+    // Set new timeout
+    window[timeoutKey] = setTimeout(async () => {
+      try {
+        const response = await fetch(`/api/links/${linkId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updates),
+        })
+
+        if (response.ok) {
+          console.log(`Auto-saved changes for link ${linkId}`)
+        } else {
+          console.error(`Failed to auto-save link ${linkId}`)
+        }
+      } catch (error) {
+        console.error(`Error auto-saving link ${linkId}:`, error)
+      }
+    }, delay)
   }
 
   const handleEditLink = (linkId: string) => {
@@ -132,22 +368,47 @@ export default function LinksPage() {
     const link = links.find(l => l.id === linkId)
     if (!link) return
 
-    try {
-      const response = await fetch(`/api/links/${linkId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ isActive: !link.isActive }),
-      })
+    // Update local state immediately for better UX
+    setLinks(links.map(l => 
+      l.id === linkId ? { ...l, isActive: !l.isActive } : l
+    ))
 
-      if (response.ok) {
-        setLinks(links.map(l => 
-          l.id === linkId ? { ...l, isActive: !l.isActive } : l
-        ))
+    // Auto-save the change
+    autoSave(linkId, { isActive: !link.isActive }, 500)
+  }
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event
+
+    if (over && active.id !== over.id) {
+      const oldIndex = links.findIndex(link => link.id === active.id)
+      const newIndex = links.findIndex(link => link.id === over.id)
+
+      const newLinks = arrayMove(links, oldIndex, newIndex)
+      setLinks(newLinks)
+
+      // Update the order in the database
+      try {
+        const response = await fetch('/api/links/reorder', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            linkIds: newLinks.map(link => link.id)
+          }),
+        })
+
+        if (!response.ok) {
+          console.error('Failed to reorder links')
+          // Revert the local state if the API call failed
+          setLinks(links)
+        }
+      } catch (error) {
+        console.error('Error reordering links:', error)
+        // Revert the local state if the API call failed
+        setLinks(links)
       }
-    } catch (error) {
-      console.error("Error toggling link:", error)
     }
   }
 
@@ -248,73 +509,30 @@ export default function LinksPage() {
           </div>
         </div>
       ) : (
-        <div className="space-y-4">
-          {links.map((link) => (
-            <div
-              key={link.id}
-              className="bg-white shadow rounded-lg p-4 flex items-center justify-between"
-            >
-              <div className="flex items-center space-x-4">
-                <div className="flex-shrink-0">
-                  <div className="h-10 w-10 bg-gray-200 rounded flex items-center justify-center">
-                    <span className="text-sm font-medium text-gray-600">
-                      {link.title.charAt(0).toUpperCase()}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 prevent-overflow">
-                    {link.title}
-                  </p>
-                  <p className="text-sm text-gray-500 url-break">
-                    {link.url}
-                  </p>
-                  <p className="text-xs text-gray-400">
-                    {link.clicks} clicks
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => handleToggleActive(link.id)}
-                  title={link.isActive ? "Hide link" : "Show link"}
-                >
-                  {link.isActive ? (
-                    <Eye className="h-4 w-4" />
-                  ) : (
-                    <EyeOff className="h-4 w-4" />
-                  )}
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => handleGenerateQR(link.id, link.title)}
-                  title="Generate QR Code"
-                >
-                  <QrCode className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => handleEditLink(link.id)}
-                  title="Edit link"
-                >
-                  <Edit className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => handleDeleteLink(link.id)}
-                  title="Delete link"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={links.map(link => link.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className="space-y-4">
+              {links.map((link) => (
+                <SortableLinkItem
+                  key={link.id}
+                  link={link}
+                  onEdit={handleEditLink}
+                  onDelete={handleDeleteLink}
+                  onToggleActive={handleToggleActive}
+                  onGenerateQR={handleGenerateQR}
+                  onAutoSave={autoSave}
+                />
+              ))}
             </div>
-          ))}
-        </div>
+          </SortableContext>
+        </DndContext>
       )}
 
       {/* QR Code Modal */}
