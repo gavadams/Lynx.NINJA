@@ -31,11 +31,23 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
+    // First, get the user from the database by email
+    const { data: user, error: userError } = await supabase
+      .from('User')
+      .select('id')
+      .eq('email', session.user.email)
+      .single()
+
+    if (userError || !user) {
+      console.error("Error fetching user:", userError)
+      return NextResponse.json({ error: "User not found" }, { status: 404 })
+    }
+
     const { data: link, error } = await supabase
       .from('Link')
       .select('*')
       .eq('id', id)
-      .eq('userId', session.user.email)
+      .eq('userId', user.id)
       .single()
 
     if (error || !link) {
@@ -76,6 +88,18 @@ export async function PUT(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
+    // First, get the user from the database by email
+    const { data: user, error: userError } = await supabase
+      .from('User')
+      .select('id')
+      .eq('email', session.user.email)
+      .single()
+
+    if (userError || !user) {
+      console.error("Error fetching user:", userError)
+      return NextResponse.json({ error: "User not found" }, { status: 404 })
+    }
+
     const body = await request.json()
     const { title, url, isActive, scheduledAt, expiresAt, password } = body
 
@@ -84,7 +108,7 @@ export async function PUT(
       .from('Link')
       .select('id')
       .eq('id', id)
-      .eq('userId', session.user.email)
+      .eq('userId', user.id)
       .single()
 
     if (checkError || !existingLink) {
@@ -103,7 +127,7 @@ export async function PUT(
       .from('Link')
       .update(updateData)
       .eq('id', id)
-      .eq('userId', session.user.email)
+      .eq('userId', user.id)
       .select()
       .single()
 
@@ -146,12 +170,24 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
+    // First, get the user from the database by email
+    const { data: user, error: userError } = await supabase
+      .from('User')
+      .select('id')
+      .eq('email', session.user.email)
+      .single()
+
+    if (userError || !user) {
+      console.error("Error fetching user:", userError)
+      return NextResponse.json({ error: "User not found" }, { status: 404 })
+    }
+
     // Check if link exists and belongs to user
     const { data: existingLink, error: checkError } = await supabase
       .from('Link')
       .select('id')
       .eq('id', id)
-      .eq('userId', session.user.email)
+      .eq('userId', user.id)
       .single()
 
     if (checkError || !existingLink) {
@@ -162,7 +198,7 @@ export async function DELETE(
       .from('Link')
       .delete()
       .eq('id', id)
-      .eq('userId', session.user.email)
+      .eq('userId', user.id)
 
     if (error) {
       console.error("Error deleting link:", error)

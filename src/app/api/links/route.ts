@@ -27,11 +27,23 @@ export async function GET() {
       }
     )
 
+    // First, get the user from the database by email
+    const { data: user, error: userError } = await supabase
+      .from('User')
+      .select('id')
+      .eq('email', session.user.email)
+      .single()
+
+    if (userError || !user) {
+      console.error("Error fetching user:", userError)
+      return NextResponse.json({ error: "User not found" }, { status: 404 })
+    }
+
     // Get user's links
     const { data: links, error } = await supabase
       .from('Link')
       .select('*')
-      .eq('userId', session.user.email)
+      .eq('userId', user.id)
       .order('order', { ascending: true })
 
     if (error) {
@@ -69,6 +81,18 @@ export async function POST(request: NextRequest) {
       }
     )
 
+    // First, get the user from the database by email
+    const { data: user, error: userError } = await supabase
+      .from('User')
+      .select('id')
+      .eq('email', session.user.email)
+      .single()
+
+    if (userError || !user) {
+      console.error("Error fetching user:", userError)
+      return NextResponse.json({ error: "User not found" }, { status: 404 })
+    }
+
     const body = await request.json()
     const { title, url, scheduledAt, expiresAt, password } = body
 
@@ -80,7 +104,7 @@ export async function POST(request: NextRequest) {
     const { data: lastLink } = await supabase
       .from('Link')
       .select('order')
-      .eq('userId', session.user.email)
+      .eq('userId', user.id)
       .order('order', { ascending: false })
       .limit(1)
       .single()
@@ -94,7 +118,7 @@ export async function POST(request: NextRequest) {
         title,
         url,
         order: newOrder,
-        userId: session.user.email,
+        userId: user.id,
         scheduledAt: scheduledAt || null,
         expiresAt: expiresAt || null,
         password: password || null
