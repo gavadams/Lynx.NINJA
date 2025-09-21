@@ -9,15 +9,22 @@ export async function GET(
 ) {
   try {
     const { id } = await params
+    console.log('🔍 Admin user detail request:', { userId: id })
 
     // Verify admin authentication
     const adminId = request.cookies.get('admin-session')?.value
+    console.log('🔍 Admin session cookie:', adminId ? 'Present' : 'Missing')
+    
     if (!adminId) {
+      console.log('❌ No admin session cookie')
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
     const authResult = await verifyAdminSession(adminId)
+    console.log('🔍 Admin auth result:', { success: authResult.success, error: authResult.error })
+    
     if (!authResult.success) {
+      console.log('❌ Admin auth failed:', authResult.error)
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
@@ -53,7 +60,20 @@ export async function GET(
       .eq('id', id)
       .single()
 
-    if (error || !user) {
+    console.log('🔍 Admin user detail query:', { 
+      userId: id, 
+      userFound: !!user, 
+      error: error?.message,
+      userData: user ? { id: user.id, email: user.email } : null
+    })
+
+    if (error) {
+      console.log('❌ Database query error:', { userId: id, error: error.message, code: error.code })
+      return NextResponse.json({ error: "Database error: " + error.message }, { status: 500 })
+    }
+
+    if (!user) {
+      console.log('❌ User not found in database:', { userId: id })
       return NextResponse.json({ error: "User not found" }, { status: 404 })
     }
 

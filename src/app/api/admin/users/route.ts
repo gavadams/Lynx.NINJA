@@ -75,6 +75,13 @@ export async function GET(request: NextRequest) {
 
     const { data: users, error, count } = await query
 
+    console.log('🔍 Admin users query result:', { 
+      usersCount: users?.length || 0, 
+      error: error?.message,
+      hasError: !!error,
+      userIds: users?.map(u => u.id) || []
+    })
+
     if (error) {
       console.error('Error fetching users:', error)
       return NextResponse.json({ error: "Failed to fetch users" }, { status: 500 })
