@@ -5,12 +5,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Plus, Link as LinkIcon, BarChart3, Eye, ExternalLink, Edit, Trash2, GripVertical, Mail, ArrowRight } from "lucide-react"
+import { Plus, Link as LinkIcon, BarChart3, Eye, ExternalLink, Edit, Trash2, GripVertical, Mail, ArrowRight, Clock, Calendar, AlertCircle, Crown } from "lucide-react"
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import LinkModal from "@/components/link-modal"
 import { useInvitations } from "@/hooks/useInvitations"
 import { useFeatureFlag } from "@/lib/feature-flags"
+import { getLinkScheduleStatus, getLinkDisplayStatus, formatScheduleDate } from "@/lib/link-scheduling"
 
 interface Link {
   id: string
@@ -20,6 +21,9 @@ interface Link {
   clickCount: number
   order: number
   createdAt: string
+  scheduledAt?: string | null
+  expiresAt?: string | null
+  password?: string | null
 }
 
 interface UserProfile {
@@ -252,15 +256,47 @@ export default function DashboardPage() {
                         <h3 className="text-lg font-medium text-gray-900">{link.title}</h3>
                         <p className="text-sm text-gray-500">{link.url}</p>
                         <div className="flex items-center space-x-2 mt-2">
-                          <Badge variant={link.isActive ? "default" : "secondary"}>
-                            {link.isActive ? "Active" : "Inactive"}
+                          <Badge variant={
+                            getLinkDisplayStatus(link) === 'Active' ? "default" : 
+                            getLinkDisplayStatus(link) === 'Scheduled' ? "secondary" :
+                            getLinkDisplayStatus(link) === 'Expired' ? "destructive" : "secondary"
+                          }>
+                            {getLinkDisplayStatus(link)}
                           </Badge>
                           {analyticsEnabled && (
                             <span className="text-sm text-gray-500">
                               {link.clickCount} clicks
                             </span>
                           )}
+                          {link.password && (
+                            <Badge variant="outline" className="text-xs">
+                              <AlertCircle className="h-3 w-3 mr-1" />
+                              Protected
+                            </Badge>
+                          )}
                         </div>
+                        
+                        {/* Scheduling Information */}
+                        {(link.scheduledAt || link.expiresAt) && (
+                          <div className="mt-2 space-y-1">
+                            {link.scheduledAt && (
+                              <div className="flex items-center space-x-1 text-xs text-gray-500">
+                                <Calendar className="h-3 w-3" />
+                                <span>
+                                  {getLinkScheduleStatus(link).isScheduled ? 'Goes live' : 'Went live'} {formatScheduleDate(link.scheduledAt)}
+                                </span>
+                              </div>
+                            )}
+                            {link.expiresAt && (
+                              <div className="flex items-center space-x-1 text-xs text-gray-500">
+                                <Clock className="h-3 w-3" />
+                                <span>
+                                  {getLinkScheduleStatus(link).isExpired ? 'Expired' : 'Expires'} {formatScheduleDate(link.expiresAt)}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="flex items-center space-x-2">

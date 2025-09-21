@@ -77,7 +77,7 @@ export async function PUT(
     }
 
     const body = await request.json()
-    const { title, url, isActive, scheduledAt, expiresAt } = body
+    const { title, url, isActive, scheduledAt, expiresAt, password } = body
 
     // Check if link exists and belongs to user
     const { data: existingLink, error: checkError } = await supabase
@@ -95,8 +95,9 @@ export async function PUT(
     if (title) updateData.title = title
     if (url) updateData.url = url
     if (isActive !== undefined) updateData.isActive = isActive
-    if (scheduledAt) updateData.scheduledAt = new Date(scheduledAt).toISOString()
-    if (expiresAt) updateData.expiresAt = new Date(expiresAt).toISOString()
+    if (scheduledAt !== undefined) updateData.scheduledAt = scheduledAt ? new Date(scheduledAt).toISOString() : null
+    if (expiresAt !== undefined) updateData.expiresAt = expiresAt ? new Date(expiresAt).toISOString() : null
+    if (password !== undefined) updateData.password = password
 
     const { data: link, error } = await supabase
       .from('Link')

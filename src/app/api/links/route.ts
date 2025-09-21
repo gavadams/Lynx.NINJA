@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
     )
 
     const body = await request.json()
-    const { title, url } = body
+    const { title, url, scheduledAt, expiresAt, password } = body
 
     if (!title || !url) {
       return NextResponse.json({ error: "Title and URL are required" }, { status: 400 })
@@ -94,7 +94,14 @@ export async function POST(request: NextRequest) {
         title,
         url,
         order: newOrder,
+<<<<<<< Updated upstream
         userId: session.user.email
+=======
+        userId: session.user.id,
+        scheduledAt: scheduledAt || null,
+        expiresAt: expiresAt || null,
+        password: password || null
+>>>>>>> Stashed changes
       })
       .select()
       .single()

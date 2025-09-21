@@ -20,6 +20,7 @@ const navigation = [
   { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
   { name: "Users", href: "/admin/users", icon: Users },
   { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
+  { name: "Scheduled Links", href: "/admin/scheduled-links", icon: Calendar },
   { name: "Feature Flags", href: "/admin/features", icon: Flag },
   { name: "System Monitoring", href: "/admin/monitoring", icon: Activity },
   { name: "Content Moderation", href: "/admin/moderation", icon: Shield },
