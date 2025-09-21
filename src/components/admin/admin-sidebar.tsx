@@ -15,7 +15,8 @@ import {
   Activity,
   CreditCard,
   Calendar,
-  Send
+  Send,
+  FileText
 } from "lucide-react"
 
 const navigation = [
@@ -30,6 +31,7 @@ const navigation = [
   { name: "Database", href: "/admin/database", icon: Database },
   { name: "Email Tools", href: "/admin/email", icon: Mail },
   { name: "Mailing Lists", href: "/admin/mailing-lists", icon: Send },
+  { name: "Email Composer", href: "/admin/email-composer", icon: FileText },
   { name: "Settings", href: "/admin/settings", icon: Settings },
 ]
 
