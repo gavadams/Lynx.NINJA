@@ -85,13 +85,19 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     session: async ({ session, token }) => {
       if (session?.user && token?.sub) {
-        session.user.email = token.sub
+        // token.sub contains the user ID, not email
+        // We need to get the email from the user object or token
+        session.user.id = token.sub
+        if (token.email) {
+          session.user.email = token.email
+        }
       }
       return session
     },
     jwt: async ({ user, token }) => {
       if (user) {
         token.uid = user.id
+        token.email = user.email
       }
       return token
     },

@@ -249,8 +249,6 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
 
             <div className="flex justify-center space-x-4 text-sm text-gray-500">
               <span>{activeLinks.length} links</span>
-              <span>•</span>
-              <span>{links.reduce((sum, link) => sum + link.clicks, 0)} total clicks</span>
             </div>
           </CardContent>
         </Card>
@@ -299,9 +297,6 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
                           {link.url}
                         </p>
                         <div className="flex items-center space-x-2 mt-2">
-                          <Badge variant="secondary" className="text-xs">
-                            {link.clicks} clicks
-                          </Badge>
                           {isScheduled && (
                             <Badge variant="outline" className="text-xs text-blue-600">
                               Scheduled for {new Date(link.scheduledAt!).toLocaleDateString()}

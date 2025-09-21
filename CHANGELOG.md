@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Admin Interface**: Complete admin panel for email management
   - **Cron Jobs**: Automated processing of scheduled emails
   - **User Subscription Management**: Users can subscribe to additional mailing lists from settings
-  - **Privacy Protection**: Subscriber counts are hidden from users for privacy
+  - **Privacy Protection**: Subscriber counts and click counts are hidden from users for privacy
 
 ### Added - 2024-12-19 23:55:00
 - **Mailing List System**: Complete email marketing and newsletter management
