@@ -13,7 +13,8 @@ import {
   Mail,
   Shield,
   Activity,
-  CreditCard
+  CreditCard,
+  Calendar
 } from "lucide-react"
 
 const navigation = [
