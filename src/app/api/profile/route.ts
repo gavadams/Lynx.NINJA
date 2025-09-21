@@ -66,6 +66,19 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Failed to fetch links" }, { status: 500 })
     }
 
+    // Get user's social media links
+    const { data: socialMediaLinks, error: socialMediaError } = await supabase
+      .from('SocialMediaLink')
+      .select('*')
+      .eq('userId', user.id)
+      .eq('isActive', true)
+      .order('order', { ascending: true })
+
+    if (socialMediaError) {
+      console.error("Error fetching social media links:", socialMediaError)
+      // Don't fail the entire request if social media links fail
+    }
+
     return NextResponse.json({
       user: {
         id: user.id,
@@ -77,7 +90,8 @@ export async function GET(request: NextRequest) {
         emailCaptureId: user.emailCaptureId,
         emailCapture: user.emailCapture
       },
-      links: links || []
+      links: links || [],
+      socialMediaLinks: socialMediaLinks || []
     })
   } catch (error) {
     console.error("Error fetching public profile:", error)

@@ -12,6 +12,7 @@ import PremiumFeatures from "@/components/premium-features"
 import { DomainManagement } from "@/components/domain-management"
 import { EmailCaptureManagement } from "@/components/email-capture-management"
 import { MailingListPreferences } from "@/components/mailing-list-preferences"
+import { SocialMediaManagement } from "@/components/social-media-management"
 import { useFeatureFlag } from "@/lib/feature-flags"
 import { getUserProfileUrl } from "@/lib/config"
 
@@ -324,6 +325,9 @@ export default function SettingsPage() {
 
         {/* Mailing List Preferences */}
         <MailingListPreferences />
+
+        {/* Social Media Links */}
+        <SocialMediaManagement />
 
         {/* Premium Features */}
         <Card>

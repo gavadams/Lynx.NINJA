@@ -40,9 +40,18 @@ interface UserProfile {
   }
 }
 
+interface SocialMediaLink {
+  id: string
+  platform: string
+  url: string
+  displayName?: string
+  order: number
+}
+
 interface PublicProfileData {
   user: UserProfile
   links: Link[]
+  socialMediaLinks: SocialMediaLink[]
 }
 
 export default function PublicProfilePage({ params }: { params: Promise<{ username: string }> }) {
@@ -201,7 +210,7 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
     )
   }
 
-  const { user, links } = profileData
+  const { user, links, socialMediaLinks } = profileData
   const activeLinks = links.filter(link => link.isActive)
   
 
@@ -252,6 +261,66 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
             </div>
           </CardContent>
         </Card>
+
+        {/* Social Media Links */}
+        {socialMediaLinks && socialMediaLinks.length > 0 && (
+          <Card className="mb-6">
+            <CardContent className="p-6">
+              <div className="flex flex-wrap justify-center gap-3">
+                {socialMediaLinks.map((socialLink) => {
+                  const getPlatformIcon = (platform: string) => {
+                    const icons: Record<string, string> = {
+                      twitter: '𝕏',
+                      instagram: '📷',
+                      linkedin: '💼',
+                      youtube: '📺',
+                      tiktok: '🎵',
+                      facebook: '👥',
+                      github: '💻',
+                      website: '🌐',
+                      discord: '💬',
+                      twitch: '🎮',
+                      spotify: '🎵',
+                      snapchat: '👻',
+                    }
+                    return icons[platform] || '🔗'
+                  }
+
+                  const getPlatformColor = (platform: string) => {
+                    const colors: Record<string, string> = {
+                      twitter: 'bg-black hover:bg-gray-800',
+                      instagram: 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600',
+                      linkedin: 'bg-blue-600 hover:bg-blue-700',
+                      youtube: 'bg-red-600 hover:bg-red-700',
+                      tiktok: 'bg-black hover:bg-gray-800',
+                      facebook: 'bg-blue-500 hover:bg-blue-600',
+                      github: 'bg-gray-800 hover:bg-gray-900',
+                      website: 'bg-gray-600 hover:bg-gray-700',
+                      discord: 'bg-indigo-600 hover:bg-indigo-700',
+                      twitch: 'bg-purple-600 hover:bg-purple-700',
+                      spotify: 'bg-green-500 hover:bg-green-600',
+                      snapchat: 'bg-yellow-400 hover:bg-yellow-500',
+                    }
+                    return colors[platform] || 'bg-gray-500 hover:bg-gray-600'
+                  }
+
+                  return (
+                    <a
+                      key={socialLink.id}
+                      href={socialLink.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`w-12 h-12 rounded-full flex items-center justify-center text-white transition-colors ${getPlatformColor(socialLink.platform)}`}
+                      title={socialLink.displayName || socialLink.platform}
+                    >
+                      <span className="text-lg">{getPlatformIcon(socialLink.platform)}</span>
+                    </a>
+                  )
+                })}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Links */}
         {activeLinks.length === 0 ? (
