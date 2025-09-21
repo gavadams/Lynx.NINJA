@@ -94,14 +94,10 @@ export async function POST(request: NextRequest) {
         title,
         url,
         order: newOrder,
-<<<<<<< Updated upstream
-        userId: session.user.email
-=======
         userId: session.user.id,
         scheduledAt: scheduledAt || null,
         expiresAt: expiresAt || null,
         password: password || null
->>>>>>> Stashed changes
       })
       .select()
       .single()
