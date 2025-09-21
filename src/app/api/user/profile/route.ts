@@ -10,7 +10,7 @@ export async function GET() {
     // Get the current user from NextAuth
     const session = await getServerSession(authOptions)
     
-    if (!session?.user?.id) {
+    if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
@@ -147,7 +147,7 @@ export async function PUT(request: NextRequest) {
     // Get the current user from NextAuth
     const session = await getServerSession(authOptions)
     
-    if (!session?.user?.id) {
+    if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 

@@ -13,7 +13,7 @@ export async function PUT(
     const { id, memberId } = await params
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    if (!session?.user?.emailail) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
@@ -142,7 +142,7 @@ export async function DELETE(
     const { id, memberId } = await params
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    if (!session?.user?.emailailail) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 

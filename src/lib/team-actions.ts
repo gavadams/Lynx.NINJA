@@ -10,7 +10,7 @@ export async function inviteTeamMember(teamId: string, email: string, role: stri
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    if (!session?.user?.email) {
       return { success: false, error: "Unauthorized" }
     }
 

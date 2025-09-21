@@ -13,7 +13,7 @@ export async function DELETE(
     const { id, linkId } = await params
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    if (!session?.user?.emailailailail) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 

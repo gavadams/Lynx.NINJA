@@ -10,7 +10,7 @@ export async function setUserContext(userId: string) {
 
 // Helper function to get user context from session
 export function getUserContextFromSession(session: any): string | null {
-  if (!session?.user?.id) return null
+  if (!session?.user?.email) return null
   return session.user.email
 }
 

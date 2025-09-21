@@ -13,7 +13,7 @@ export async function POST(
     const { invitationId } = await params
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 

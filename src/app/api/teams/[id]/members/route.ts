@@ -12,7 +12,7 @@ export async function GET(
     const { id } = await params
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    if (!session?.user?.emailail) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
@@ -63,7 +63,7 @@ export async function POST(
     const { id } = await params
     const session = await getServerSession(authOptions)
 
-    if (!session?.user?.id) {
+    if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
