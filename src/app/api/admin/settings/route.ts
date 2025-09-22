@@ -44,11 +44,27 @@ export async function GET(request: NextRequest) {
     const settingsObject = settings?.reduce((acc, setting) => {
       let value = setting.value
       
+      console.log(`Processing setting: ${setting.key} = ${setting.value} (dataType: ${setting.dataType})`)
+      
       // Handle boolean values
-      if (setting.value === 'TRUE') value = true
-      else if (setting.value === 'FALSE') value = false
+      if (setting.dataType === 'boolean') {
+        value = setting.value === 'TRUE' || setting.value === 'true'
+        console.log(`  -> Converted to boolean: ${value}`)
+      }
       // Handle number values
-      else if (setting.dataType === 'number') value = parseInt(setting.value) || 0
+      else if (setting.dataType === 'number') {
+        value = parseInt(setting.value) || 0
+        console.log(`  -> Converted to number: ${value}`)
+      }
+      // Handle legacy boolean values (for backward compatibility)
+      else if (setting.value === 'TRUE') {
+        value = true
+        console.log(`  -> Legacy boolean conversion: ${value}`)
+      }
+      else if (setting.value === 'FALSE') {
+        value = false
+        console.log(`  -> Legacy boolean conversion: ${value}`)
+      }
       
       acc[setting.key] = value
       return acc
@@ -118,7 +134,7 @@ export async function PUT(request: NextRequest) {
     const updates = Object.entries(flattenedSettings).map(async ([key, value]) => {
       const stringValue = typeof value === 'boolean' ? (value ? 'TRUE' : 'FALSE') : String(value)
       
-      console.log(`Upserting setting: ${key} = ${stringValue}`)
+      console.log(`Upserting setting: ${key} = ${value} (${typeof value}) -> ${stringValue}`)
       
       const { error } = await supabase
         .from('SystemSetting')
@@ -135,7 +151,7 @@ export async function PUT(request: NextRequest) {
         return { key, error: error.message }
       }
 
-      console.log(`Successfully upserted setting: ${key}`)
+      console.log(`Successfully upserted setting: ${key} = ${stringValue}`)
       return { key, success: true }
     })
 
