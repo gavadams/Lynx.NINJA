@@ -241,7 +241,7 @@ export default function ModerationPage() {
       </div>
 
       {/* Moderation Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
@@ -301,7 +301,7 @@ export default function ModerationPage() {
 
       {/* Flagged Links */}
       {(filterType === 'all' || filterType === 'links') && (
-        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300 mb-6">
           <CardHeader>
             <CardTitle className="flex items-center">
               <AlertTriangle className="h-5 w-5 mr-2 text-red-600" />
@@ -397,7 +397,7 @@ export default function ModerationPage() {
 
       {/* High Click Links */}
       {(filterType === 'all' || filterType === 'high-click') && (
-        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300 mb-6">
           <CardHeader>
             <CardTitle className="flex items-center">
               <MousePointer className="h-5 w-5 mr-2 text-blue-600" />
@@ -445,7 +445,7 @@ export default function ModerationPage() {
 
       {/* Flagged Users */}
       {(filterType === 'all' || filterType === 'users') && (
-        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300 mb-6">
           <CardHeader>
             <CardTitle className="flex items-center">
               <Shield className="h-5 w-5 mr-2 text-purple-600" />
@@ -513,7 +513,7 @@ export default function ModerationPage() {
 
       {/* Prolific Users */}
       {(filterType === 'all' || filterType === 'prolific') && (
-        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300 mb-6">
           <CardHeader>
             <CardTitle className="flex items-center">
               <Users className="h-5 w-5 mr-2 text-orange-600" />

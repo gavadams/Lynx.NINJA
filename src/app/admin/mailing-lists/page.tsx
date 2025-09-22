@@ -234,7 +234,7 @@ export default function AdminMailingListsPage() {
 
       {/* Create/Edit Form */}
       {(showCreateForm || editingList) && (
-        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300 mb-6">
           <CardHeader>
             <CardTitle>
               {editingList ? 'Edit Mailing List' : 'Create New Mailing List'}
@@ -294,7 +294,7 @@ export default function AdminMailingListsPage() {
       )}
 
       {/* Mailing Lists Table */}
-      <Card className="card-ninja hover:glow-ninja transition-all duration-300">
+      <Card className="card-ninja hover:glow-ninja transition-all duration-300 mb-6">
         <CardHeader>
           <CardTitle>Mailing Lists</CardTitle>
           <CardDescription>
@@ -374,7 +374,7 @@ export default function AdminMailingListsPage() {
       </Card>
 
       {/* Recent Emails */}
-      <Card className="card-ninja hover:glow-ninja transition-all duration-300">
+      <Card className="card-ninja hover:glow-ninja transition-all duration-300 mb-6">
         <CardHeader>
           <CardTitle>Recent Emails</CardTitle>
           <CardDescription>

@@ -229,7 +229,7 @@ export default function BillingPage() {
       </div>
 
       {/* Billing Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
@@ -290,7 +290,7 @@ export default function BillingPage() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Subscription Status */}
         <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>

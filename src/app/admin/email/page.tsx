@@ -228,7 +228,7 @@ export default function EmailPage() {
       </div>
 
       {/* Email Configuration Status */}
-      <Card className="card-ninja hover:glow-ninja transition-all duration-300">
+      <Card className="card-ninja hover:glow-ninja transition-all duration-300 mb-6">
         <CardHeader>
           <CardTitle className="flex items-center">
             <Mail className="h-5 w-5 mr-2" />
@@ -263,7 +263,7 @@ export default function EmailPage() {
       </Card>
 
       {/* Email Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
@@ -322,7 +322,7 @@ export default function EmailPage() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Test Email */}
         <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
@@ -465,7 +465,7 @@ export default function EmailPage() {
       </Card>
 
       {/* Recent Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle>Recent Email Captures</CardTitle>
