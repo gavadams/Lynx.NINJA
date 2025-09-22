@@ -8,6 +8,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ExternalLink, Copy, Check, Clock, Lock } from "lucide-react"
 import PasswordProtection from "@/components/password-protection"
 import { EmailCaptureForm } from "@/components/email-capture-form"
+import Image from "next/image"
+import { getSiteConfig } from "@/lib/config"
 
 interface Link {
   id: string
@@ -61,6 +63,7 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
   const [error, setError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
   const [passwordModal, setPasswordModal] = useState<{ linkId: string; linkTitle: string } | null>(null)
+  const { siteName } = getSiteConfig()
 
   useEffect(() => {
     fetchProfileData()
@@ -255,6 +258,17 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 py-8 max-w-md">
+        {/* Site Logo */}
+        <div className="text-center mb-6">
+          <Image
+            src="/logo.png"
+            alt={siteName}
+            width={100}
+            height={32}
+            className="h-8 w-auto mx-auto opacity-80"
+          />
+        </div>
+        
         {/* Profile Header */}
         <Card className="mb-6">
           <CardContent className="p-8 text-center">

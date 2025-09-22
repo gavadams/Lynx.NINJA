@@ -8,6 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
+import { getSiteConfig } from "@/lib/config"
 
 export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -15,6 +17,7 @@ export default function SignInPage() {
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
   const router = useRouter()
+  const { siteName } = getSiteConfig()
 
   const handleCredentialsSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -67,9 +70,19 @@ export default function SignInPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background dark py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
+        <div className="text-center">
+          <Image
+            src="/logo.png"
+            alt={siteName}
+            width={150}
+            height={50}
+            className="h-12 w-auto mx-auto mb-4"
+            priority
+          />
+        </div>
         <Card className="card-ninja">
           <CardHeader>
-            <CardTitle className="text-2xl font-heading text-center">Sign in to {process.env.NEXT_PUBLIC_SITE_NAME || 'Lynx.NINJA'}</CardTitle>
+            <CardTitle className="text-2xl font-heading text-center">Sign in to {siteName}</CardTitle>
             <CardDescription className="text-center text-muted-foreground">
               Link with stealth and style
             </CardDescription>

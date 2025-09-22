@@ -17,6 +17,7 @@ import {
   Mail,
   X
 } from "lucide-react"
+import Image from "next/image"
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -58,7 +59,13 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
         "fixed lg:relative z-50"
       )}>
         <div className="flex h-16 shrink-0 items-center justify-between px-6">
-          <h1 className="text-xl font-bold text-white">{siteName}</h1>
+          <Image
+            src="/logo.png"
+            alt={siteName}
+            width={100}
+            height={32}
+            className="h-8 w-auto brightness-0 invert"
+          />
           <button
             onClick={onClose}
             className="lg:hidden text-white hover:text-gray-300"

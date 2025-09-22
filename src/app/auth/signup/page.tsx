@@ -8,6 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
+import { getSiteConfig } from "@/lib/config"
 
 export default function SignUpPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -19,6 +21,7 @@ export default function SignUpPage() {
   })
   const [error, setError] = useState("")
   const router = useRouter()
+  const { siteName } = getSiteConfig()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -109,11 +112,21 @@ export default function SignUpPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background dark py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
+        <div className="text-center">
+          <Image
+            src="/logo.png"
+            alt={siteName}
+            width={150}
+            height={50}
+            className="h-12 w-auto mx-auto mb-4"
+            priority
+          />
+        </div>
         <Card className="card-ninja">
           <CardHeader>
             <CardTitle className="text-2xl font-heading text-center">Create your account</CardTitle>
             <CardDescription className="text-center text-muted-foreground">
-              Join {process.env.NEXT_PUBLIC_SITE_NAME || 'Lynx.NINJA'} and link with stealth and style
+              Join {siteName} and link with stealth and style
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">

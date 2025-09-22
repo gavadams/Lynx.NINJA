@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Link as LinkIcon, BarChart3, Palette, Zap } from "lucide-react"
 import { useFeatureFlag } from "@/lib/feature-flags"
 import { getSiteConfig, getUserProfileUrl } from "@/lib/config"
+import Image from "next/image"
 
 export default function Home() {
   const { data: session, status } = useSession()
@@ -61,7 +62,14 @@ export default function Home() {
       <header className="px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4 sm:py-6">
           <div className="flex items-center">
-            <h1 className="text-xl sm:text-2xl font-heading font-bold text-foreground">{siteName}</h1>
+            <Image
+              src="/logo.png"
+              alt={siteName}
+              width={120}
+              height={40}
+              className="h-8 sm:h-10 w-auto"
+              priority
+            />
           </div>
           <div className="flex gap-2 sm:gap-3">
             <Button 
