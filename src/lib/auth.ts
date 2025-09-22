@@ -1,6 +1,7 @@
 import { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import TwitterProvider from "next-auth/providers/twitter"
+import InstagramProvider from "next-auth/providers/instagram"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { getBaseUrl } from "./url"
 
@@ -80,6 +81,10 @@ export const authOptions: NextAuthOptions = {
     TwitterProvider({
       clientId: process.env.TWITTER_CLIENT_ID || "dummy",
       clientSecret: process.env.TWITTER_CLIENT_SECRET || "dummy",
+    }),
+    InstagramProvider({
+      clientId: process.env.INSTAGRAM_CLIENT_ID || "dummy",
+      clientSecret: process.env.INSTAGRAM_CLIENT_SECRET || "dummy",
     }),
   ],
   callbacks: {

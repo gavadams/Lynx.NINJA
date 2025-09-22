@@ -137,6 +137,15 @@ export default function SignInPage() {
               >
                 Continue with Twitter
               </Button>
+              
+              <Button
+                onClick={() => handleOAuthSignIn("instagram")}
+                disabled={isLoading}
+                variant="outline"
+                className="w-full"
+              >
+                Continue with Instagram
+              </Button>
             </div>
 
             <div className="text-center">

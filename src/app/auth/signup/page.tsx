@@ -26,6 +26,28 @@ export default function SignUpPage() {
     if (error) setError("")
   }
 
+  const handleOAuthSignIn = async (provider: string) => {
+    setIsLoading(true)
+    try {
+      const result = await signIn(provider, { 
+        callbackUrl: "/dashboard",
+        redirect: false 
+      })
+      
+      if (result?.ok) {
+        router.push("/dashboard")
+      } else if (result?.error) {
+        console.error("Sign in error:", result.error)
+        setError("OAuth sign in failed. Please check your OAuth configuration.")
+      }
+    } catch (error) {
+      console.error("Sign in error:", error)
+      setError("OAuth sign in failed. Please check your OAuth configuration.")
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
@@ -158,6 +180,45 @@ export default function SignUpPage() {
                 {isLoading ? "Creating account..." : "Create Account"}
               </Button>
             </form>
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-white px-2 text-gray-500">Or continue with</span>
+              </div>
+            </div>
+
+            {/* OAuth Buttons */}
+            <div className="space-y-2">
+              <Button
+                onClick={() => handleOAuthSignIn("google")}
+                disabled={isLoading}
+                variant="outline"
+                className="w-full"
+              >
+                Continue with Google
+              </Button>
+              
+              <Button
+                onClick={() => handleOAuthSignIn("twitter")}
+                disabled={isLoading}
+                variant="outline"
+                className="w-full"
+              >
+                Continue with Twitter
+              </Button>
+              
+              <Button
+                onClick={() => handleOAuthSignIn("instagram")}
+                disabled={isLoading}
+                variant="outline"
+                className="w-full"
+              >
+                Continue with Instagram
+              </Button>
+            </div>
 
             <div className="text-center">
               <p className="text-sm text-gray-600">
