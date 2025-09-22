@@ -450,9 +450,11 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
                             <Clock className="h-4 w-4 text-red-600 flex-shrink-0" />
                           )}
                         </div>
-                        <p className="text-sm text-gray-500 url-break">
-                          {link.url}
-                        </p>
+                        {!isPasswordProtected && !isScheduled && (
+                          <p className="text-sm text-gray-500 url-break">
+                            {link.url}
+                          </p>
+                        )}
                         <div className="flex items-center space-x-2 mt-2">
                           {isScheduled && (
                             <Badge variant="outline" className="text-xs text-blue-600">
