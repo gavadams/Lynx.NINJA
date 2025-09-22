@@ -224,6 +224,8 @@ export default function EmailComposerPage() {
           Create and send emails to your mailing lists
         </p>
       </div>
+
+      <div className="flex items-center justify-end mb-6">
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
