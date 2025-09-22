@@ -185,7 +185,7 @@ export function EditLinkModal({ isOpen, onClose, link, onSave, isPremium = false
                       onChange={(e) => setScheduledAt(e.target.value ? new Date(e.target.value).toISOString() : null)}
                       className="text-sm"
                     />
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-muted-foreground">
                       Leave empty to make link live immediately
                     </p>
                   </div>
@@ -203,7 +203,7 @@ export function EditLinkModal({ isOpen, onClose, link, onSave, isPremium = false
                       onChange={(e) => setExpiresAt(e.target.value ? new Date(e.target.value).toISOString() : null)}
                       className="text-sm"
                     />
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-muted-foreground">
                       Leave empty for no expiration
                     </p>
                   </div>
@@ -222,7 +222,7 @@ export function EditLinkModal({ isOpen, onClose, link, onSave, isPremium = false
                       placeholder="Enter password to protect this link"
                       className="text-sm"
                     />
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-muted-foreground">
                       Visitors will need this password to access the link
                     </p>
                   </div>

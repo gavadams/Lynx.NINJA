@@ -245,7 +245,7 @@ export default function AdminSettingsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <Label htmlFor="registrationEnabled">Allow New Registrations</Label>
-                <p className="text-sm text-gray-500">Allow new users to sign up</p>
+                <p className="text-sm text-muted-foreground">Allow new users to sign up</p>
               </div>
               <Switch
                 id="registrationEnabled"
@@ -257,7 +257,7 @@ export default function AdminSettingsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <Label htmlFor="maintenanceMode">Maintenance Mode</Label>
-                <p className="text-sm text-gray-500">Put the site in maintenance mode</p>
+                <p className="text-sm text-muted-foreground">Put the site in maintenance mode</p>
               </div>
               <Switch
                 id="maintenanceMode"
@@ -294,7 +294,7 @@ export default function AdminSettingsPage() {
                 }))}
                 placeholder="20"
               />
-              <p className="text-sm text-gray-500">Height in rem units (1-32)</p>
+              <p className="text-sm text-muted-foreground">Height in rem units (1-32)</p>
             </div>
             
             <div>
@@ -311,7 +311,7 @@ export default function AdminSettingsPage() {
                 }))}
                 placeholder="16"
               />
-              <p className="text-sm text-gray-500">Height in rem units (1-32)</p>
+              <p className="text-sm text-muted-foreground">Height in rem units (1-32)</p>
             </div>
 
             <div>
@@ -328,7 +328,7 @@ export default function AdminSettingsPage() {
                 }))}
                 placeholder="20"
               />
-              <p className="text-sm text-gray-500">Height in rem units (1-32)</p>
+              <p className="text-sm text-muted-foreground">Height in rem units (1-32)</p>
             </div>
 
             <div>
@@ -345,7 +345,7 @@ export default function AdminSettingsPage() {
                 }))}
                 placeholder="12"
               />
-              <p className="text-sm text-gray-500">Height in rem units (1-32)</p>
+              <p className="text-sm text-muted-foreground">Height in rem units (1-32)</p>
             </div>
             
             <div className="pt-4 border-t">
@@ -417,7 +417,7 @@ export default function AdminSettingsPage() {
                 onChange={(e) => handleInputChange('maxCustomThemesPerUser', parseInt(e.target.value) || 10)}
                 placeholder="10"
               />
-              <p className="text-sm text-gray-500">Limit the number of custom themes each user can create</p>
+              <p className="text-sm text-muted-foreground">Limit the number of custom themes each user can create</p>
             </div>
 
             <div>
@@ -434,7 +434,7 @@ export default function AdminSettingsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <Label htmlFor="emailNotifications">Email Notifications</Label>
-                <p className="text-sm text-gray-500">Enable email notifications</p>
+                <p className="text-sm text-muted-foreground">Enable email notifications</p>
               </div>
               <Switch
                 id="emailNotifications"
@@ -460,7 +460,7 @@ export default function AdminSettingsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <Label>Database Status</Label>
-                <p className="text-sm text-gray-500">Current database health</p>
+                <p className="text-sm text-muted-foreground">Current database health</p>
               </div>
               <div className="flex items-center text-green-600">
                 <CheckCircle className="h-4 w-4 mr-1" />
@@ -516,7 +516,7 @@ export default function AdminSettingsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <Label>Email Service Status</Label>
-                <p className="text-sm text-gray-500">Current email service health</p>
+                <p className="text-sm text-muted-foreground">Current email service health</p>
               </div>
               <div className="flex items-center text-green-600">
                 <CheckCircle className="h-4 w-4 mr-1" />

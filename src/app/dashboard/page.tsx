@@ -74,7 +74,7 @@ function SortableLinkItem({
           {...listeners}
           className="cursor-move p-1 hover:bg-gray-100 rounded"
         >
-          <GripVertical className="h-4 w-4 text-gray-400" />
+          <GripVertical className="h-4 w-4 text-muted-foreground" />
         </div>
         
         <div className="flex-1 min-w-0">
@@ -94,8 +94,8 @@ function SortableLinkItem({
               </Badge>
             )}
           </div>
-          <p className="text-sm text-gray-500 truncate">{link.url}</p>
-          <div className="flex items-center space-x-4 text-xs text-gray-400 mt-1">
+          <p className="text-sm text-muted-foreground truncate">{link.url}</p>
+          <div className="flex items-center space-x-4 text-xs text-muted-foreground mt-1">
             <span>{link.clicks} clicks</span>
             {link.scheduledAt && (
               <span className="flex items-center space-x-1">
@@ -122,7 +122,7 @@ function SortableLinkItem({
           variant="ghost"
           size="sm"
           onClick={() => onToggleActive(link.id)}
-          className="text-gray-500 hover:text-gray-700"
+          className="text-muted-foreground hover:text-foreground"
         >
           {link.isActive ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
         </Button>
@@ -130,7 +130,7 @@ function SortableLinkItem({
           variant="ghost"
           size="sm"
           onClick={() => onEdit(link)}
-          className="text-gray-500 hover:text-gray-700"
+          className="text-muted-foreground hover:text-foreground"
         >
           <Edit className="h-4 w-4" />
         </Button>
@@ -138,7 +138,7 @@ function SortableLinkItem({
           variant="ghost"
           size="sm"
           onClick={() => onDelete(link.id)}
-          className="text-gray-500 hover:text-red-600"
+          className="text-muted-foreground hover:text-destructive"
         >
           <Trash2 className="h-4 w-4" />
         </Button>

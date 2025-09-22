@@ -71,13 +71,13 @@ export function AdminHeader({ onMenuClick }: AdminHeaderProps) {
           <div className="flex items-center">
             <button
               onClick={onMenuClick}
-              className="lg:hidden mr-3 p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+              className="lg:hidden mr-3 p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted"
             >
               <Menu className="h-6 w-6" />
             </button>
             <div>
               <h2 className="text-lg font-semibold text-gray-900">Admin Panel</h2>
-              <p className="text-sm text-gray-500 hidden sm:block">Manage your Lynx.NINJA platform</p>
+              <p className="text-sm text-muted-foreground hidden sm:block">Manage your Lynx.NINJA platform</p>
             </div>
           </div>
           <div className="flex items-center space-x-2 lg:space-x-4">
@@ -86,11 +86,11 @@ export function AdminHeader({ onMenuClick }: AdminHeaderProps) {
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="flex items-center space-x-2">
                     <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
-                      <User className="h-4 w-4 text-gray-600" />
+                      <User className="h-4 w-4 text-muted-foreground" />
                     </div>
                     <div className="text-left hidden sm:block">
-                      <div className="text-sm font-medium text-gray-900 truncate max-w-32 lg:max-w-none">{admin.email}</div>
-                      <div className="text-xs text-gray-500 capitalize">{admin.role}</div>
+                      <div className="text-sm font-medium text-foreground truncate max-w-32 lg:max-w-none">{admin.email}</div>
+                      <div className="text-xs text-muted-foreground capitalize">{admin.role}</div>
                     </div>
                   </Button>
                 </DropdownMenuTrigger>

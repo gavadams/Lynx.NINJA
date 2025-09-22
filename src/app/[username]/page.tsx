@@ -265,8 +265,8 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <Card className="w-full max-w-md mx-4">
           <CardContent className="p-8 text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Profile Not Found</h1>
-            <p className="text-gray-600 mb-6">
+            <h1 className="text-2xl font-bold text-foreground mb-4">Profile Not Found</h1>
+            <p className="text-muted-foreground mb-6">
               The user you&apos;re looking for doesn&apos;t exist or has made their profile private.
             </p>
             <Button onClick={() => window.history.back()}>
@@ -319,7 +319,7 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
               {user.displayName}
             </h1>
             
-            <p className="text-gray-600 mb-4 prevent-overflow">@{user.username}</p>
+            <p className="text-muted-foreground mb-4 prevent-overflow">@{user.username}</p>
             
             {user.bio && (
               <p className="text-gray-700 mb-4 text-wrap-balance">{user.bio}</p>
@@ -344,7 +344,7 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
               )}
             </Button>
 
-            <div className="flex justify-center space-x-4 text-sm text-gray-500">
+            <div className="flex justify-center space-x-4 text-sm text-muted-foreground">
               <span>{activeLinks.length} links</span>
             </div>
           </CardContent>
@@ -414,7 +414,7 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
         {activeLinks.length === 0 ? (
           <Card>
             <CardContent className="p-8 text-center">
-              <p className="text-gray-500">No links available yet.</p>
+              <p className="text-muted-foreground">No links available yet.</p>
             </CardContent>
           </Card>
         ) : (
@@ -451,7 +451,7 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
                           )}
                         </div>
                         {!isPasswordProtected && !isScheduled && (
-                          <p className="text-sm text-gray-500 url-break">
+                          <p className="text-sm text-muted-foreground url-break">
                             {link.url}
                           </p>
                         )}
@@ -473,7 +473,7 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
                           )}
                         </div>
                       </div>
-                      {isClickable && <ExternalLink className="h-5 w-5 text-gray-400" />}
+                      {isClickable && <ExternalLink className="h-5 w-5 text-muted-foreground" />}
                     </div>
                   </CardContent>
                 </Card>
@@ -507,7 +507,7 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
                )}
 
                {/* Footer */}
-               <div className="text-center mt-8 text-sm text-gray-500">
+               <div className="text-center mt-8 text-sm text-muted-foreground">
                  <p>Powered by {process.env.NEXT_PUBLIC_SITE_NAME || 'Lynx.NINJA'}</p>
                </div>
       </div>
