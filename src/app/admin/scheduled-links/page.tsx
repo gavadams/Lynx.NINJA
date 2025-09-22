@@ -127,7 +127,7 @@ export default function ScheduledLinksPage() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
         <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
@@ -178,7 +178,7 @@ export default function ScheduledLinksPage() {
       </div>
 
       {/* Filters and Search */}
-      <Card className="card-ninja hover:glow-ninja transition-all duration-300">
+      <Card className="card-ninja hover:glow-ninja transition-all duration-300 mb-6">
         <CardContent className="p-6">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
@@ -227,7 +227,7 @@ export default function ScheduledLinksPage() {
       </Card>
 
       {/* Links List */}
-      <div className="space-y-4">
+      <div className="space-y-6">
         {filteredLinks.length === 0 ? (
           <Card className="card-ninja hover:glow-ninja transition-all duration-300">
             <CardContent className="p-8 text-center">

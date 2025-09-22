@@ -236,7 +236,7 @@ export default function EmailPage() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex items-center space-x-3">
               {data.overview.emailConfig.resendConfigured ? (
                 <CheckCircle className="h-5 w-5 text-green-600" />
@@ -438,7 +438,7 @@ export default function EmailPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Button
               onClick={handleExportEmailCaptures}
               disabled={actionLoading === 'export_email_captures'}
