@@ -27,6 +27,7 @@ export async function GET() {
     )
 
     // First, get the user from the database by email
+    console.log('🔍 Looking for user with email:', session.user.email)
     const { data: user, error: userError } = await supabase
       .from('User')
       .select('id')
@@ -37,18 +38,23 @@ export async function GET() {
       console.error("Error fetching user:", userError)
       return NextResponse.json({ error: "User not found" }, { status: 404 })
     }
+    
+    console.log('✅ Found user with ID:', user.id)
 
     // Get user's links with click counts
+    console.log('🔍 Fetching links for user ID:', user.id)
     const { data: links, error: linksError } = await supabase
       .from('Link')
-      .select('id, title, url, clickCount, createdAt')
+      .select('id, title, url, clicks, createdAt')
       .eq('userId', user.id)
-      .order('clickCount', { ascending: false })
+      .order('clicks', { ascending: false })
 
     if (linksError) {
       console.error("Error fetching links:", linksError)
       return NextResponse.json({ error: "Failed to fetch links" }, { status: 500 })
     }
+    
+    console.log('📊 Found links:', links?.length || 0, links)
 
     // Get analytics data
     const { data: analytics, error: analyticsError } = await supabase
@@ -63,6 +69,7 @@ export async function GET() {
     }
 
     // Get profile view count
+    console.log('🔍 Fetching profile views for user ID:', user.id)
     const { data: profileViews, error: profileViewsError } = await supabase
       .from('ProfileViewAnalytics')
       .select('id')
@@ -71,9 +78,11 @@ export async function GET() {
     if (profileViewsError) {
       console.error("Error fetching profile views:", profileViewsError)
     }
+    
+    console.log('👁️ Found profile views:', profileViews?.length || 0)
 
     // Calculate stats
-    const totalClicks = links?.reduce((sum, link) => sum + link.clickCount, 0) || 0
+    const totalClicks = links?.reduce((sum, link) => sum + (link.clicks || 0), 0) || 0
     const totalLinks = links?.length || 0
     const totalProfileViews = profileViews?.length || 0
 
@@ -132,7 +141,7 @@ export async function GET() {
       }
     }) || []
 
-    return NextResponse.json({
+    const responseData = {
       totalClicks,
       totalLinks,
       totalProfileViews,
@@ -143,7 +152,10 @@ export async function GET() {
       deviceStats,
       browserStats: browserStatsArray,
       recentClicks
-    })
+    }
+    
+    console.log('📈 Returning analytics data:', responseData)
+    return NextResponse.json(responseData)
   } catch (error) {
     console.error("Error fetching analytics:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })

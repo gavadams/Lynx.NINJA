@@ -18,7 +18,7 @@ interface Link {
   title: string
   url: string
   isActive: boolean
-  clickCount: number
+  clicks: number
   order: number
   createdAt: string
   scheduledAt?: string | null
@@ -72,11 +72,19 @@ export default function DashboardPage() {
 
              // Fetch analytics if enabled
              if (analyticsEnabled) {
+               console.log('🔍 Fetching analytics data...')
                const analyticsResponse = await fetch('/api/analytics')
+               console.log('📊 Analytics response status:', analyticsResponse.status)
                if (analyticsResponse.ok) {
                  const analyticsData = await analyticsResponse.json()
+                 console.log('📈 Analytics data received:', analyticsData)
                  setAnalytics(analyticsData)
+               } else {
+                 const errorText = await analyticsResponse.text()
+                 console.error('❌ Analytics fetch failed:', errorText)
                }
+             } else {
+               console.log('⚠️ Analytics feature is disabled')
              }
            } catch (error) {
              console.error('Error fetching data:', error)
@@ -85,7 +93,7 @@ export default function DashboardPage() {
            }
          }
 
-  const totalClicks = analytics?.totalClicks || links.reduce((sum, link) => sum + link.clickCount, 0)
+  const totalClicks = analytics?.totalClicks || links.reduce((sum, link) => sum + (link.clicks || 0), 0)
   const profileViews = analytics?.totalProfileViews || 0
 
   const handleSaveLink = async (linkData: Link) => {
@@ -276,7 +284,7 @@ export default function DashboardPage() {
                           </Badge>
                           {analyticsEnabled && (
                             <span className="text-sm text-gray-500">
-                              {link.clickCount} clicks
+                              {link.clicks || 0} clicks
                             </span>
                           )}
                           {link.password && (
