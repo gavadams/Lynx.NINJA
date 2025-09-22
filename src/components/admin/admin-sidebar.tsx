@@ -61,7 +61,8 @@ export function AdminSidebar({ isOpen = true, onClose }: AdminSidebarProps) {
         isOpen ? "translate-x-0" : "-translate-x-full",
         "fixed lg:relative z-50"
       )}>
-        <div className="flex h-16 shrink-0 items-center justify-between px-6">
+        {/* Fixed Header */}
+        <div className="flex h-16 shrink-0 items-center justify-between px-6 border-b border-gray-700">
           <h1 className="text-xl font-bold text-white">Admin Panel</h1>
           <button
             onClick={onClose}
@@ -70,36 +71,34 @@ export function AdminSidebar({ isOpen = true, onClose }: AdminSidebarProps) {
             <X className="h-6 w-6" />
           </button>
         </div>
-      <nav className="flex flex-1 flex-col px-3 py-4">
-        <ul role="list" className="flex flex-1 flex-col gap-y-7">
-          <li>
-            <ul role="list" className="-mx-2 space-y-1">
-              {navigation.map((item) => {
-                const isActive = pathname === item.href
-                return (
-                  <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      className={cn(
-                        isActive
-                          ? "bg-gray-800 text-white"
-                          : "text-gray-400 hover:text-white hover:bg-gray-800",
-                        "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                      )}
-                    >
-                      <item.icon
-                        className="h-6 w-6 shrink-0"
-                        aria-hidden="true"
-                      />
-                      {item.name}
-                    </Link>
-                  </li>
-                )
-              })}
-            </ul>
-          </li>
-        </ul>
-      </nav>
+        
+        {/* Scrollable Navigation */}
+        <nav className="flex-1 overflow-y-auto px-3 py-4">
+          <ul role="list" className="space-y-1">
+            {navigation.map((item) => {
+              const isActive = pathname === item.href
+              return (
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
+                    className={cn(
+                      isActive
+                        ? "bg-gray-800 text-white"
+                        : "text-gray-400 hover:text-white hover:bg-gray-800",
+                      "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold transition-colors"
+                    )}
+                  >
+                    <item.icon
+                      className="h-6 w-6 shrink-0"
+                      aria-hidden="true"
+                    />
+                    <span className="truncate">{item.name}</span>
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </nav>
       </div>
     </>
   )

@@ -30,6 +30,12 @@ interface SystemSettings {
   analyticsRetentionDays: number
   backupFrequency: string
   maxFileUploadSize: number
+  logoSize: {
+    landingPage: number
+    dashboard: number
+    authPages: number
+    publicProfile: number
+  }
 }
 
 export default function AdminSettingsPage() {
@@ -43,7 +49,13 @@ export default function AdminSettingsPage() {
     emailNotifications: true,
     analyticsRetentionDays: 365,
     backupFrequency: 'daily',
-    maxFileUploadSize: 10485760
+    maxFileUploadSize: 10485760,
+    logoSize: {
+      landingPage: 20,
+      dashboard: 16,
+      authPages: 20,
+      publicProfile: 12
+    }
   })
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -107,23 +119,23 @@ export default function AdminSettingsPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <RefreshCw className="h-8 w-8 animate-spin text-gray-900 mx-auto mb-4" />
-          <p className="text-gray-600">Loading settings...</p>
+          <RefreshCw className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading settings...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="p-6">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 flex items-center">
-          <Settings className="h-8 w-8 mr-3" />
+    <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground flex items-center">
+          <Settings className="h-6 w-6 sm:h-8 sm:w-8 mr-3" />
           System Settings
         </h1>
-        <p className="text-gray-600 mt-2">
+        <p className="text-muted-foreground mt-2">
           Configure global system settings and preferences
         </p>
       </div>
@@ -143,7 +155,7 @@ export default function AdminSettingsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* General Settings */}
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center">
               <Globe className="h-5 w-5 mr-2" />
@@ -200,8 +212,90 @@ export default function AdminSettingsPage() {
           </CardContent>
         </Card>
 
+        {/* Logo Size Settings */}
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <Globe className="h-5 w-5 mr-2" />
+              Logo Size Settings
+            </CardTitle>
+            <CardDescription>
+              Adjust logo sizes across different pages
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label htmlFor="landingPageLogo">Landing Page Logo Size</Label>
+              <Input
+                id="landingPageLogo"
+                type="number"
+                min="8"
+                max="32"
+                value={settings.logoSize.landingPage}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  logoSize: { ...prev.logoSize, landingPage: parseInt(e.target.value) || 20 }
+                }))}
+                placeholder="20"
+              />
+              <p className="text-sm text-gray-500">Height in rem units (8-32)</p>
+            </div>
+            
+            <div>
+              <Label htmlFor="dashboardLogo">Dashboard Logo Size</Label>
+              <Input
+                id="dashboardLogo"
+                type="number"
+                min="8"
+                max="32"
+                value={settings.logoSize.dashboard}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  logoSize: { ...prev.logoSize, dashboard: parseInt(e.target.value) || 16 }
+                }))}
+                placeholder="16"
+              />
+              <p className="text-sm text-gray-500">Height in rem units (8-32)</p>
+            </div>
+
+            <div>
+              <Label htmlFor="authPagesLogo">Auth Pages Logo Size</Label>
+              <Input
+                id="authPagesLogo"
+                type="number"
+                min="8"
+                max="32"
+                value={settings.logoSize.authPages}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  logoSize: { ...prev.logoSize, authPages: parseInt(e.target.value) || 20 }
+                }))}
+                placeholder="20"
+              />
+              <p className="text-sm text-gray-500">Height in rem units (8-32)</p>
+            </div>
+
+            <div>
+              <Label htmlFor="publicProfileLogo">Public Profile Logo Size</Label>
+              <Input
+                id="publicProfileLogo"
+                type="number"
+                min="8"
+                max="32"
+                value={settings.logoSize.publicProfile}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  logoSize: { ...prev.logoSize, publicProfile: parseInt(e.target.value) || 12 }
+                }))}
+                placeholder="12"
+              />
+              <p className="text-sm text-gray-500">Height in rem units (8-32)</p>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Security & Limits */}
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center">
               <Shield className="h-5 w-5 mr-2" />
@@ -260,7 +354,7 @@ export default function AdminSettingsPage() {
         </Card>
 
         {/* Database Settings */}
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center">
               <Database className="h-5 w-5 mr-2" />
@@ -316,7 +410,7 @@ export default function AdminSettingsPage() {
         </Card>
 
         {/* Email Settings */}
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center">
               <Mail className="h-5 w-5 mr-2" />

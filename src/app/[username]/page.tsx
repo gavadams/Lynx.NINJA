@@ -10,6 +10,7 @@ import PasswordProtection from "@/components/password-protection"
 import { EmailCaptureForm } from "@/components/email-capture-form"
 import Image from "next/image"
 import { getSiteConfig } from "@/lib/config"
+import { getThemeClasses } from "@/lib/theme-utils"
 
 interface Link {
   id: string
@@ -255,8 +256,11 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
   const activeLinks = links.filter(link => link.isActive)
   
 
+  // Get the user's theme classes
+  const themeClasses = getThemeClasses(user.theme || 'default')
+  
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className={`min-h-screen ${themeClasses}`}>
       <div className="container mx-auto px-4 py-8 max-w-md">
         {/* Site Logo */}
         <div className="text-center mb-6">

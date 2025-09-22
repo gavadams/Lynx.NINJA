@@ -69,14 +69,14 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="space-y-6">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen space-y-4 sm:space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-          <p className="text-gray-600">System overview and key metrics</p>
+          <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground">Admin Dashboard</h1>
+          <p className="text-muted-foreground">System overview and key metrics</p>
         </div>
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {[1, 2, 3, 4].map((i) => (
-            <Card key={i}>
+            <Card key={i} className="card-ninja">
               <CardContent className="p-4 sm:p-6">
                 <div className="animate-pulse">
                   <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
@@ -92,25 +92,27 @@ export default function AdminDashboard() {
 
   if (!stats) {
     return (
-      <div className="text-center py-12">
-        <AlertTriangle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-lg font-medium text-gray-900 mb-2">Failed to load dashboard</h3>
-        <p className="text-gray-600">Please try refreshing the page.</p>
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+        <div className="text-center py-12">
+          <AlertTriangle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+          <h3 className="text-lg font-heading font-medium text-foreground mb-2">Failed to load dashboard</h3>
+          <p className="text-muted-foreground">Please try refreshing the page.</p>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+    <div className="p-4 sm:p-6 bg-background dark min-h-screen space-y-4 sm:space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-        <p className="text-sm sm:text-base text-gray-600">System overview and key metrics</p>
+        <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground">Admin Dashboard</h1>
+        <p className="text-muted-foreground">System overview and key metrics</p>
       </div>
 
       {/* System Health Alert */}
       {stats.systemHealth !== 'healthy' && (
-        <Card className="border-yellow-200 bg-yellow-50">
+        <Card className="card-ninja border-yellow-200 bg-yellow-50">
           <CardContent className="p-4">
             <div className="flex items-center">
               <AlertTriangle className="h-5 w-5 text-yellow-600 mr-2" />
@@ -129,7 +131,7 @@ export default function AdminDashboard() {
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-4 sm:p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -149,7 +151,7 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-4 sm:p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -169,7 +171,7 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-4 sm:p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -189,7 +191,7 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-4 sm:p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -212,7 +214,7 @@ export default function AdminDashboard() {
 
       {/* User Growth */}
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center">
               <TrendingUp className="h-5 w-5 mr-2 text-green-600" />
@@ -240,7 +242,7 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center">
               <Activity className="h-5 w-5 mr-2 text-blue-600" />
@@ -268,7 +270,7 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center">
               <Clock className="h-5 w-5 mr-2 text-orange-600" />
