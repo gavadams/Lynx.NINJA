@@ -42,12 +42,21 @@ export default function ScheduledLinksPage() {
   const fetchScheduledLinks = async () => {
     try {
       setLoading(true)
+      console.log('Fetching scheduled links from API...')
       const response = await fetch('/api/admin/scheduled-links')
+      console.log('API response status:', response.status)
+      
       if (response.ok) {
         const data = await response.json()
+        console.log('API response data:', { 
+          hasLinks: !!data.links, 
+          linksCount: data.links?.length || 0, 
+          sampleLinks: data.links?.slice(0, 2) 
+        })
         setLinks(data.links || [])
       } else {
-        console.error('Failed to fetch scheduled links')
+        const errorText = await response.text()
+        console.error('Failed to fetch scheduled links:', response.status, errorText)
       }
     } catch (error) {
       console.error('Error fetching scheduled links:', error)
