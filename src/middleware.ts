@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Match all paths except API routes, static files, and admin routes
-    '/((?!api|_next|admin|maintenance|favicon.ico).*)',
+    // Match all paths - very permissive for testing
+    '/(.*)',
   ],
 }
