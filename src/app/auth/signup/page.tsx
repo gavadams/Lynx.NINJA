@@ -5,10 +5,12 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { DynamicLogo } from "@/components/dynamic-logo"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { AlertCircle, Lock } from "lucide-react"
 import { getSiteConfig } from "@/lib/config"
 
 export default function SignUpPage() {
@@ -20,8 +22,27 @@ export default function SignUpPage() {
     confirmPassword: ""
   })
   const [error, setError] = useState("")
+  const [registrationEnabled, setRegistrationEnabled] = useState(true)
+  const [maintenanceMode, setMaintenanceMode] = useState(false)
   const router = useRouter()
   const { siteName } = getSiteConfig()
+
+  useEffect(() => {
+    checkRegistrationStatus()
+  }, [])
+
+  const checkRegistrationStatus = async () => {
+    try {
+      const response = await fetch('/api/system/registration-status')
+      if (response.ok) {
+        const data = await response.json()
+        setRegistrationEnabled(data.registrationEnabled)
+        setMaintenanceMode(data.maintenanceMode)
+      }
+    } catch (error) {
+      console.error('Error checking registration status:', error)
+    }
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -127,6 +148,25 @@ export default function SignUpPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
+            {!registrationEnabled && (
+              <Alert className="border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-900/20">
+                <Lock className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+                <AlertDescription className="text-yellow-800 dark:text-yellow-200">
+                  <strong>Registration Temporarily Disabled</strong><br />
+                  New user registration is currently disabled. Please try again later or contact support if you need immediate access.
+                </AlertDescription>
+              </Alert>
+            )}
+            
+            {maintenanceMode && (
+              <Alert className="border-orange-200 bg-orange-50 dark:border-orange-800 dark:bg-orange-900/20">
+                <AlertCircle className="h-4 w-4 text-orange-600 dark:text-orange-400" />
+                <AlertDescription className="text-orange-800 dark:text-orange-200">
+                  <strong>Maintenance Mode Active</strong><br />
+                  The site is currently under maintenance. Some features may be temporarily unavailable.
+                </AlertDescription>
+              </Alert>
+            )}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
@@ -186,8 +226,17 @@ export default function SignUpPage() {
                 </div>
               )}
 
-              <Button type="submit" className="w-full btn-ninja glow-ninja" disabled={isLoading}>
-                {isLoading ? "Creating account..." : "Create Account"}
+              <Button 
+                type="submit" 
+                className="w-full btn-ninja glow-ninja" 
+                disabled={isLoading || !registrationEnabled}
+              >
+                {!registrationEnabled 
+                  ? "Registration Disabled" 
+                  : isLoading 
+                    ? "Creating account..." 
+                    : "Create Account"
+                }
               </Button>
             </form>
 

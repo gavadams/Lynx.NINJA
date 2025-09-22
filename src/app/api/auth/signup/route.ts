@@ -2,9 +2,18 @@ import { NextRequest, NextResponse } from "next/server"
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import bcrypt from 'bcryptjs'
+import { getSystemSettings } from '@/lib/system-settings'
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if registration is enabled
+    const settings = await getSystemSettings()
+    if (!settings.registrationEnabled) {
+      return NextResponse.json({ 
+        error: "New user registration is currently disabled. Please try again later." 
+      }, { status: 403 })
+    }
+
     const body = await request.json()
     const { name, email, password } = body
 

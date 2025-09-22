@@ -1,35 +1,36 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { getSiteConfig } from '@/lib/config'
+import { getSystemSettings } from '@/lib/system-settings'
 
-export function middleware(request: NextRequest) {
-  const hostname = request.headers.get('host') || ''
-  
-  // Skip middleware for localhost and Vercel preview URLs
-  if (hostname.includes('localhost') || hostname.includes('vercel.app')) {
+export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
+
+  // Skip middleware for static files, API routes, and admin routes
+  if (
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/api') ||
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/maintenance') ||
+    pathname.includes('.')
+  ) {
     return NextResponse.next()
   }
 
-  // Check if this is a custom domain request
-  // For production, you would check against your database of custom domains
-  // For now, we'll create a simple check
-  
-  // If it's not the main domain, treat it as a custom domain
-  const { mainDomain } = getSiteConfig()
-  
-  if (!hostname.includes(mainDomain)) {
-    // This is a custom domain request
-    // In a real implementation, you would:
-    // 1. Look up the domain in your database
-    // 2. Find the associated user
-    // 3. Redirect to their profile page
-    
-    // For now, we'll redirect to a custom domain handler
-    const url = request.nextUrl.clone()
-    url.pathname = `/custom-domain`
-    url.searchParams.set('domain', hostname)
-    
-    return NextResponse.rewrite(url)
+  try {
+    const settings = await getSystemSettings()
+
+    // Check maintenance mode
+    if (settings.maintenanceMode) {
+      // Allow admin users to bypass maintenance mode
+      const adminSession = request.cookies.get('admin-session')?.value
+      if (!adminSession) {
+        // Redirect to maintenance page
+        return NextResponse.redirect(new URL('/maintenance', request.url))
+      }
+    }
+  } catch (error) {
+    console.error('Middleware error:', error)
+    // Continue if there's an error fetching settings
   }
 
   return NextResponse.next()
@@ -43,7 +44,9 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - admin (admin routes)
+     * - maintenance (maintenance page)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|admin|maintenance).*)',
   ],
 }
