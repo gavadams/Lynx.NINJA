@@ -19,23 +19,41 @@ export function DynamicLogo({
   invert = false 
 }: DynamicLogoProps) {
   const { siteName } = getSiteConfig()
-  const [logoSize, setLogoSize] = useState(getLogoSize(pageType))
+  const [logoSize, setLogoSize] = useState(20) // Default size while loading
   
-  // Listen for logo size changes
+  // Load logo size from database
   useEffect(() => {
-    const handleStorageChange = () => {
-      const newSize = getLogoSize(pageType)
-      console.log(`Logo size changed for ${pageType}:`, newSize)
-      setLogoSize(newSize)
+    const loadLogoSize = async () => {
+      try {
+        const size = await getLogoSize(pageType)
+        console.log(`Logo size loaded for ${pageType}:`, size)
+        setLogoSize(size)
+      } catch (error) {
+        console.error('Error loading logo size:', error)
+        // Keep default size on error
+      }
     }
     
-    window.addEventListener('storage', handleStorageChange)
-    // Also listen for custom events (for same-tab updates)
-    window.addEventListener('logoSizeChanged', handleStorageChange)
+    loadLogoSize()
+  }, [pageType])
+  
+  // Listen for logo size changes (when admin updates settings)
+  useEffect(() => {
+    const handleLogoSizeChange = async () => {
+      try {
+        const newSize = await getLogoSize(pageType)
+        console.log(`Logo size changed for ${pageType}:`, newSize)
+        setLogoSize(newSize)
+      } catch (error) {
+        console.error('Error reloading logo size:', error)
+      }
+    }
+    
+    // Listen for custom events when admin updates settings
+    window.addEventListener('logoSizeChanged', handleLogoSizeChange)
     
     return () => {
-      window.removeEventListener('storage', handleStorageChange)
-      window.removeEventListener('logoSizeChanged', handleStorageChange)
+      window.removeEventListener('logoSizeChanged', handleLogoSizeChange)
     }
   }, [pageType])
   

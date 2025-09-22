@@ -42,11 +42,32 @@ export async function GET(request: NextRequest) {
 
     // Convert array to object for easier handling
     const settingsObject = settings?.reduce((acc, setting) => {
-      acc[setting.key] = setting.value === 'TRUE' ? true : 
-                         setting.value === 'FALSE' ? false : 
-                         setting.value
+      let value = setting.value
+      
+      // Handle boolean values
+      if (setting.value === 'TRUE') value = true
+      else if (setting.value === 'FALSE') value = false
+      // Handle number values
+      else if (setting.dataType === 'number') value = parseInt(setting.value) || 0
+      
+      acc[setting.key] = value
       return acc
     }, {} as Record<string, any>) || {}
+
+    // Group logo size settings into a logoSize object
+    const logoSizeSettings = {
+      landingPage: settingsObject.logoSize_landingPage || 20,
+      dashboard: settingsObject.logoSize_dashboard || 16,
+      authPages: settingsObject.logoSize_authPages || 20,
+      publicProfile: settingsObject.logoSize_publicProfile || 12
+    }
+    
+    // Remove individual logo size keys and add the grouped object
+    delete settingsObject.logoSize_landingPage
+    delete settingsObject.logoSize_dashboard
+    delete settingsObject.logoSize_authPages
+    delete settingsObject.logoSize_publicProfile
+    settingsObject.logoSize = logoSizeSettings
 
     return NextResponse.json({ settings: settingsObject })
   } catch (error) {
@@ -83,23 +104,38 @@ export async function PUT(request: NextRequest) {
       }
     )
 
-    // Update each setting
-    const updates = Object.entries(settings).map(async ([key, value]) => {
+    // Flatten logoSize object into individual settings
+    const flattenedSettings = { ...settings }
+    if (settings.logoSize) {
+      flattenedSettings.logoSize_landingPage = settings.logoSize.landingPage
+      flattenedSettings.logoSize_dashboard = settings.logoSize.dashboard
+      flattenedSettings.logoSize_authPages = settings.logoSize.authPages
+      flattenedSettings.logoSize_publicProfile = settings.logoSize.publicProfile
+      delete flattenedSettings.logoSize
+    }
+
+    // Update each setting (use upsert to handle missing settings)
+    const updates = Object.entries(flattenedSettings).map(async ([key, value]) => {
       const stringValue = typeof value === 'boolean' ? (value ? 'TRUE' : 'FALSE') : String(value)
+      
+      console.log(`Upserting setting: ${key} = ${stringValue}`)
       
       const { error } = await supabase
         .from('SystemSetting')
-        .update({ 
+        .upsert({ 
+          key,
           value: stringValue,
           updatedAt: new Date().toISOString()
+        }, {
+          onConflict: 'key'
         })
-        .eq('key', key)
 
       if (error) {
-        console.error(`Error updating setting ${key}:`, error)
+        console.error(`Error upserting setting ${key}:`, error)
         return { key, error: error.message }
       }
 
+      console.log(`Successfully upserted setting: ${key}`)
       return { key, success: true }
     })
 

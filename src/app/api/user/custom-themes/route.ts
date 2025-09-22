@@ -55,7 +55,9 @@ export async function GET() {
       .eq('key', 'maxCustomThemesPerUser')
       .single()
 
+    console.log('Theme limit settings query (GET):', { systemSettings, settingsError })
     const themeLimit = settingsError ? 10 : parseInt(systemSettings?.value || '10') // Default to 10 if not set
+    console.log('Theme limit resolved to (GET):', themeLimit)
 
     return NextResponse.json({
       themes: customThemes || [],
@@ -128,7 +130,9 @@ export async function POST(request: NextRequest) {
       .eq('key', 'maxCustomThemesPerUser')
       .single()
 
+    console.log('Theme limit settings query (POST):', { systemSettings, settingsError })
     const themeLimit = settingsError ? 10 : parseInt(systemSettings?.value || '10') // Default to 10 if not set
+    console.log('Theme limit resolved to (POST):', themeLimit)
 
     if (currentThemeCount && currentThemeCount >= themeLimit) {
       return NextResponse.json({ 

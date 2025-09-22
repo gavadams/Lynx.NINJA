@@ -14,21 +14,18 @@ export const defaultLogoSizeSettings: LogoSizeSettings = {
   publicProfile: 12
 }
 
-// Get logo size settings from localStorage or return defaults
-export function getLogoSizeSettings(): LogoSizeSettings {
-  if (typeof window === 'undefined') {
-    return defaultLogoSizeSettings
-  }
-  
+// Get logo size settings from database or return defaults
+export async function getLogoSizeSettings(): Promise<LogoSizeSettings> {
   try {
-    const stored = localStorage.getItem('logoSizeSettings')
-    if (stored) {
-      return JSON.parse(stored)
+    const response = await fetch('/api/settings/logo-sizes')
+    if (response.ok) {
+      const settings = await response.json()
+      console.log('Logo size settings loaded from database:', settings)
+      return settings
     }
   } catch (error) {
-    console.error('Error loading logo size settings:', error)
+    console.error('Error loading logo size settings from database:', error)
   }
-  
   return defaultLogoSizeSettings
 }
 
@@ -49,8 +46,8 @@ export function saveLogoSizeSettings(settings: LogoSizeSettings): void {
 }
 
 // Get logo size for a specific page type
-export function getLogoSize(pageType: keyof LogoSizeSettings): number {
-  const settings = getLogoSizeSettings()
+export async function getLogoSize(pageType: keyof LogoSizeSettings): Promise<number> {
+  const settings = await getLogoSizeSettings()
   const size = settings[pageType] || defaultLogoSizeSettings[pageType]
   console.log(`Getting logo size for ${pageType}:`, size)
   return size

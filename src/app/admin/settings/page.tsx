@@ -18,7 +18,6 @@ import {
   Shield,
   Database
 } from 'lucide-react'
-import { saveLogoSizeSettings } from '@/lib/logo-sizes'
 
 interface SystemSettings {
   siteName: string
@@ -128,30 +127,15 @@ export default function AdminSettingsPage() {
       
       console.log('Saving settings:', settings)
       
-      // Save logo size settings to localStorage immediately
-      if (settings.logoSize) {
-        console.log('Saving logo sizes to localStorage:', settings.logoSize)
-        saveLogoSizeSettings(settings.logoSize)
-        // Dispatch custom event to notify other components
-        if (typeof window !== 'undefined') {
-          console.log('Dispatching logoSizeChanged event...')
-          window.dispatchEvent(new CustomEvent('logoSizeChanged', { 
-            detail: { logoSize: settings.logoSize } 
-          }))
-          console.log('logoSizeChanged event dispatched')
-        }
-      }
-      
-      // Prepare settings for API (exclude logoSize as it's handled separately)
-      const { logoSize, ...apiSettings } = settings
-      console.log('Sending to API:', apiSettings)
+      // All settings including logoSize are now saved to database
+      console.log('Sending all settings to API:', settings)
       
       const response = await fetch('/api/admin/settings', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(apiSettings),
+        body: JSON.stringify(settings),
       })
 
       console.log('API response status:', response.status)
@@ -160,6 +144,15 @@ export default function AdminSettingsPage() {
         const result = await response.json()
         console.log('API response:', result)
         setMessage({ type: 'success', text: 'Settings saved successfully!' })
+        
+        // Dispatch event to notify logo components of changes
+        if (typeof window !== 'undefined' && settings.logoSize) {
+          console.log('Dispatching logoSizeChanged event...')
+          window.dispatchEvent(new CustomEvent('logoSizeChanged', { 
+            detail: { logoSize: settings.logoSize } 
+          }))
+          console.log('logoSizeChanged event dispatched')
+        }
       } else {
         const error = await response.json()
         console.error('API error:', error)
