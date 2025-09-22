@@ -24,7 +24,9 @@ export function DynamicLogo({
   // Listen for logo size changes
   useEffect(() => {
     const handleStorageChange = () => {
-      setLogoSize(getLogoSize(pageType))
+      const newSize = getLogoSize(pageType)
+      console.log(`Logo size changed for ${pageType}:`, newSize)
+      setLogoSize(newSize)
     }
     
     window.addEventListener('storage', handleStorageChange)

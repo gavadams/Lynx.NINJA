@@ -35,11 +35,14 @@ export function getLogoSizeSettings(): LogoSizeSettings {
 // Save logo size settings to localStorage
 export function saveLogoSizeSettings(settings: LogoSizeSettings): void {
   if (typeof window === 'undefined') {
+    console.log('Window not available, skipping localStorage save')
     return
   }
   
   try {
+    console.log('Saving logo size settings to localStorage:', settings)
     localStorage.setItem('logoSizeSettings', JSON.stringify(settings))
+    console.log('Successfully saved logo size settings')
   } catch (error) {
     console.error('Error saving logo size settings:', error)
   }
@@ -48,7 +51,9 @@ export function saveLogoSizeSettings(settings: LogoSizeSettings): void {
 // Get logo size for a specific page type
 export function getLogoSize(pageType: keyof LogoSizeSettings): number {
   const settings = getLogoSizeSettings()
-  return settings[pageType] || defaultLogoSizeSettings[pageType]
+  const size = settings[pageType] || defaultLogoSizeSettings[pageType]
+  console.log(`Getting logo size for ${pageType}:`, size)
+  return size
 }
 
 // Convert rem to pixels (approximate)

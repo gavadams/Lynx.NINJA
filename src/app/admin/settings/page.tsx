@@ -99,8 +99,11 @@ export default function AdminSettingsPage() {
       setSaving(true)
       setMessage(null)
       
+      console.log('Saving settings:', settings)
+      
       // Save logo size settings to localStorage immediately
       if (settings.logoSize) {
+        console.log('Saving logo sizes to localStorage:', settings.logoSize)
         saveLogoSizeSettings(settings.logoSize)
         // Dispatch custom event to notify other components
         if (typeof window !== 'undefined') {
@@ -108,18 +111,27 @@ export default function AdminSettingsPage() {
         }
       }
       
+      // Prepare settings for API (exclude logoSize as it's handled separately)
+      const { logoSize, ...apiSettings } = settings
+      console.log('Sending to API:', apiSettings)
+      
       const response = await fetch('/api/admin/settings', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(settings),
+        body: JSON.stringify(apiSettings),
       })
 
+      console.log('API response status:', response.status)
+      
       if (response.ok) {
+        const result = await response.json()
+        console.log('API response:', result)
         setMessage({ type: 'success', text: 'Settings saved successfully!' })
       } else {
         const error = await response.json()
+        console.error('API error:', error)
         setMessage({ type: 'error', text: error.error || 'Failed to save settings' })
       }
     } catch (error) {
@@ -310,6 +322,24 @@ export default function AdminSettingsPage() {
                 placeholder="12"
               />
               <p className="text-sm text-gray-500">Height in rem units (8-32)</p>
+            </div>
+            
+            <div className="pt-4 border-t">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  console.log('Testing logo size change...')
+                  if (settings.logoSize) {
+                    saveLogoSizeSettings(settings.logoSize)
+                    window.dispatchEvent(new CustomEvent('logoSizeChanged'))
+                    setMessage({ type: 'success', text: 'Logo sizes updated! Check other pages.' })
+                  }
+                }}
+                className="w-full"
+              >
+                Test Logo Size Change
+              </Button>
             </div>
           </CardContent>
         </Card>
