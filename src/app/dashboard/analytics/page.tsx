@@ -20,6 +20,7 @@ import {
 interface AnalyticsData {
   totalClicks: number
   totalLinks: number
+  totalProfileViews: number
   clicksToday: number
   clicksThisWeek: number
   clicksThisMonth: number
@@ -27,7 +28,7 @@ interface AnalyticsData {
     id: string
     title: string
     url: string
-    clickCount: number
+    clicks: number
   }>
   deviceStats: {
     mobile: number
@@ -67,10 +68,16 @@ export default function AnalyticsPage() {
              }
 
              // Fetch analytics data
+             console.log('🔍 Analytics page: Fetching analytics data...')
              const analyticsResponse = await fetch('/api/analytics')
+             console.log('📊 Analytics page: Response status:', analyticsResponse.status)
              if (analyticsResponse.ok) {
                const data = await analyticsResponse.json()
+               console.log('📈 Analytics page: Data received:', data)
                setAnalytics(data)
+             } else {
+               const errorText = await analyticsResponse.text()
+               console.error('❌ Analytics page: Fetch failed:', errorText)
              }
            } catch (error) {
              console.error('Error fetching analytics:', error)
@@ -134,6 +141,7 @@ export default function AnalyticsPage() {
                   <div className="text-sm text-yellow-700">
                     <p>Total Clicks: {analytics?.totalClicks || 0}</p>
                     <p>Total Links: {analytics?.totalLinks || 0}</p>
+                    <p>Profile Views: {analytics?.totalProfileViews || 0}</p>
                   </div>
                 </div>
               </div>
@@ -222,6 +230,26 @@ export default function AnalyticsPage() {
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
+                <Users className="h-6 w-6 text-orange-400" />
+              </div>
+              <div className="ml-5 w-0 flex-1">
+                <dl>
+                  <dt className="text-sm font-medium text-gray-500 truncate">
+                    Profile Views
+                  </dt>
+                  <dd className="text-lg font-medium text-gray-900">
+                    {analytics?.totalProfileViews || 0}
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
                 <Clock className="h-6 w-6 text-orange-400" />
               </div>
               <div className="ml-5 w-0 flex-1">
@@ -269,7 +297,7 @@ export default function AnalyticsPage() {
                   </div>
                   <div className="flex items-center space-x-2">
                     <Badge variant="secondary">
-                      {link.clickCount} clicks
+                      {link.clicks || 0} clicks
                     </Badge>
                     <Button variant="ghost" size="sm">
                       <ExternalLink className="h-4 w-4" />

@@ -77,7 +77,8 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
         
         // Track profile view
         try {
-          await fetch(`/api/profile-view/${resolvedParams.username}`, {
+          console.log('🔍 Tracking profile view for:', resolvedParams.username)
+          const trackingResponse = await fetch(`/api/profile-view/${resolvedParams.username}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -92,6 +93,13 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
               browser: getBrowserName(navigator.userAgent)
             }),
           })
+          console.log('📊 Profile view tracking response:', trackingResponse.status)
+          if (trackingResponse.ok) {
+            console.log('✅ Profile view tracked successfully')
+          } else {
+            const errorText = await trackingResponse.text()
+            console.error('❌ Profile view tracking failed:', errorText)
+          }
         } catch (trackingError) {
           console.error('Failed to track profile view:', trackingError)
           // Don't fail the page load if tracking fails
