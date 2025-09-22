@@ -57,16 +57,24 @@ export async function GET() {
     console.log('📊 Found links:', links?.length || 0, links)
 
     // Get analytics data
+    console.log('🔍 Fetching analytics data for links:', links?.map(link => link.id) || [])
     const { data: analytics, error: analyticsError } = await supabase
       .from('Analytics')
       .select('*')
       .in('linkId', links?.map(link => link.id) || [])
-      .order('createdAt', { ascending: false })
+      .order('clickTime', { ascending: false })
 
     if (analyticsError) {
       console.error("Error fetching analytics:", analyticsError)
-      return NextResponse.json({ error: "Failed to fetch analytics" }, { status: 500 })
+      console.error("Analytics error details:", JSON.stringify(analyticsError, null, 2))
+      return NextResponse.json({ 
+        error: "Failed to fetch analytics", 
+        details: analyticsError.message,
+        code: analyticsError.code 
+      }, { status: 500 })
     }
+    
+    console.log('📊 Found analytics records:', analytics?.length || 0)
 
     // Get profile view count (with error handling)
     console.log('🔍 Fetching profile views for user ID:', user.id)
@@ -104,15 +112,15 @@ export async function GET() {
     const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000)
 
     const clicksToday = analytics?.filter(a => 
-      new Date(a.createdAt) >= today
+      new Date(a.clickTime) >= today
     ).length || 0
 
     const clicksThisWeek = analytics?.filter(a => 
-      new Date(a.createdAt) >= weekAgo
+      new Date(a.clickTime) >= weekAgo
     ).length || 0
 
     const clicksThisMonth = analytics?.filter(a => 
-      new Date(a.createdAt) >= monthAgo
+      new Date(a.clickTime) >= monthAgo
     ).length || 0
 
     // Get top links (limit to 5)
@@ -146,7 +154,7 @@ export async function GET() {
       return {
         id: click.id,
         linkTitle: link?.title || 'Unknown Link',
-        clickedAt: click.createdAt,
+        clickedAt: click.clickTime,
         device: click.device || 'Unknown',
         browser: click.browser || 'Unknown'
       }
@@ -169,6 +177,11 @@ export async function GET() {
     return NextResponse.json(responseData)
   } catch (error) {
     console.error("Error fetching analytics:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    console.error("Error details:", JSON.stringify(error, null, 2))
+    return NextResponse.json({ 
+      error: "Internal server error", 
+      details: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined
+    }, { status: 500 })
   }
 }
