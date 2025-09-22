@@ -79,8 +79,25 @@ export default function AdminSettingsPage() {
         const data = await response.json()
         console.log('🔍 Settings API response data:', data)
         
-        // Ensure logoSize property exists with defaults
+        // Ensure all required properties exist with defaults
         const settingsData = {
+          siteName: 'Lynx.NINJA',
+          siteDescription: 'Modern link-in-bio platform',
+          maxLinksPerUser: 50,
+          maxLinksPerPremiumUser: 500,
+          maxCustomThemesPerUser: 10,
+          maintenanceMode: false,
+          registrationEnabled: true,
+          emailNotifications: true,
+          analyticsRetentionDays: 365,
+          backupFrequency: 'daily',
+          maxFileUploadSize: 10485760,
+          logoSize: {
+            landingPage: 20,
+            dashboard: 16,
+            authPages: 20,
+            publicProfile: 12
+          },
           ...data.settings,
           logoSize: data.settings.logoSize || {
             landingPage: 20,
@@ -216,7 +233,7 @@ export default function AdminSettingsPage() {
               <Label htmlFor="siteName">Site Name</Label>
               <Input
                 id="siteName"
-                value={settings.siteName}
+                value={settings.siteName || ''}
                 onChange={(e) => handleInputChange('siteName', e.target.value)}
                 placeholder="Lynx.NINJA"
               />
@@ -226,7 +243,7 @@ export default function AdminSettingsPage() {
               <Label htmlFor="siteDescription">Site Description</Label>
               <Input
                 id="siteDescription"
-                value={settings.siteDescription}
+                value={settings.siteDescription || ''}
                 onChange={(e) => handleInputChange('siteDescription', e.target.value)}
                 placeholder="Modern link-in-bio platform"
               />
@@ -277,7 +294,7 @@ export default function AdminSettingsPage() {
                 type="number"
                 min="1"
                 max="32"
-                value={settings.logoSize.landingPage}
+                value={settings.logoSize?.landingPage || 20}
                 onChange={(e) => setSettings(prev => ({
                   ...prev,
                   logoSize: { ...prev.logoSize, landingPage: parseInt(e.target.value) || 20 }
@@ -294,7 +311,7 @@ export default function AdminSettingsPage() {
                 type="number"
                 min="1"
                 max="32"
-                value={settings.logoSize.dashboard}
+                value={settings.logoSize?.dashboard || 16}
                 onChange={(e) => setSettings(prev => ({
                   ...prev,
                   logoSize: { ...prev.logoSize, dashboard: parseInt(e.target.value) || 16 }
@@ -311,7 +328,7 @@ export default function AdminSettingsPage() {
                 type="number"
                 min="1"
                 max="32"
-                value={settings.logoSize.authPages}
+                value={settings.logoSize?.authPages || 20}
                 onChange={(e) => setSettings(prev => ({
                   ...prev,
                   logoSize: { ...prev.logoSize, authPages: parseInt(e.target.value) || 20 }
@@ -328,7 +345,7 @@ export default function AdminSettingsPage() {
                 type="number"
                 min="1"
                 max="32"
-                value={settings.logoSize.publicProfile}
+                value={settings.logoSize?.publicProfile || 12}
                 onChange={(e) => setSettings(prev => ({
                   ...prev,
                   logoSize: { ...prev.logoSize, publicProfile: parseInt(e.target.value) || 12 }
@@ -379,7 +396,7 @@ export default function AdminSettingsPage() {
               <Input
                 id="maxLinksPerUser"
                 type="number"
-                value={settings.maxLinksPerUser}
+                value={settings.maxLinksPerUser || 50}
                 onChange={(e) => handleInputChange('maxLinksPerUser', parseInt(e.target.value) || 0)}
                 placeholder="50"
               />
@@ -390,7 +407,7 @@ export default function AdminSettingsPage() {
               <Input
                 id="maxLinksPerPremiumUser"
                 type="number"
-                value={settings.maxLinksPerPremiumUser}
+                value={settings.maxLinksPerPremiumUser || 500}
                 onChange={(e) => handleInputChange('maxLinksPerPremiumUser', parseInt(e.target.value) || 0)}
                 placeholder="500"
               />
@@ -403,7 +420,7 @@ export default function AdminSettingsPage() {
                 type="number"
                 min="1"
                 max="50"
-                value={settings.maxCustomThemesPerUser}
+                value={settings.maxCustomThemesPerUser || 10}
                 onChange={(e) => handleInputChange('maxCustomThemesPerUser', parseInt(e.target.value) || 10)}
                 placeholder="10"
               />
@@ -415,7 +432,7 @@ export default function AdminSettingsPage() {
               <Input
                 id="analyticsRetentionDays"
                 type="number"
-                value={settings.analyticsRetentionDays}
+                value={settings.analyticsRetentionDays || 365}
                 onChange={(e) => handleInputChange('analyticsRetentionDays', parseInt(e.target.value) || 365)}
                 placeholder="365"
               />
@@ -462,7 +479,7 @@ export default function AdminSettingsPage() {
               <Label htmlFor="backupFrequency">Backup Frequency</Label>
               <Input
                 id="backupFrequency"
-                value={settings.backupFrequency}
+                value={settings.backupFrequency || 'daily'}
                 onChange={(e) => handleInputChange('backupFrequency', e.target.value)}
                 placeholder="daily"
               />
@@ -473,7 +490,7 @@ export default function AdminSettingsPage() {
               <Input
                 id="maxFileUploadSize"
                 type="number"
-                value={settings.maxFileUploadSize}
+                value={settings.maxFileUploadSize || 10485760}
                 onChange={(e) => handleInputChange('maxFileUploadSize', parseInt(e.target.value) || 0)}
                 placeholder="10485760"
               />
