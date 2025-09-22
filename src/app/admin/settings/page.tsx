@@ -69,9 +69,14 @@ export default function AdminSettingsPage() {
   const fetchSettings = async () => {
     try {
       setLoading(true)
+      console.log('🔍 Fetching admin settings...')
       const response = await fetch('/api/admin/settings')
+      console.log('🔍 Settings API response status:', response.status)
+      
       if (response.ok) {
         const data = await response.json()
+        console.log('🔍 Settings API response data:', data)
+        
         // Ensure logoSize property exists with defaults
         const settingsData = {
           ...data.settings,
@@ -82,12 +87,15 @@ export default function AdminSettingsPage() {
             publicProfile: 12
           }
         }
+        console.log('🔍 Final settings data:', settingsData)
         setSettings(settingsData)
       } else {
-        setMessage({ type: 'error', text: 'Failed to load settings' })
+        const errorData = await response.json()
+        console.error('❌ Settings API error:', errorData)
+        setMessage({ type: 'error', text: errorData.error || 'Failed to load settings' })
       }
     } catch (error) {
-      console.error('Error fetching settings:', error)
+      console.error('❌ Error fetching settings:', error)
       setMessage({ type: 'error', text: 'Network error' })
     } finally {
       setLoading(false)
@@ -107,7 +115,11 @@ export default function AdminSettingsPage() {
         saveLogoSizeSettings(settings.logoSize)
         // Dispatch custom event to notify other components
         if (typeof window !== 'undefined') {
-          window.dispatchEvent(new CustomEvent('logoSizeChanged'))
+          console.log('Dispatching logoSizeChanged event...')
+          window.dispatchEvent(new CustomEvent('logoSizeChanged', { 
+            detail: { logoSize: settings.logoSize } 
+          }))
+          console.log('logoSizeChanged event dispatched')
         }
       }
       
@@ -324,7 +336,30 @@ export default function AdminSettingsPage() {
               <p className="text-sm text-gray-500">Height in rem units (8-32)</p>
             </div>
             
-            <div className="pt-4 border-t">
+            <div className="pt-4 border-t space-y-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={async () => {
+                  console.log('🔍 Testing admin settings connection...')
+                  try {
+                    const response = await fetch('/api/admin/debug-settings')
+                    const data = await response.json()
+                    console.log('🔍 Debug response:', data)
+                    setMessage({ 
+                      type: response.ok ? 'success' : 'error', 
+                      text: response.ok ? 'Connection successful! Check console for details.' : `Connection failed: ${data.error}` 
+                    })
+                  } catch (error) {
+                    console.error('❌ Debug test failed:', error)
+                    setMessage({ type: 'error', text: 'Debug test failed' })
+                  }
+                }}
+                className="w-full"
+              >
+                Test Admin Connection
+              </Button>
+              
               <Button
                 type="button"
                 variant="outline"
@@ -332,7 +367,11 @@ export default function AdminSettingsPage() {
                   console.log('Testing logo size change...')
                   if (settings.logoSize) {
                     saveLogoSizeSettings(settings.logoSize)
-                    window.dispatchEvent(new CustomEvent('logoSizeChanged'))
+                    console.log('Dispatching test logoSizeChanged event...')
+                    window.dispatchEvent(new CustomEvent('logoSizeChanged', { 
+                      detail: { logoSize: settings.logoSize } 
+                    }))
+                    console.log('Test logoSizeChanged event dispatched')
                     setMessage({ type: 'success', text: 'Logo sizes updated! Check other pages.' })
                   }
                 }}

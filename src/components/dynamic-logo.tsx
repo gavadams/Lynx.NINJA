@@ -42,6 +42,13 @@ export function DynamicLogo({
   const dimensions = getLogoDimensions(logoSize)
   const baseClasses = `w-auto ${invert ? 'brightness-0 invert' : ''}`
   
+  // Use inline style for dynamic height since Tailwind doesn't generate dynamic classes
+  const dynamicStyle = {
+    height: `${logoSize}rem`
+  }
+  
+  console.log(`DynamicLogo ${pageType}: size=${logoSize}rem, style=`, dynamicStyle, 'dimensions=', dimensions)
+  
   return (
     <Image
       src="/logo.png"
@@ -49,6 +56,7 @@ export function DynamicLogo({
       width={dimensions.width}
       height={dimensions.height}
       className={`${baseClasses} ${className}`}
+      style={dynamicStyle}
       priority={priority}
     />
   )
