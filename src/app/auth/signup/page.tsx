@@ -107,13 +107,13 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-background dark py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        <Card>
+        <Card className="card-ninja">
           <CardHeader>
-            <CardTitle className="text-2xl text-center">Create your account</CardTitle>
-            <CardDescription className="text-center">
-              Join {process.env.NEXT_PUBLIC_SITE_NAME || 'Lynx.NINJA'} and start building your link-in-bio page
+            <CardTitle className="text-2xl font-heading text-center">Create your account</CardTitle>
+            <CardDescription className="text-center text-muted-foreground">
+              Join {process.env.NEXT_PUBLIC_SITE_NAME || 'Lynx.NINJA'} and link with stealth and style
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -176,17 +176,17 @@ export default function SignUpPage() {
                 </div>
               )}
 
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <Button type="submit" className="w-full btn-ninja glow-ninja" disabled={isLoading}>
                 {isLoading ? "Creating account..." : "Create Account"}
               </Button>
             </form>
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
+                <span className="w-full border-t border-border" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-gray-500">Or continue with</span>
+                <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
               </div>
             </div>
 
@@ -196,7 +196,7 @@ export default function SignUpPage() {
                 onClick={() => handleOAuthSignIn("google")}
                 disabled={isLoading}
                 variant="outline"
-                className="w-full"
+                className="w-full btn-ninja-outline"
               >
                 Continue with Google
               </Button>
@@ -205,7 +205,7 @@ export default function SignUpPage() {
                 onClick={() => handleOAuthSignIn("twitter")}
                 disabled={isLoading}
                 variant="outline"
-                className="w-full"
+                className="w-full btn-ninja-outline"
               >
                 Continue with Twitter
               </Button>
@@ -214,7 +214,7 @@ export default function SignUpPage() {
                 onClick={() => handleOAuthSignIn("instagram")}
                 disabled={isLoading}
                 variant="outline"
-                className="w-full"
+                className="w-full btn-ninja-outline"
               >
                 Continue with Instagram
               </Button>

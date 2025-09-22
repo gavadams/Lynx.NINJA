@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -6,8 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: 'Inter', var(--font-geist-sans);
+  --font-mono: 'JetBrains Mono', var(--font-geist-mono);
+  --font-heading: 'Montserrat', var(--font-geist-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -44,72 +46,85 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.141 0.005 285.823);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.141 0.005 285.823);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.141 0.005 285.823);
-  --primary: oklch(0.21 0.006 285.885);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.967 0.001 286.375);
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.21 0.006 285.885);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.705 0.015 286.067);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-primary: oklch(0.21 0.006 285.885);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.705 0.015 286.067);
+  --radius: 0.75rem;
+  
+  /* Lynx.Ninja Brand Colors - Light Mode */
+  --background: #F5F5F5; /* Steel White */
+  --foreground: #0B0B0B; /* Midnight Black */
+  --card: #FFFFFF;
+  --card-foreground: #0B0B0B; /* Midnight Black */
+  --popover: #FFFFFF;
+  --popover-foreground: #0B0B0B; /* Midnight Black */
+  --primary: #0077B6; /* Ninja Blue */
+  --primary-foreground: #F5F5F5; /* Steel White */
+  --secondary: #1F1F1F; /* Shadow Gray */
+  --secondary-foreground: #F5F5F5; /* Steel White */
+  --muted: #E5E5E5;
+  --muted-foreground: #666666;
+  --accent: #0077B6; /* Ninja Blue */
+  --accent-foreground: #F5F5F5; /* Steel White */
+  --destructive: #FF3B30; /* Alert Red */
+  --destructive-foreground: #F5F5F5; /* Steel White */
+  --border: #E5E5E5;
+  --input: #E5E5E5;
+  --ring: #0077B6; /* Ninja Blue */
+  
+  /* Chart colors */
+  --chart-1: #0077B6; /* Ninja Blue */
+  --chart-2: #1F1F1F; /* Shadow Gray */
+  --chart-3: #FF3B30; /* Alert Red */
+  --chart-4: #0B0B0B; /* Midnight Black */
+  --chart-5: #F5F5F5; /* Steel White */
+  
+  /* Sidebar */
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #0B0B0B; /* Midnight Black */
+  --sidebar-primary: #0077B6; /* Ninja Blue */
+  --sidebar-primary-foreground: #F5F5F5; /* Steel White */
+  --sidebar-accent: #F5F5F5; /* Steel White */
+  --sidebar-accent-foreground: #0B0B0B; /* Midnight Black */
+  --sidebar-border: #E5E5E5;
+  --sidebar-ring: #0077B6; /* Ninja Blue */
 }
 
 .dark {
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.92 0.004 286.32);
-  --primary-foreground: oklch(0.21 0.006 285.885);
-  --secondary: oklch(0.274 0.006 286.033);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.552 0.016 285.938);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.552 0.016 285.938);
+  /* Lynx.Ninja Brand Colors - Dark Mode */
+  --background: #0B0B0B; /* Midnight Black */
+  --foreground: #F5F5F5; /* Steel White */
+  --card: #1F1F1F; /* Shadow Gray */
+  --card-foreground: #F5F5F5; /* Steel White */
+  --popover: #1F1F1F; /* Shadow Gray */
+  --popover-foreground: #F5F5F5; /* Steel White */
+  --primary: #0077B6; /* Ninja Blue */
+  --primary-foreground: #F5F5F5; /* Steel White */
+  --secondary: #2A2A2A;
+  --secondary-foreground: #F5F5F5; /* Steel White */
+  --muted: #2A2A2A;
+  --muted-foreground: #999999;
+  --accent: #0077B6; /* Ninja Blue */
+  --accent-foreground: #F5F5F5; /* Steel White */
+  --destructive: #FF3B30; /* Alert Red */
+  --destructive-foreground: #F5F5F5; /* Steel White */
+  --border: #333333;
+  --input: #333333;
+  --ring: #0077B6; /* Ninja Blue */
+  
+  /* Chart colors */
+  --chart-1: #0077B6; /* Ninja Blue */
+  --chart-2: #1F1F1F; /* Shadow Gray */
+  --chart-3: #FF3B30; /* Alert Red */
+  --chart-4: #F5F5F5; /* Steel White */
+  --chart-5: #0B0B0B; /* Midnight Black */
+  
+  /* Sidebar */
+  --sidebar: #1F1F1F; /* Shadow Gray */
+  --sidebar-foreground: #F5F5F5; /* Steel White */
+  --sidebar-primary: #0077B6; /* Ninja Blue */
+  --sidebar-primary-foreground: #F5F5F5; /* Steel White */
+  --sidebar-accent: #2A2A2A;
+  --sidebar-accent-foreground: #F5F5F5; /* Steel White */
+  --sidebar-border: #333333;
+  --sidebar-ring: #0077B6; /* Ninja Blue */
 }
 
 @layer base {
@@ -117,7 +132,51 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+  
+  /* Brand Typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-bold;
+  }
+  
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+  
+  h4 {
+    @apply text-xl md:text-2xl;
+  }
+  
+  /* Brand Button Styles */
+  .btn-ninja {
+    @apply bg-primary text-primary-foreground font-semibold px-6 py-3 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 hover:scale-105;
+  }
+  
+  .btn-ninja-outline {
+    @apply border-2 border-primary text-primary font-semibold px-6 py-3 rounded-lg transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:shadow-lg hover:shadow-primary/25;
+  }
+  
+  /* Brand Card Styles */
+  .card-ninja {
+    @apply bg-card text-card-foreground rounded-xl shadow-lg border border-border/50 backdrop-blur-sm;
+  }
+  
+  /* Brand Glow Effects */
+  .glow-ninja {
+    @apply shadow-lg shadow-primary/25;
+  }
+  
+  .glow-ninja:hover {
+    @apply shadow-xl shadow-primary/40;
   }
   
   /* Global text overflow handling */

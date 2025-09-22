@@ -56,18 +56,25 @@ export default function Home() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-background dark">
       {/* Header */}
       <header className="px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-6">
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold text-gray-900">{siteName}</h1>
+            <h1 className="text-2xl font-heading font-bold text-foreground">{siteName}</h1>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={() => router.push("/auth/signin")}>
+          <div className="flex gap-3">
+            <Button 
+              variant="outline" 
+              onClick={() => router.push("/auth/signin")}
+              className="btn-ninja-outline"
+            >
               Sign In
             </Button>
-            <Button onClick={() => router.push("/auth/signup")}>
+            <Button 
+              onClick={() => router.push("/auth/signup")}
+              className="btn-ninja glow-ninja"
+            >
               Get Started
             </Button>
           </div>
@@ -77,19 +84,19 @@ export default function Home() {
       {/* Hero Section */}
       <main className="px-4 sm:px-6 lg:px-8">
         <div className="text-center py-20">
-          <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 mb-6">
-            Your Link in Bio,
-            <span className="text-blue-600"> Simplified</span>
+          <h1 className="text-4xl sm:text-6xl font-heading font-bold text-foreground mb-6">
+            Your bio,
+            <span className="text-primary"> reimagined</span>
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Create beautiful, customizable link pages that convert. 
+          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+            Link with stealth and style. Create beautiful, customizable link pages that convert. 
             Track performance, engage your audience, and grow your brand.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
               size="lg" 
               onClick={() => router.push("/auth/signup")}
-              className="text-lg px-8 py-3"
+              className="btn-ninja glow-ninja text-lg px-8 py-4"
             >
               Start Free
             </Button>
@@ -97,7 +104,7 @@ export default function Home() {
               size="lg" 
               variant="outline"
               onClick={() => router.push("/auth/signin")}
-              className="text-lg px-8 py-3"
+              className="btn-ninja-outline text-lg px-8 py-4"
             >
               Sign In
             </Button>
@@ -107,36 +114,55 @@ export default function Home() {
         {/* Features */}
         <div className="py-20">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-heading font-bold text-foreground mb-4">
               Everything you need to succeed
             </h2>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-muted-foreground">
               Powerful features designed for creators, businesses, and influencers
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
-              <div key={index} className="bg-white rounded-lg p-6 shadow-sm">
-                <feature.icon className="h-8 w-8 text-blue-600 mb-4" />
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <div key={index} className="card-ninja p-6 hover:glow-ninja transition-all duration-300">
+                <feature.icon className="h-8 w-8 text-primary mb-4" />
+                <h3 className="text-lg font-heading font-semibold text-card-foreground mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   {feature.description}
                 </p>
               </div>
             ))}
           </div>
         </div>
+
+        {/* CTA Section */}
+        <div className="py-20 text-center">
+          <div className="card-ninja p-12 max-w-4xl mx-auto">
+            <h2 className="text-3xl font-heading font-bold text-card-foreground mb-4">
+              Ready to link with stealth and style?
+            </h2>
+            <p className="text-lg text-muted-foreground mb-8">
+              Join thousands of creators who trust {siteName} for their link-in-bio needs.
+            </p>
+            <Button 
+              size="lg" 
+              onClick={() => router.push("/auth/signup")}
+              className="btn-ninja glow-ninja text-lg px-8 py-4"
+            >
+              Get Started Now
+            </Button>
+          </div>
+        </div>
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-secondary text-secondary-foreground py-12">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h3 className="text-2xl font-bold mb-4">{siteName}</h3>
-            <p className="text-gray-400">
+            <h3 className="text-2xl font-heading font-bold mb-4">{siteName}</h3>
+            <p className="text-muted-foreground">
               © 2024 {siteName}. All rights reserved.
             </p>
           </div>

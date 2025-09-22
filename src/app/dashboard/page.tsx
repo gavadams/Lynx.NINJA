@@ -181,11 +181,11 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-6 bg-background dark min-h-screen">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="mt-2 text-gray-600">
-          Manage your links and track your performance
+        <h1 className="text-3xl font-heading font-bold text-foreground">Dashboard</h1>
+        <p className="mt-2 text-muted-foreground">
+          Link with stealth and style
         </p>
       </div>
 
@@ -217,18 +217,18 @@ export default function DashboardPage() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-8">
         {stats.map((stat) => (
-          <Card key={stat.name}>
+          <Card key={stat.name} className="card-ninja hover:glow-ninja transition-all duration-300">
             <CardContent className="p-6">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <stat.icon className="h-6 w-6 text-gray-400" />
+                  <stat.icon className="h-6 w-6 text-primary" />
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">
+                    <dt className="text-sm font-medium text-muted-foreground truncate">
                       {stat.name}
                     </dt>
-                    <dd className="text-lg font-medium text-gray-900">
+                    <dd className="text-lg font-heading font-bold text-card-foreground">
                       {stat.value}
                     </dd>
                   </dl>
@@ -242,22 +242,22 @@ export default function DashboardPage() {
       {/* Links Management */}
       <div className="space-y-6">
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-semibold text-gray-900">Your Links</h2>
-          <Button onClick={() => setShowAddLink(true)}>
+          <h2 className="text-xl font-heading font-semibold text-foreground">Your Links</h2>
+          <Button onClick={() => setShowAddLink(true)} className="btn-ninja glow-ninja">
             <Plus className="h-4 w-4 mr-2" />
             Add New Link
           </Button>
         </div>
 
         {links.length === 0 ? (
-          <Card>
+          <Card className="card-ninja">
             <CardContent className="p-6 text-center">
-              <LinkIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No links yet</h3>
-              <p className="text-gray-500 mb-4">
+              <LinkIcon className="h-12 w-12 text-primary mx-auto mb-4" />
+              <h3 className="text-lg font-heading font-medium text-card-foreground mb-2">No links yet</h3>
+              <p className="text-muted-foreground mb-4">
                 Get started by adding your first link to your bio page.
               </p>
-              <Button onClick={() => setShowAddLink(true)}>
+              <Button onClick={() => setShowAddLink(true)} className="btn-ninja glow-ninja">
                 <Plus className="h-4 w-4 mr-2" />
                 Add Your First Link
               </Button>
@@ -266,14 +266,14 @@ export default function DashboardPage() {
         ) : (
           <div className="space-y-4">
             {links.map((link) => (
-              <Card key={link.id}>
+              <Card key={link.id} className="card-ninja hover:glow-ninja transition-all duration-300">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
-                      <GripVertical className="h-5 w-5 text-gray-400 cursor-move" />
+                      <GripVertical className="h-5 w-5 text-muted-foreground cursor-move" />
                       <div className="flex-1">
-                        <h3 className="text-lg font-medium text-gray-900">{link.title}</h3>
-                        <p className="text-sm text-gray-500">{link.url}</p>
+                        <h3 className="text-lg font-heading font-medium text-card-foreground">{link.title}</h3>
+                        <p className="text-sm text-muted-foreground">{link.url}</p>
                         <div className="flex items-center space-x-2 mt-2">
                           <Badge variant={
                             getLinkDisplayStatus(link) === 'Active' ? "default" : 
@@ -283,7 +283,7 @@ export default function DashboardPage() {
                             {getLinkDisplayStatus(link)}
                           </Badge>
                           {analyticsEnabled && (
-                            <span className="text-sm text-gray-500">
+                            <span className="text-sm text-muted-foreground">
                               {link.clicks || 0} clicks
                             </span>
                           )}
@@ -323,6 +323,7 @@ export default function DashboardPage() {
                         variant="outline" 
                         size="sm"
                         onClick={() => window.open(link.url, '_blank')}
+                        className="btn-ninja-outline"
                       >
                         <ExternalLink className="h-4 w-4" />
                       </Button>
@@ -330,13 +331,14 @@ export default function DashboardPage() {
                         variant="outline" 
                         size="sm"
                         onClick={() => setEditingLink(link)}
+                        className="btn-ninja-outline"
                       >
                         <Edit className="h-4 w-4" />
                       </Button>
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="text-red-600 hover:text-red-700"
+                        className="text-destructive hover:text-destructive-foreground hover:bg-destructive"
                         onClick={() => handleDeleteLink(link.id)}
                       >
                         <Trash2 className="h-4 w-4" />
