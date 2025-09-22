@@ -10,7 +10,7 @@ import PasswordProtection from "@/components/password-protection"
 import { EmailCaptureForm } from "@/components/email-capture-form"
 import { DynamicLogo } from "@/components/dynamic-logo"
 import { getSiteConfig } from "@/lib/config"
-import { getThemeClasses } from "@/lib/theme-utils"
+import { getThemeClasses, loadCustomThemes, getCustomThemeStyles } from "@/lib/theme-utils"
 
 interface Link {
   id: string
@@ -257,16 +257,44 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
   
 
   // Get the user's theme classes
+  const [customThemeStyles, setCustomThemeStyles] = useState<React.CSSProperties | null>(null)
+  
+  useEffect(() => {
+    const loadCustomTheme = async () => {
+      if (user.theme && user.theme.startsWith('custom-')) {
+        try {
+          const response = await fetch(`/api/profile/custom-theme?username=${user.username}`)
+          if (response.ok) {
+            const customTheme = await response.json()
+            if (customTheme) {
+              setCustomThemeStyles({
+                background: `linear-gradient(to bottom right, ${customTheme.primaryColor}, ${customTheme.secondaryColor})`
+              })
+            }
+          }
+        } catch (error) {
+          console.error('Error loading custom theme:', error)
+        }
+      }
+    }
+    
+    loadCustomTheme()
+  }, [user.theme, user.username])
+  
   const themeClasses = getThemeClasses(user.theme || 'default')
   
   console.log('Public profile theme debug:', {
     userTheme: user.theme,
     themeClasses: themeClasses,
-    user: user.username
+    user: user.username,
+    customThemeStyles: customThemeStyles
   })
   
   return (
-    <div className={`min-h-screen ${themeClasses}`}>
+    <div 
+      className={`min-h-screen ${themeClasses}`}
+      style={customThemeStyles || {}}
+    >
       <div className="container mx-auto px-4 py-8 max-w-md">
         {/* Site Logo */}
         <div className="text-center mb-6">

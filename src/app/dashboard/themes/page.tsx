@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Save, Loader2, Palette, Eye, ArrowLeft, Plus, Trash2, Settings } from "lucide-react"
+import { Save, Loader2, Palette, Eye, ArrowLeft, Plus, Trash2, Settings, Edit2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { 
   themes, 
@@ -15,7 +15,10 @@ import {
   getThemesByCategory, 
   getAllThemeCategories,
   createCustomTheme,
-  CustomTheme 
+  CustomTheme,
+  saveCustomThemes,
+  loadCustomThemes,
+  getCustomThemeStyles
 } from "@/lib/theme-utils"
 
 interface UserProfile {
@@ -39,6 +42,7 @@ export default function ThemesPage() {
   const [activeCategory, setActiveCategory] = useState<keyof typeof themeCategories>('classic')
   const [customThemes, setCustomThemes] = useState<CustomTheme[]>([])
   const [showCustomCreator, setShowCustomCreator] = useState(false)
+  const [editingTheme, setEditingTheme] = useState<CustomTheme | null>(null)
   const [customThemeForm, setCustomThemeForm] = useState({
     label: '',
     description: '',
@@ -50,6 +54,8 @@ export default function ThemesPage() {
 
   useEffect(() => {
     fetchProfile()
+    // Load custom themes from database
+    loadCustomThemes().then(setCustomThemes)
   }, [])
 
   const fetchProfile = async () => {
@@ -76,6 +82,28 @@ export default function ThemesPage() {
     setSaving(true)
     try {
       console.log('Saving theme:', selectedTheme, 'for user:', profile.username)
+      
+      // If it's a custom theme, we need to activate it first
+      if (selectedTheme.startsWith('custom-')) {
+        const themeId = selectedTheme.replace('custom-', '')
+        
+        // Activate the custom theme
+        const activateResponse = await fetch('/api/user/custom-themes', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: themeId,
+            isActive: true
+          })
+        })
+
+        if (!activateResponse.ok) {
+          console.error('Failed to activate custom theme')
+          return
+        }
+      }
       
       const response = await fetch('/api/user/profile', {
         method: 'PUT',
@@ -111,35 +139,162 @@ export default function ThemesPage() {
     setPreviewMode(!previewMode)
   }
 
-  const handleCreateCustomTheme = () => {
+  const handleCreateCustomTheme = async () => {
     if (!customThemeForm.label.trim()) return
     
-    const newCustomTheme = createCustomTheme(
-      customThemeForm.label,
-      customThemeForm.description,
-      customThemeForm.primaryColor,
-      customThemeForm.secondaryColor,
-      customThemeForm.accentColor,
-      customThemeForm.textColor
-    )
-    
-    setCustomThemes(prev => [...prev, newCustomTheme])
-    setSelectedTheme(newCustomTheme.value)
-    setShowCustomCreator(false)
-    setCustomThemeForm({
-      label: '',
-      description: '',
-      primaryColor: '#3b82f6',
-      secondaryColor: '#1e40af',
-      accentColor: '#60a5fa',
-      textColor: '#1f2937'
-    })
+    try {
+      const response = await fetch('/api/user/custom-themes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: customThemeForm.label,
+          description: customThemeForm.description,
+          primaryColor: customThemeForm.primaryColor,
+          secondaryColor: customThemeForm.secondaryColor,
+          accentColor: customThemeForm.accentColor,
+          textColor: customThemeForm.textColor
+        })
+      })
+
+      if (response.ok) {
+        const newCustomTheme = await response.json()
+        // Convert database format to our CustomTheme format
+        const customTheme: CustomTheme = {
+          value: `custom-${newCustomTheme.id}`,
+          label: newCustomTheme.name,
+          description: newCustomTheme.description || '',
+          preview: 'bg-gradient-to-br',
+          colors: [
+            newCustomTheme.primaryColor,
+            newCustomTheme.secondaryColor,
+            newCustomTheme.accentColor,
+            newCustomTheme.textColor
+          ],
+          isCustom: true
+        }
+        
+        const updatedCustomThemes = [...customThemes, customTheme]
+        setCustomThemes(updatedCustomThemes)
+        setSelectedTheme(customTheme.value)
+        setShowCustomCreator(false)
+        setCustomThemeForm({
+          label: '',
+          description: '',
+          primaryColor: '#3b82f6',
+          secondaryColor: '#1e40af',
+          accentColor: '#60a5fa',
+          textColor: '#1f2937'
+        })
+      } else {
+        console.error('Failed to create custom theme')
+      }
+    } catch (error) {
+      console.error('Error creating custom theme:', error)
+    }
   }
 
-  const handleDeleteCustomTheme = (themeValue: string) => {
-    setCustomThemes(prev => prev.filter(theme => theme.value !== themeValue))
-    if (selectedTheme === themeValue) {
-      setSelectedTheme('default')
+  const handleDeleteCustomTheme = async (themeValue: string) => {
+    try {
+      // Extract the theme ID from the value (custom-{id})
+      const themeId = themeValue.replace('custom-', '')
+      
+      const response = await fetch(`/api/user/custom-themes?id=${themeId}`, {
+        method: 'DELETE'
+      })
+
+      if (response.ok) {
+        const updatedCustomThemes = customThemes.filter(theme => theme.value !== themeValue)
+        setCustomThemes(updatedCustomThemes)
+        if (selectedTheme === themeValue) {
+          setSelectedTheme('default')
+        }
+      } else {
+        console.error('Failed to delete custom theme')
+      }
+    } catch (error) {
+      console.error('Error deleting custom theme:', error)
+    }
+  }
+
+  const handleEditCustomTheme = (theme: CustomTheme) => {
+    setEditingTheme(theme)
+    setCustomThemeForm({
+      label: theme.label,
+      description: theme.description,
+      primaryColor: theme.colors[0],
+      secondaryColor: theme.colors[1],
+      accentColor: theme.colors[2],
+      textColor: theme.colors[3]
+    })
+    setShowCustomCreator(true)
+  }
+
+  const handleUpdateCustomTheme = async () => {
+    if (!editingTheme || !customThemeForm.label.trim()) return
+    
+    try {
+      const themeId = editingTheme.value.replace('custom-', '')
+      
+      const response = await fetch('/api/user/custom-themes', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: themeId,
+          name: customThemeForm.label,
+          description: customThemeForm.description,
+          primaryColor: customThemeForm.primaryColor,
+          secondaryColor: customThemeForm.secondaryColor,
+          accentColor: customThemeForm.accentColor,
+          textColor: customThemeForm.textColor
+        })
+      })
+
+      if (response.ok) {
+        const updatedTheme = await response.json()
+        // Convert database format to our CustomTheme format
+        const customTheme: CustomTheme = {
+          value: `custom-${updatedTheme.id}`,
+          label: updatedTheme.name,
+          description: updatedTheme.description || '',
+          preview: 'bg-gradient-to-br',
+          colors: [
+            updatedTheme.primaryColor,
+            updatedTheme.secondaryColor,
+            updatedTheme.accentColor,
+            updatedTheme.textColor
+          ],
+          isCustom: true
+        }
+        
+        const updatedCustomThemes = customThemes.map(theme => 
+          theme.value === editingTheme.value ? customTheme : theme
+        )
+        setCustomThemes(updatedCustomThemes)
+        
+        // If this was the selected theme, update the selection
+        if (selectedTheme === editingTheme.value) {
+          setSelectedTheme(customTheme.value)
+        }
+        
+        setEditingTheme(null)
+        setShowCustomCreator(false)
+        setCustomThemeForm({
+          label: '',
+          description: '',
+          primaryColor: '#3b82f6',
+          secondaryColor: '#1e40af',
+          accentColor: '#60a5fa',
+          textColor: '#1f2937'
+        })
+      } else {
+        console.error('Failed to update custom theme')
+      }
+    } catch (error) {
+      console.error('Error updating custom theme:', error)
     }
   }
 
@@ -340,9 +495,22 @@ export default function ThemesPage() {
                             size="sm"
                             onClick={(e) => {
                               e.stopPropagation()
+                              handleEditCustomTheme(theme)
+                            }}
+                            className="h-6 w-6 p-0 text-blue-500 hover:text-blue-700"
+                            title="Edit theme"
+                          >
+                            <Edit2 className="h-3 w-3" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation()
                               handleDeleteCustomTheme(theme.value)
                             }}
                             className="h-6 w-6 p-0 text-red-500 hover:text-red-700"
+                            title="Delete theme"
                           >
                             <Trash2 className="h-3 w-3" />
                           </Button>
@@ -354,7 +522,10 @@ export default function ThemesPage() {
                     </CardHeader>
                     <CardContent>
                       {/* Theme Preview */}
-                      <div className={`h-24 rounded-lg ${theme.preview} mb-4 relative overflow-hidden`}>
+                      <div 
+                        className={`h-24 rounded-lg ${theme.preview} mb-4 relative overflow-hidden`}
+                        style={theme.isCustom ? getCustomThemeStyles(theme.value, customThemes) || {} : {}}
+                      >
                         <div className="absolute inset-0 bg-white/20 backdrop-blur-sm"></div>
                         <div className="absolute bottom-2 left-2 right-2">
                           <div className="bg-white/90 rounded px-2 py-1 text-xs font-medium text-gray-800">
@@ -399,10 +570,10 @@ export default function ThemesPage() {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Settings className="h-5 w-5 mr-2" />
-                  Custom Theme Creator
+                  {editingTheme ? 'Edit Custom Theme' : 'Custom Theme Creator'}
                 </CardTitle>
                 <CardDescription>
-                  Create your own unique theme with custom colors
+                  {editingTheme ? 'Edit your custom theme colors and details' : 'Create your own unique theme with custom colors'}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -506,7 +677,12 @@ export default function ThemesPage() {
                 {/* Live Preview */}
                 <div>
                   <Label>Live Preview</Label>
-                  <div className={`h-32 rounded-lg bg-gradient-to-br from-[${customThemeForm.primaryColor}] to-[${customThemeForm.secondaryColor}] mt-2 relative overflow-hidden`}>
+                  <div 
+                    className="h-32 rounded-lg mt-2 relative overflow-hidden"
+                    style={{ 
+                      background: `linear-gradient(to bottom right, ${customThemeForm.primaryColor}, ${customThemeForm.secondaryColor})`
+                    }}
+                  >
                     <div className="absolute inset-0 bg-white/20 backdrop-blur-sm"></div>
                     <div className="absolute bottom-4 left-4 right-4">
                       <div className="bg-white/90 rounded px-3 py-2 text-sm font-medium" style={{ color: customThemeForm.textColor }}>
@@ -516,14 +692,45 @@ export default function ThemesPage() {
                   </div>
                 </div>
 
-                <Button 
-                  onClick={handleCreateCustomTheme}
-                  disabled={!customThemeForm.label.trim()}
-                  className="w-full"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Create Custom Theme
-                </Button>
+                <div className="flex gap-3">
+                  {editingTheme && (
+                    <Button 
+                      variant="outline"
+                      onClick={() => {
+                        setEditingTheme(null)
+                        setShowCustomCreator(false)
+                        setCustomThemeForm({
+                          label: '',
+                          description: '',
+                          primaryColor: '#3b82f6',
+                          secondaryColor: '#1e40af',
+                          accentColor: '#60a5fa',
+                          textColor: '#1f2937'
+                        })
+                      }}
+                      className="flex-1"
+                    >
+                      Cancel
+                    </Button>
+                  )}
+                  <Button 
+                    onClick={editingTheme ? handleUpdateCustomTheme : handleCreateCustomTheme}
+                    disabled={!customThemeForm.label.trim()}
+                    className={editingTheme ? "flex-1" : "w-full"}
+                  >
+                    {editingTheme ? (
+                      <>
+                        <Save className="h-4 w-4 mr-2" />
+                        Update Theme
+                      </>
+                    ) : (
+                      <>
+                        <Plus className="h-4 w-4 mr-2" />
+                        Create Custom Theme
+                      </>
+                    )}
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
@@ -543,7 +750,10 @@ export default function ThemesPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className={`min-h-96 rounded-lg ${getCurrentTheme().preview} p-8`}>
+                <div 
+                  className={`min-h-96 rounded-lg ${getCurrentTheme().preview} p-8`}
+                  style={getCurrentTheme().isCustom ? getCustomThemeStyles(selectedTheme, customThemes) || {} : {}}
+                >
                   <div className="max-w-md mx-auto text-center">
                     {/* Profile Image */}
                     <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">

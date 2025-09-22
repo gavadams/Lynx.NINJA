@@ -214,14 +214,43 @@ export const themes: Theme[] = [
   }
 ]
 
-export function getThemeClasses(themeValue: string): string {
+export function getThemeClasses(themeValue: string, customThemes: CustomTheme[] = []): string {
+  // First check custom themes
+  const customTheme = customThemes.find(t => t.value === themeValue)
+  if (customTheme) {
+    // For custom themes, return the base gradient class
+    // The actual colors will be applied via inline styles
+    const result = `bg-gradient-to-br`
+    console.log(`getThemeClasses(${themeValue}): custom theme`, result)
+    return result
+  }
+  
+  // Then check preset themes
   const theme = themes.find(t => t.value === themeValue)
   const result = theme ? theme.preview : themes[0].preview // fallback to default
   console.log(`getThemeClasses(${themeValue}):`, result)
   return result
 }
 
-export function getTheme(themeValue: string): Theme {
+// Helper function to get custom theme styles
+export function getCustomThemeStyles(themeValue: string, customThemes: CustomTheme[] = []): React.CSSProperties | null {
+  const customTheme = customThemes.find(t => t.value === themeValue)
+  if (customTheme) {
+    return {
+      background: `linear-gradient(to bottom right, ${customTheme.colors[0]}, ${customTheme.colors[1]})`
+    }
+  }
+  return null
+}
+
+export function getTheme(themeValue: string, customThemes: CustomTheme[] = []): Theme | CustomTheme {
+  // First check custom themes
+  const customTheme = customThemes.find(t => t.value === themeValue)
+  if (customTheme) {
+    return customTheme
+  }
+  
+  // Then check preset themes
   const theme = themes.find(t => t.value === themeValue)
   return theme || themes[0] // fallback to default
 }
@@ -247,8 +276,9 @@ export function createCustomTheme(
   // Generate a unique value for custom themes
   const value = `custom-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
   
-  // Create gradient preview from primary and secondary colors
-  const preview = `bg-gradient-to-br from-[${primaryColor}] to-[${secondaryColor}]`
+  // For custom themes, we'll use inline styles instead of Tailwind classes
+  // since Tailwind doesn't generate dynamic classes
+  const preview = `bg-gradient-to-br`
   
   return {
     value,
@@ -276,4 +306,43 @@ export function getThemesByCategory(category: keyof typeof themeCategories): The
 
 export function getAllThemeCategories(): (keyof typeof themeCategories)[] {
   return Object.keys(themeCategories) as (keyof typeof themeCategories)[]
+}
+
+// Custom theme persistence (now using database)
+export async function saveCustomThemes(customThemes: CustomTheme[]): Promise<void> {
+  // This function is now handled by the API endpoints
+  console.log('Custom themes should be saved via API:', customThemes)
+}
+
+export async function loadCustomThemes(): Promise<CustomTheme[]> {
+  if (typeof window === 'undefined') return []
+  
+  try {
+    const response = await fetch('/api/user/custom-themes')
+    if (response.ok) {
+      const customThemes = await response.json()
+      console.log('Custom themes loaded from database:', customThemes)
+      return customThemes
+    }
+  } catch (error) {
+    console.error('Error loading custom themes:', error)
+  }
+  
+  return []
+}
+
+// Load custom theme for public profile
+export async function loadCustomThemeForUser(username: string): Promise<CustomTheme | null> {
+  try {
+    const response = await fetch(`/api/profile/custom-theme?username=${username}`)
+    if (response.ok) {
+      const customTheme = await response.json()
+      console.log('Custom theme loaded for user:', username, customTheme)
+      return customTheme
+    }
+  } catch (error) {
+    console.error('Error loading custom theme for user:', error)
+  }
+  
+  return null
 }
