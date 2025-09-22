@@ -1,18 +1,21 @@
 import { NextRequest, NextResponse } from "next/server"
-import { createServerClient } from "@supabase/ssr"
-import { cookies } from "next/headers"
-import { getServerSession } from "next-auth"
-import { authOptions } from "@/lib/auth"
+import { verifyAdminSession } from "@/lib/admin-auth"
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
-    
-    if (!session?.user?.email) {
+    // Verify admin authentication
+    const adminId = request.cookies.get('admin-session')?.value
+    if (!adminId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    // Check if user is admin
+    const authResult = await verifyAdminSession(adminId)
+    if (!authResult.success) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
     const cookieStore = await cookies()
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -25,16 +28,6 @@ export async function GET(request: NextRequest) {
         },
       }
     )
-
-    const { data: adminUser, error: adminError } = await supabase
-      .from('AdminUser')
-      .select('id')
-      .eq('email', session.user.email)
-      .single()
-
-    if (adminError || !adminUser) {
-      return NextResponse.json({ error: "Admin access required" }, { status: 403 })
-    }
 
     // Get all links (we'll filter for scheduling info on the frontend)
     console.log('Starting to fetch links from database...')
