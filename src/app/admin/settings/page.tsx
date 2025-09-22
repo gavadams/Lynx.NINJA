@@ -273,7 +273,7 @@ export default function AdminSettingsPage() {
               <Input
                 id="landingPageLogo"
                 type="number"
-                min="8"
+                min="1"
                 max="32"
                 value={settings.logoSize.landingPage}
                 onChange={(e) => setSettings(prev => ({
@@ -282,7 +282,7 @@ export default function AdminSettingsPage() {
                 }))}
                 placeholder="20"
               />
-              <p className="text-sm text-gray-500">Height in rem units (8-32)</p>
+              <p className="text-sm text-gray-500">Height in rem units (1-32)</p>
             </div>
             
             <div>
@@ -290,7 +290,7 @@ export default function AdminSettingsPage() {
               <Input
                 id="dashboardLogo"
                 type="number"
-                min="8"
+                min="1"
                 max="32"
                 value={settings.logoSize.dashboard}
                 onChange={(e) => setSettings(prev => ({
@@ -299,7 +299,7 @@ export default function AdminSettingsPage() {
                 }))}
                 placeholder="16"
               />
-              <p className="text-sm text-gray-500">Height in rem units (8-32)</p>
+              <p className="text-sm text-gray-500">Height in rem units (1-32)</p>
             </div>
 
             <div>
@@ -307,7 +307,7 @@ export default function AdminSettingsPage() {
               <Input
                 id="authPagesLogo"
                 type="number"
-                min="8"
+                min="1"
                 max="32"
                 value={settings.logoSize.authPages}
                 onChange={(e) => setSettings(prev => ({
@@ -316,7 +316,7 @@ export default function AdminSettingsPage() {
                 }))}
                 placeholder="20"
               />
-              <p className="text-sm text-gray-500">Height in rem units (8-32)</p>
+              <p className="text-sm text-gray-500">Height in rem units (1-32)</p>
             </div>
 
             <div>
@@ -324,7 +324,7 @@ export default function AdminSettingsPage() {
               <Input
                 id="publicProfileLogo"
                 type="number"
-                min="8"
+                min="1"
                 max="32"
                 value={settings.logoSize.publicProfile}
                 onChange={(e) => setSettings(prev => ({
@@ -333,33 +333,10 @@ export default function AdminSettingsPage() {
                 }))}
                 placeholder="12"
               />
-              <p className="text-sm text-gray-500">Height in rem units (8-32)</p>
+              <p className="text-sm text-gray-500">Height in rem units (1-32)</p>
             </div>
             
-            <div className="pt-4 border-t space-y-2">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={async () => {
-                  console.log('🔍 Testing admin settings connection...')
-                  try {
-                    const response = await fetch('/api/admin/debug-settings')
-                    const data = await response.json()
-                    console.log('🔍 Debug response:', data)
-                    setMessage({ 
-                      type: response.ok ? 'success' : 'error', 
-                      text: response.ok ? 'Connection successful! Check console for details.' : `Connection failed: ${data.error}` 
-                    })
-                  } catch (error) {
-                    console.error('❌ Debug test failed:', error)
-                    setMessage({ type: 'error', text: 'Debug test failed' })
-                  }
-                }}
-                className="w-full"
-              >
-                Test Admin Connection
-              </Button>
-              
+            <div className="pt-4 border-t">
               <Button
                 type="button"
                 variant="outline"
