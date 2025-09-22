@@ -211,7 +211,7 @@ export default function LinkModal({ isOpen, onClose, onSave, link, loading = fal
                         onChange={(e) => handleInputChange('scheduledAt', e.target.value ? new Date(e.target.value).toISOString() : '')}
                         className="text-sm"
                       />
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs text-gray-500">
                         Leave empty to make link live immediately
                       </p>
                     </div>
@@ -229,7 +229,7 @@ export default function LinkModal({ isOpen, onClose, onSave, link, loading = fal
                         onChange={(e) => handleInputChange('expiresAt', e.target.value ? new Date(e.target.value).toISOString() : '')}
                         className="text-sm"
                       />
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs text-gray-500">
                         Leave empty for no expiration
                       </p>
                     </div>
@@ -248,7 +248,7 @@ export default function LinkModal({ isOpen, onClose, onSave, link, loading = fal
                         placeholder="Enter password to protect this link"
                         className="text-sm"
                       />
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs text-gray-500">
                         Visitors will need this password to access the link
                       </p>
                     </div>
@@ -272,15 +272,15 @@ export default function LinkModal({ isOpen, onClose, onSave, link, loading = fal
 
             {formData.url && (
               <div className="p-3 bg-gray-50 rounded-lg">
-                <p className="text-sm text-muted-foreground mb-2">Preview:</p>
+                <p className="text-sm text-gray-600 mb-2">Preview:</p>
                 <div className="flex items-center space-x-2">
                   <Badge variant={formData.isActive ? "default" : "secondary"}>
                     {formData.isActive ? "Active" : "Inactive"}
                   </Badge>
                   <span className="text-sm font-medium prevent-overflow">{formData.title}</span>
-                  <ExternalLink className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                  <ExternalLink className="h-4 w-4 text-gray-400 flex-shrink-0" />
                 </div>
-                <p className="text-xs text-muted-foreground mt-1 url-break">{formData.url}</p>
+                <p className="text-xs text-gray-500 mt-1 url-break">{formData.url}</p>
               </div>
             )}
 

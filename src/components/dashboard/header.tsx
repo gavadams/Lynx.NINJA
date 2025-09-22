@@ -18,7 +18,7 @@ export function Header({ onMenuClick }: HeaderProps) {
           <div className="flex items-center">
             <button
               onClick={onMenuClick}
-              className="lg:hidden mr-3 p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted"
+              className="lg:hidden mr-3 p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100"
             >
               <Menu className="h-6 w-6" />
             </button>
@@ -29,8 +29,8 @@ export function Header({ onMenuClick }: HeaderProps) {
           
           <div className="flex items-center space-x-2 lg:space-x-4">
             <div className="hidden sm:flex items-center space-x-2">
-              <User className="h-5 w-5 text-muted-foreground" />
-              <span className="text-sm text-foreground truncate max-w-32 lg:max-w-none">{session?.user?.email}</span>
+              <User className="h-5 w-5 text-gray-500" />
+              <span className="text-sm text-gray-700 truncate max-w-32 lg:max-w-none">{session?.user?.email}</span>
             </div>
             <Button
               variant="outline"

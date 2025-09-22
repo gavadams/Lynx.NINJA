@@ -31,9 +31,6 @@
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
-  --color-text-subtle: var(--text-subtle);
-  --color-text-muted: var(--text-muted);
-  --color-text-disabled: var(--text-disabled);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
@@ -63,14 +60,9 @@
   --secondary: #1F1F1F; /* Shadow Gray */
   --secondary-foreground: #F5F5F5; /* Steel White */
   --muted: #E5E5E5;
-  --muted-foreground: #4A4A4A;
+  --muted-foreground: #666666;
   --accent: #0077B6; /* Ninja Blue */
   --accent-foreground: #F5F5F5; /* Steel White */
-  
-  /* Enhanced contrast colors */
-  --text-subtle: #4A4A4A; /* Better contrast for secondary text */
-  --text-muted: #6B6B6B; /* Medium contrast for less important text */
-  --text-disabled: #9A9A9A; /* Lower contrast for disabled states */
   --destructive: #FF3B30; /* Alert Red */
   --destructive-foreground: #F5F5F5; /* Steel White */
   --border: #E5E5E5;
@@ -108,14 +100,9 @@
   --secondary: #2A2A2A;
   --secondary-foreground: #F5F5F5; /* Steel White */
   --muted: #2A2A2A;
-  --muted-foreground: #B3B3B3;
+  --muted-foreground: #999999;
   --accent: #0077B6; /* Ninja Blue */
   --accent-foreground: #F5F5F5; /* Steel White */
-  
-  /* Enhanced contrast colors */
-  --text-subtle: #B3B3B3; /* Better contrast for secondary text */
-  --text-muted: #CCCCCC; /* Medium contrast for less important text */
-  --text-disabled: #666666; /* Lower contrast for disabled states */
   --destructive: #FF3B30; /* Alert Red */
   --destructive-foreground: #F5F5F5; /* Steel White */
   --border: #333333;
@@ -223,60 +210,8 @@
   /* Table cell content handling */
   .table-cell-content {
     @apply min-w-0 max-w-xs;
-  }
-  
-  /* Enhanced text contrast utilities */
-  .text-subtle {
-    color: var(--text-subtle);
-  }
-  
-  .text-muted {
-    color: var(--text-muted);
-  }
-  
-  .text-disabled {
-    color: var(--text-disabled);
-  }
-  
-  /* High contrast text for better accessibility */
-  .text-high-contrast {
-    color: var(--foreground);
-  }
-  
-  .text-medium-contrast {
-    color: var(--text-subtle);
-  }
-  
-  .text-low-contrast {
-    color: var(--text-muted);
-  }
-  
-  /* Accessibility-focused text utilities */
-  .text-accessible {
-    color: var(--foreground);
-  }
-  
-  .text-secondary-accessible {
-    color: var(--text-subtle);
-  }
-  
-  .text-tertiary-accessible {
-    color: var(--text-muted);
-  }
-  
-  /* High contrast mode support */
-  @media (prefers-contrast: high) {
-    .text-muted-foreground {
-      color: var(--foreground);
-    }
-    
-    .text-subtle {
-      color: var(--foreground);
-    }
-    
-    .text-muted {
-      color: var(--foreground);
-    }
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
   
   /* Modal content overflow */

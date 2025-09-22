@@ -127,11 +127,11 @@ function SortableLinkItem({
             {...attributes}
             {...listeners}
           >
-            <GripVertical className="h-5 w-5 text-muted-foreground" />
+            <GripVertical className="h-5 w-5 text-gray-400" />
           </div>
           <div className="flex-shrink-0">
             <div className="h-8 w-8 sm:h-10 sm:w-10 bg-gray-200 rounded flex items-center justify-center">
-              <span className="text-xs sm:text-sm font-medium text-muted-foreground">
+              <span className="text-xs sm:text-sm font-medium text-gray-600">
                 {link.title.charAt(0).toUpperCase()}
               </span>
             </div>
@@ -161,19 +161,19 @@ function SortableLinkItem({
                 onChange={(e) => setEditUrl(e.target.value)}
                 onBlur={handleUrlSave}
                 onKeyDown={handleUrlKeyDown}
-                className="text-sm text-muted-foreground h-8 mt-1 text-base"
+                className="text-sm text-gray-500 h-8 mt-1 text-base"
                 autoFocus
               />
             ) : (
               <p 
-                className="text-xs sm:text-sm text-muted-foreground url-break cursor-pointer hover:bg-muted p-1 rounded truncate"
+                className="text-xs sm:text-sm text-gray-500 url-break cursor-pointer hover:bg-gray-50 p-1 rounded truncate"
                 onClick={() => setIsEditingUrl(true)}
                 title="Click to edit URL"
               >
                 {link.url}
               </p>
             )}
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-xs text-gray-400 mt-1">
               {link.clicks} clicks
             </p>
           </div>
@@ -522,13 +522,13 @@ export default function LinksPage() {
 
       {links.length === 0 ? (
         <div className="text-center py-12">
-          <div className="mx-auto h-12 w-12 text-muted-foreground">
+          <div className="mx-auto h-12 w-12 text-gray-400">
             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
             </svg>
           </div>
-          <h3 className="mt-2 text-sm font-medium text-foreground">No links</h3>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <h3 className="mt-2 text-sm font-medium text-gray-900">No links</h3>
+          <p className="mt-1 text-sm text-gray-500">
             Get started by creating a new link.
           </p>
           <div className="mt-6">

@@ -84,7 +84,7 @@ export function AdminSidebar({ isOpen = true, onClose }: AdminSidebarProps) {
                     className={cn(
                       isActive
                         ? "bg-gray-800 text-white"
-                        : "text-muted-foreground hover:text-white hover:bg-gray-800",
+                        : "text-gray-400 hover:text-white hover:bg-gray-800",
                       "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold transition-colors"
                     )}
                   >

@@ -99,7 +99,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                       className={cn(
                         isActive
                           ? "bg-gray-800 text-white"
-                          : "text-muted-foreground hover:text-white hover:bg-gray-800",
+                          : "text-gray-400 hover:text-white hover:bg-gray-800",
                         "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                       )}
                     >
@@ -121,7 +121,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     className={cn(
                       pathname === "/dashboard/teams/invitations"
                         ? "bg-gray-800 text-white"
-                        : "text-muted-foreground hover:text-white hover:bg-gray-800",
+                        : "text-gray-400 hover:text-white hover:bg-gray-800",
                       "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                     )}
                   >

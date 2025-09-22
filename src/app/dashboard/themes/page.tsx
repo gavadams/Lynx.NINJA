@@ -476,7 +476,7 @@ export default function ThemesPage() {
                 </div>
 
                 {/* Theme Info */}
-                <div className="text-xs text-muted-foreground">
+                <div className="text-xs text-gray-500">
                   <div className="flex justify-between">
                     <span>Primary</span>
                     <span className="font-mono">{theme.colors[2]}</span>
@@ -511,9 +511,9 @@ export default function ThemesPage() {
             {customThemes.length === 0 ? (
               <Card>
                 <CardContent className="text-center py-12">
-                  <Palette className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                  <Palette className="h-12 w-12 mx-auto mb-4 text-gray-400" />
                   <h3 className="text-lg font-semibold mb-2">No Custom Themes</h3>
-                  <p className="text-muted-foreground mb-4">Create your first custom theme using the Theme Creator tab.</p>
+                  <p className="text-gray-500 mb-4">Create your first custom theme using the Theme Creator tab.</p>
                   <Button onClick={() => {
                     setShowCustomCreator(true)
                     setActiveTab('creator')
@@ -601,7 +601,7 @@ export default function ThemesPage() {
                       </div>
 
                       {/* Theme Info */}
-                      <div className="text-xs text-muted-foreground">
+                      <div className="text-xs text-gray-500">
                         <div className="flex justify-between">
                           <span>Primary</span>
                           <span className="font-mono">{theme.colors?.[2] || 'N/A'}</span>
@@ -837,7 +837,7 @@ export default function ThemesPage() {
                     <h1 className="text-2xl font-bold text-gray-900 mb-2">
                       {profile.displayName}
                     </h1>
-                    <p className="text-muted-foreground mb-4">
+                    <p className="text-gray-600 mb-4">
                       @{profile.username}
                     </p>
                     {profile.bio && (
@@ -849,12 +849,12 @@ export default function ThemesPage() {
                     {/* Sample Links */}
                     <div className="space-y-3">
                       <div className="bg-white/90 backdrop-blur-sm rounded-lg p-4 text-left">
-                        <div className="font-medium text-foreground">Sample Link 1</div>
-                        <div className="text-sm text-muted-foreground">example.com</div>
+                        <div className="font-medium text-gray-900">Sample Link 1</div>
+                        <div className="text-sm text-gray-600">example.com</div>
                       </div>
                       <div className="bg-white/90 backdrop-blur-sm rounded-lg p-4 text-left">
-                        <div className="font-medium text-foreground">Sample Link 2</div>
-                        <div className="text-sm text-muted-foreground">another-example.com</div>
+                        <div className="font-medium text-gray-900">Sample Link 2</div>
+                        <div className="text-sm text-gray-600">another-example.com</div>
                       </div>
                     </div>
                   </div>
@@ -877,37 +877,37 @@ export default function ThemesPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
                 <div>
                   <h4 className="font-semibold mb-2">30+ Preset Themes</h4>
-                  <p className="text-muted-foreground">
+                  <p className="text-gray-600">
                     Choose from 6 categories: Classic, Vibrant, Nature, Modern, Elegant, and Bold themes.
                   </p>
                 </div>
                 <div>
                   <h4 className="font-semibold mb-2">Custom Theme Creator</h4>
-                  <p className="text-muted-foreground">
+                  <p className="text-gray-600">
                     Create unlimited custom themes with your own colors and branding.
                   </p>
                 </div>
                 <div>
                   <h4 className="font-semibold mb-2">Live Preview</h4>
-                  <p className="text-muted-foreground">
+                  <p className="text-gray-600">
                     See exactly how your profile will look before saving changes.
                   </p>
                 </div>
                 <div>
                   <h4 className="font-semibold mb-2">Color Harmony</h4>
-                  <p className="text-muted-foreground">
+                  <p className="text-gray-600">
                     Choose colors that work well together for better visual appeal.
                   </p>
                 </div>
                 <div>
                   <h4 className="font-semibold mb-2">Mobile Optimized</h4>
-                  <p className="text-muted-foreground">
+                  <p className="text-gray-600">
                     All themes look great on mobile devices and any screen size.
                   </p>
                 </div>
                 <div>
                   <h4 className="font-semibold mb-2">Easy Management</h4>
-                  <p className="text-muted-foreground">
+                  <p className="text-gray-600">
                     Save, delete, and switch between custom themes anytime.
                   </p>
                 </div>
