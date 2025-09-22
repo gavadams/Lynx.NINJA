@@ -55,7 +55,13 @@ export default function ThemesPage() {
   useEffect(() => {
     fetchProfile()
     // Load custom themes from database
-    loadCustomThemes().then(setCustomThemes)
+    loadCustomThemes().then((themes) => {
+      console.log('Loaded custom themes:', themes)
+      setCustomThemes(themes)
+    }).catch((error) => {
+      console.error('Error loading custom themes:', error)
+      setCustomThemes([])
+    })
   }, [])
 
   const fetchProfile = async () => {
@@ -471,7 +477,7 @@ export default function ThemesPage() {
               </Card>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {customThemes.map((theme) => (
+                {customThemes.filter(theme => theme && theme.colors && Array.isArray(theme.colors)).map((theme) => (
                   <Card
                     key={theme.value}
                     className={`cursor-pointer transition-all duration-200 ${
@@ -536,7 +542,7 @@ export default function ThemesPage() {
 
                       {/* Color Palette */}
                       <div className="flex space-x-1 mb-3">
-                        {theme.colors.map((color, index) => (
+                        {(theme.colors || []).map((color, index) => (
                           <div
                             key={index}
                             className="w-6 h-6 rounded-full border border-gray-200"
@@ -550,11 +556,11 @@ export default function ThemesPage() {
                       <div className="text-xs text-gray-500">
                         <div className="flex justify-between">
                           <span>Primary</span>
-                          <span className="font-mono">{theme.colors[2]}</span>
+                          <span className="font-mono">{theme.colors?.[2] || 'N/A'}</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Secondary</span>
-                          <span className="font-mono">{theme.colors[3]}</span>
+                          <span className="font-mono">{theme.colors?.[3] || 'N/A'}</span>
                         </div>
                       </div>
                     </CardContent>

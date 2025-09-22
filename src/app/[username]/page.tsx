@@ -64,11 +64,37 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
   const [error, setError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
   const [passwordModal, setPasswordModal] = useState<{ linkId: string; linkTitle: string } | null>(null)
+  const [customThemeStyles, setCustomThemeStyles] = useState<React.CSSProperties | null>(null)
   const { siteName } = getSiteConfig()
 
   useEffect(() => {
     fetchProfileData()
   }, [resolvedParams.username])
+
+  // Load custom theme when profile data changes
+  useEffect(() => {
+    const loadCustomTheme = async () => {
+      if (profileData?.user?.theme && profileData.user.theme.startsWith('custom-')) {
+        try {
+          const response = await fetch(`/api/profile/custom-theme?username=${profileData.user.username}`)
+          if (response.ok) {
+            const customTheme = await response.json()
+            if (customTheme) {
+              setCustomThemeStyles({
+                background: `linear-gradient(to bottom right, ${customTheme.primaryColor}, ${customTheme.secondaryColor})`
+              })
+            }
+          }
+        } catch (error) {
+          console.error('Error loading custom theme:', error)
+        }
+      } else {
+        setCustomThemeStyles(null)
+      }
+    }
+    
+    loadCustomTheme()
+  }, [profileData?.user?.theme, profileData?.user?.username])
 
   const fetchProfileData = async () => {
     try {
@@ -255,32 +281,7 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
   const { user, links, socialMediaLinks } = profileData
   const activeLinks = links.filter(link => link.isActive)
   
-
   // Get the user's theme classes
-  const [customThemeStyles, setCustomThemeStyles] = useState<React.CSSProperties | null>(null)
-  
-  useEffect(() => {
-    const loadCustomTheme = async () => {
-      if (user.theme && user.theme.startsWith('custom-')) {
-        try {
-          const response = await fetch(`/api/profile/custom-theme?username=${user.username}`)
-          if (response.ok) {
-            const customTheme = await response.json()
-            if (customTheme) {
-              setCustomThemeStyles({
-                background: `linear-gradient(to bottom right, ${customTheme.primaryColor}, ${customTheme.secondaryColor})`
-              })
-            }
-          }
-        } catch (error) {
-          console.error('Error loading custom theme:', error)
-        }
-      }
-    }
-    
-    loadCustomTheme()
-  }, [user.theme, user.username])
-  
   const themeClasses = getThemeClasses(user.theme || 'default')
   
   console.log('Public profile theme debug:', {

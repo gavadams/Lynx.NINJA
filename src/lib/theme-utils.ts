@@ -320,8 +320,24 @@ export async function loadCustomThemes(): Promise<CustomTheme[]> {
   try {
     const response = await fetch('/api/user/custom-themes')
     if (response.ok) {
-      const customThemes = await response.json()
-      console.log('Custom themes loaded from database:', customThemes)
+      const dbThemes = await response.json()
+      console.log('Custom themes loaded from database:', dbThemes)
+      
+      // Convert database format to CustomTheme format
+      const customThemes: CustomTheme[] = dbThemes.map((dbTheme: any) => ({
+        value: `custom-${dbTheme.id}`,
+        label: dbTheme.name,
+        description: dbTheme.description || '',
+        preview: 'bg-gradient-to-br',
+        colors: [
+          dbTheme.primaryColor,
+          dbTheme.secondaryColor,
+          dbTheme.accentColor,
+          dbTheme.textColor
+        ],
+        isCustom: true
+      }))
+      
       return customThemes
     }
   } catch (error) {
