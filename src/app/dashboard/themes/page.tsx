@@ -44,6 +44,7 @@ export default function ThemesPage() {
   const [themeUsage, setThemeUsage] = useState<{ current: number, limit: number, remaining: number }>({ current: 0, limit: 10, remaining: 10 })
   const [showCustomCreator, setShowCustomCreator] = useState(false)
   const [editingTheme, setEditingTheme] = useState<CustomTheme | null>(null)
+  const [activeTab, setActiveTab] = useState('presets')
   const [customThemeForm, setCustomThemeForm] = useState({
     label: '',
     description: '',
@@ -207,6 +208,8 @@ export default function ThemesPage() {
           accentColor: '#60a5fa',
           textColor: '#1f2937'
         })
+        // Jump to Custom Themes tab to show the newly created theme
+        setActiveTab('custom')
       } else {
         const errorData = await response.json()
         console.error('Failed to create custom theme:', errorData)
@@ -259,6 +262,8 @@ export default function ThemesPage() {
       textColor: theme.colors[3]
     })
     setShowCustomCreator(true)
+    // Auto-jump to Theme Creator tab
+    setActiveTab('creator')
   }
 
   const handleUpdateCustomTheme = async () => {
@@ -320,6 +325,8 @@ export default function ThemesPage() {
           accentColor: '#60a5fa',
           textColor: '#1f2937'
         })
+        // Jump to Custom Themes tab to show the updated theme
+        setActiveTab('custom')
       } else {
         console.error('Failed to update custom theme')
       }
@@ -395,8 +402,8 @@ export default function ThemesPage() {
           </div>
         </div>
 
-        {/* Theme Tabs */}
-        <Tabs defaultValue="presets" className="w-full">
+                {/* Theme Tabs */}
+                <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="presets">Preset Themes</TabsTrigger>
             <TabsTrigger value="custom">Custom Themes</TabsTrigger>
@@ -488,30 +495,18 @@ export default function ThemesPage() {
           {/* Custom Themes Tab */}
           <TabsContent value="custom" className="space-y-6">
             {/* Usage Indicator */}
-            <Card className="bg-blue-50 border-blue-200">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="font-semibold text-blue-900">Custom Theme Usage</h3>
-                    <p className="text-sm text-blue-700">
-                      {themeUsage.current} of {themeUsage.limit} themes used
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-2xl font-bold text-blue-900">{themeUsage.remaining}</div>
-                    <div className="text-sm text-blue-700">remaining</div>
-                  </div>
+            <div className="flex items-center justify-between text-sm text-muted-foreground bg-muted/30 rounded-lg p-3">
+              <span>Custom themes: {themeUsage.current}/{themeUsage.limit}</span>
+              <div className="flex items-center gap-2">
+                <div className="w-16 bg-muted rounded-full h-1.5">
+                  <div 
+                    className="bg-primary h-1.5 rounded-full transition-all duration-300"
+                    style={{ width: `${(themeUsage.current / themeUsage.limit) * 100}%` }}
+                  ></div>
                 </div>
-                <div className="mt-3">
-                  <div className="w-full bg-blue-200 rounded-full h-2">
-                    <div 
-                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                      style={{ width: `${(themeUsage.current / themeUsage.limit) * 100}%` }}
-                    ></div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                <span className="text-xs">{themeUsage.remaining} left</span>
+              </div>
+            </div>
 
             {customThemes.length === 0 ? (
               <Card>
@@ -519,7 +514,10 @@ export default function ThemesPage() {
                   <Palette className="h-12 w-12 mx-auto mb-4 text-gray-400" />
                   <h3 className="text-lg font-semibold mb-2">No Custom Themes</h3>
                   <p className="text-gray-500 mb-4">Create your first custom theme using the Theme Creator tab.</p>
-                  <Button onClick={() => setShowCustomCreator(true)}>
+                  <Button onClick={() => {
+                    setShowCustomCreator(true)
+                    setActiveTab('creator')
+                  }}>
                     <Plus className="h-4 w-4 mr-2" />
                     Create Custom Theme
                   </Button>
