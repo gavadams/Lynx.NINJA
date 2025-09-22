@@ -420,7 +420,7 @@ export default function LinksPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen">
         <div className="animate-pulse">
           <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
           <div className="space-y-4">
@@ -434,20 +434,20 @@ export default function LinksPage() {
   }
 
   return (
-    <div className="p-4 sm:p-6">
+    <div className="p-4 sm:p-6 bg-background dark min-h-screen">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Links</h1>
+        <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground">Links</h1>
         <div className="flex flex-col sm:flex-row gap-3">
           <Button 
             variant="outline" 
             onClick={() => setProfileQRModalOpen(true)}
             title="Generate QR code for your profile page"
-            className="w-full sm:w-auto"
+            className="w-full sm:w-auto btn-ninja-outline"
           >
             <User className="h-4 w-4 mr-2" />
             Profile QR
           </Button>
-          <Button onClick={() => setIsAdding(true)} className="w-full sm:w-auto">
+          <Button onClick={() => setIsAdding(true)} className="w-full sm:w-auto btn-ninja glow-ninja">
             <Plus className="h-4 w-4 mr-2" />
             Add Link
           </Button>

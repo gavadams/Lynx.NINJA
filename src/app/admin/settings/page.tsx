@@ -71,7 +71,17 @@ export default function AdminSettingsPage() {
       const response = await fetch('/api/admin/settings')
       if (response.ok) {
         const data = await response.json()
-        setSettings(data.settings)
+        // Ensure logoSize property exists with defaults
+        const settingsData = {
+          ...data.settings,
+          logoSize: data.settings.logoSize || {
+            landingPage: 20,
+            dashboard: 16,
+            authPages: 20,
+            publicProfile: 12
+          }
+        }
+        setSettings(settingsData)
       } else {
         setMessage({ type: 'error', text: 'Failed to load settings' })
       }
