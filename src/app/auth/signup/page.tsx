@@ -116,9 +116,9 @@ export default function SignUpPage() {
           <Image
             src="/logo.png"
             alt={siteName}
-            width={150}
-            height={50}
-            className="h-12 w-auto mx-auto mb-4"
+            width={200}
+            height={66}
+            className="h-16 w-auto mx-auto mb-6"
             priority
           />
         </div>

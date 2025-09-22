@@ -77,7 +77,7 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {[1, 2, 3, 4].map((i) => (
             <Card key={i}>
-              <CardContent className="p-6">
+              <CardContent className="p-4 sm:p-6">
                 <div className="animate-pulse">
                   <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
                   <div className="h-8 bg-gray-200 rounded w-3/4"></div>
@@ -101,11 +101,11 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-        <p className="text-gray-600">System overview and key metrics</p>
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Admin Dashboard</h1>
+        <p className="text-sm sm:text-base text-gray-600">System overview and key metrics</p>
       </div>
 
       {/* System Health Alert */}
@@ -128,19 +128,19 @@ export default function AdminDashboard() {
       )}
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <Users className="h-6 w-6 text-gray-400" />
+                <Users className="h-5 w-5 sm:h-6 sm:w-6 text-gray-400" />
               </div>
-              <div className="ml-5 w-0 flex-1">
+              <div className="ml-3 sm:ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
+                  <dt className="text-xs sm:text-sm font-medium text-gray-500 truncate">
                     Total Users
                   </dt>
-                  <dd className="text-lg font-medium text-gray-900">
+                  <dd className="text-base sm:text-lg font-medium text-gray-900">
                     {stats.totalUsers.toLocaleString()}
                   </dd>
                 </dl>
@@ -150,17 +150,17 @@ export default function AdminDashboard() {
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <LinkIcon className="h-6 w-6 text-gray-400" />
+                <LinkIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gray-400" />
               </div>
-              <div className="ml-5 w-0 flex-1">
+              <div className="ml-3 sm:ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
+                  <dt className="text-xs sm:text-sm font-medium text-gray-500 truncate">
                     Total Links
                   </dt>
-                  <dd className="text-lg font-medium text-gray-900">
+                  <dd className="text-base sm:text-lg font-medium text-gray-900">
                     {stats.totalLinks.toLocaleString()}
                   </dd>
                 </dl>
@@ -170,17 +170,17 @@ export default function AdminDashboard() {
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <BarChart3 className="h-6 w-6 text-gray-400" />
+                <BarChart3 className="h-5 w-5 sm:h-6 sm:w-6 text-gray-400" />
               </div>
-              <div className="ml-5 w-0 flex-1">
+              <div className="ml-3 sm:ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
+                  <dt className="text-xs sm:text-sm font-medium text-gray-500 truncate">
                     Total Clicks
                   </dt>
-                  <dd className="text-lg font-medium text-gray-900">
+                  <dd className="text-base sm:text-lg font-medium text-gray-900">
                     {stats.totalClicks.toLocaleString()}
                   </dd>
                 </dl>
@@ -190,17 +190,17 @@ export default function AdminDashboard() {
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <PoundSterling className="h-6 w-6 text-gray-400" />
+                <PoundSterling className="h-5 w-5 sm:h-6 sm:w-6 text-gray-400" />
               </div>
-              <div className="ml-5 w-0 flex-1">
+              <div className="ml-3 sm:ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
+                  <dt className="text-xs sm:text-sm font-medium text-gray-500 truncate">
                     Total Revenue
                   </dt>
-                  <dd className="text-lg font-medium text-gray-900">
+                  <dd className="text-base sm:text-lg font-medium text-gray-900">
                     ${stats.totalRevenue.toLocaleString()}
                   </dd>
                 </dl>

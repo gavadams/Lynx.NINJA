@@ -62,9 +62,9 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           <Image
             src="/logo.png"
             alt={siteName}
-            width={100}
-            height={32}
-            className="h-8 w-auto brightness-0 invert"
+            width={150}
+            height={48}
+            className="h-12 w-auto brightness-0 invert"
           />
           <button
             onClick={onClose}

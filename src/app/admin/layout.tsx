@@ -21,6 +21,7 @@ export default function AdminLayout({
   const pathname = usePathname()
   const [admin, setAdmin] = useState<AdminUser | null>(null)
   const [loading, setLoading] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
     // Skip auth check for login page
@@ -71,9 +72,12 @@ export default function AdminLayout({
 
   return (
     <div className="flex h-screen bg-gray-100">
-      <AdminSidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <AdminHeader />
+      <AdminSidebar 
+        isOpen={sidebarOpen} 
+        onClose={() => setSidebarOpen(false)} 
+      />
+      <div className="flex-1 flex flex-col overflow-hidden lg:ml-0">
+        <AdminHeader onMenuClick={() => setSidebarOpen(true)} />
         <main className="flex-1 overflow-y-auto">
           {children}
         </main>
