@@ -68,15 +68,26 @@ export async function GET() {
       return NextResponse.json({ error: "Failed to fetch analytics" }, { status: 500 })
     }
 
-    // Get profile view count
+    // Get profile view count (with error handling)
     console.log('🔍 Fetching profile views for user ID:', user.id)
-    const { data: profileViews, error: profileViewsError } = await supabase
-      .from('ProfileViewAnalytics')
-      .select('id')
-      .eq('userId', user.id)
+    let profileViews = []
+    try {
+      const { data, error: profileViewsError } = await supabase
+        .from('ProfileViewAnalytics')
+        .select('id')
+        .eq('userId', user.id)
 
-    if (profileViewsError) {
-      console.error("Error fetching profile views:", profileViewsError)
+      if (profileViewsError) {
+        console.error("Error fetching profile views:", profileViewsError)
+        console.log("Continuing without profile views data...")
+        profileViews = []
+      } else {
+        profileViews = data || []
+      }
+    } catch (error) {
+      console.error("Exception fetching profile views:", error)
+      console.log("Continuing without profile views data...")
+      profileViews = []
     }
     
     console.log('👁️ Found profile views:', profileViews?.length || 0)
