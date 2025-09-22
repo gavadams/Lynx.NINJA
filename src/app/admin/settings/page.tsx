@@ -377,7 +377,7 @@ export default function AdminSettingsPage() {
                 }}
                 className="w-full"
               >
-                Test Logo Size Change
+                Logo Size Change
               </Button>
             </div>
           </CardContent>

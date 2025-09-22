@@ -194,12 +194,23 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: "Username and Display Name are required" }, { status: 400 })
     }
 
+    // Get current user first to get their ID
+    const { data: currentUser, error: currentUserError } = await supabase
+      .from('User')
+      .select('id')
+      .eq('email', session.user.email)
+      .single()
+
+    if (currentUserError || !currentUser) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 })
+    }
+
     // Check if username is already taken by another user
     const { data: existingUser, error: existingUserError } = await supabase
       .from('User')
       .select('id')
       .eq('username', username)
-      .neq('id', session.user.email)
+      .neq('id', currentUser.id)
       .single()
 
     if (existingUserError && existingUserError.code !== 'PGRST116') { // PGRST116 means no rows found
@@ -232,7 +243,7 @@ export async function PUT(request: NextRequest) {
     const { data: profile, error } = await supabase
       .from('User')
       .update(updateData)
-      .eq('id', session.user.email)
+      .eq('id', currentUser.id)
       .select()
       .single()
 

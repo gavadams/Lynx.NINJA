@@ -194,10 +194,10 @@ export default function AnalyticsPage() {
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
+                  <dt className="text-xs sm:text-sm font-medium text-muted-foreground truncate">
                     This Month
                   </dt>
-                  <dd className="text-lg font-medium text-gray-900">
+                  <dd className="text-base sm:text-lg font-heading font-bold text-card-foreground">
                     {analytics?.clicksThisMonth || 0}
                   </dd>
                 </dl>
@@ -214,10 +214,10 @@ export default function AnalyticsPage() {
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
+                  <dt className="text-xs sm:text-sm font-medium text-muted-foreground truncate">
                     This Week
                   </dt>
-                  <dd className="text-lg font-medium text-gray-900">
+                  <dd className="text-base sm:text-lg font-heading font-bold text-card-foreground">
                     {analytics?.clicksThisWeek || 0}
                   </dd>
                 </dl>
@@ -234,10 +234,10 @@ export default function AnalyticsPage() {
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
+                  <dt className="text-sm font-medium text-muted-foreground truncate">
                     Profile Views
                   </dt>
-                  <dd className="text-lg font-medium text-gray-900">
+                  <dd className="text-lg font-medium text-card-foreground">
                     {analytics?.totalProfileViews || 0}
                   </dd>
                 </dl>
@@ -254,10 +254,10 @@ export default function AnalyticsPage() {
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
+                  <dt className="text-sm font-medium text-muted-foreground truncate">
                     Today
                   </dt>
-                  <dd className="text-lg font-medium text-gray-900">
+                  <dd className="text-lg font-medium text-card-foreground">
                     {analytics?.clicksToday || 0}
                   </dd>
                 </dl>
@@ -282,15 +282,15 @@ export default function AnalyticsPage() {
                 <div key={link.id} className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-                      <span className="text-sm font-medium text-gray-600">
+                      <span className="text-sm font-medium text-muted-foreground">
                         {index + 1}
                       </span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">
+                      <p className="text-sm font-medium text-card-foreground truncate">
                         {link.title}
                       </p>
-                      <p className="text-xs text-gray-500 truncate">
+                      <p className="text-xs text-muted-foreground truncate">
                         {link.url}
                       </p>
                     </div>
@@ -305,7 +305,7 @@ export default function AnalyticsPage() {
                   </div>
                 </div>
               )) || (
-                <p className="text-gray-500 text-center py-4">No data available</p>
+                <p className="text-muted-foreground text-center py-4">No data available</p>
               )}
             </div>
           </CardContent>
@@ -330,7 +330,7 @@ export default function AnalyticsPage() {
                   <div className="text-lg font-semibold">
                     {analytics?.deviceStats?.mobile || 0}
                   </div>
-                  <div className="text-xs text-gray-500">
+                  <div className="text-xs text-muted-foreground">
                     {analytics?.deviceStats ? 
                       Math.round((analytics.deviceStats.mobile / (analytics.deviceStats.mobile + analytics.deviceStats.desktop)) * 100) : 0}%
                   </div>
@@ -345,7 +345,7 @@ export default function AnalyticsPage() {
                   <div className="text-lg font-semibold">
                     {analytics?.deviceStats?.desktop || 0}
                   </div>
-                  <div className="text-xs text-gray-500">
+                  <div className="text-xs text-muted-foreground">
                     {analytics?.deviceStats ? 
                       Math.round((analytics.deviceStats.desktop / (analytics.deviceStats.mobile + analytics.deviceStats.desktop)) * 100) : 0}%
                   </div>
@@ -371,10 +371,10 @@ export default function AnalyticsPage() {
                 <div className="flex items-center space-x-3">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                   <div>
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-card-foreground">
                       {click.linkTitle}
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-muted-foreground">
                       {new Date(click.clickedAt).toLocaleString()}
                     </p>
                   </div>
@@ -389,7 +389,7 @@ export default function AnalyticsPage() {
                 </div>
               </div>
             )) || (
-              <p className="text-gray-500 text-center py-4">No recent activity</p>
+              <p className="text-muted-foreground text-center py-4">No recent activity</p>
             )}
           </div>
         </CardContent>
