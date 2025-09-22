@@ -314,17 +314,17 @@ export async function saveCustomThemes(customThemes: CustomTheme[]): Promise<voi
   console.log('Custom themes should be saved via API:', customThemes)
 }
 
-export async function loadCustomThemes(): Promise<CustomTheme[]> {
-  if (typeof window === 'undefined') return []
+export async function loadCustomThemes(): Promise<{ themes: CustomTheme[], usage: { current: number, limit: number, remaining: number } }> {
+  if (typeof window === 'undefined') return { themes: [], usage: { current: 0, limit: 10, remaining: 10 } }
   
   try {
     const response = await fetch('/api/user/custom-themes')
     if (response.ok) {
-      const dbThemes = await response.json()
-      console.log('Custom themes loaded from database:', dbThemes)
+      const data = await response.json()
+      console.log('Custom themes loaded from database:', data)
       
       // Convert database format to CustomTheme format
-      const customThemes: CustomTheme[] = dbThemes.map((dbTheme: any) => ({
+      const customThemes: CustomTheme[] = data.themes.map((dbTheme: any) => ({
         value: `custom-${dbTheme.id}`,
         label: dbTheme.name,
         description: dbTheme.description || '',
@@ -338,13 +338,16 @@ export async function loadCustomThemes(): Promise<CustomTheme[]> {
         isCustom: true
       }))
       
-      return customThemes
+      return {
+        themes: customThemes,
+        usage: data.usage
+      }
     }
   } catch (error) {
     console.error('Error loading custom themes:', error)
   }
   
-  return []
+  return { themes: [], usage: { current: 0, limit: 10, remaining: 10 } }
 }
 
 // Load custom theme for public profile

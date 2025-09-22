@@ -25,6 +25,7 @@ interface SystemSettings {
   siteDescription: string
   maxLinksPerUser: number
   maxLinksPerPremiumUser: number
+  maxCustomThemesPerUser: number
   maintenanceMode: boolean
   registrationEnabled: boolean
   emailNotifications: boolean
@@ -45,6 +46,7 @@ export default function AdminSettingsPage() {
     siteDescription: 'Modern link-in-bio platform',
     maxLinksPerUser: 50,
     maxLinksPerPremiumUser: 500,
+    maxCustomThemesPerUser: 10,
     maintenanceMode: false,
     registrationEnabled: true,
     emailNotifications: true,
@@ -392,6 +394,20 @@ export default function AdminSettingsPage() {
                 onChange={(e) => handleInputChange('maxLinksPerPremiumUser', parseInt(e.target.value) || 0)}
                 placeholder="500"
               />
+            </div>
+
+            <div>
+              <Label htmlFor="maxCustomThemesPerUser">Max Custom Themes Per User</Label>
+              <Input
+                id="maxCustomThemesPerUser"
+                type="number"
+                min="1"
+                max="50"
+                value={settings.maxCustomThemesPerUser}
+                onChange={(e) => handleInputChange('maxCustomThemesPerUser', parseInt(e.target.value) || 10)}
+                placeholder="10"
+              />
+              <p className="text-sm text-gray-500">Limit the number of custom themes each user can create</p>
             </div>
 
             <div>

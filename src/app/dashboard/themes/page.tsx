@@ -41,6 +41,7 @@ export default function ThemesPage() {
   const [previewMode, setPreviewMode] = useState(false)
   const [activeCategory, setActiveCategory] = useState<keyof typeof themeCategories>('classic')
   const [customThemes, setCustomThemes] = useState<CustomTheme[]>([])
+  const [themeUsage, setThemeUsage] = useState<{ current: number, limit: number, remaining: number }>({ current: 0, limit: 10, remaining: 10 })
   const [showCustomCreator, setShowCustomCreator] = useState(false)
   const [editingTheme, setEditingTheme] = useState<CustomTheme | null>(null)
   const [customThemeForm, setCustomThemeForm] = useState({
@@ -55,12 +56,14 @@ export default function ThemesPage() {
   useEffect(() => {
     fetchProfile()
     // Load custom themes from database
-    loadCustomThemes().then((themes) => {
-      console.log('Loaded custom themes:', themes)
-      setCustomThemes(themes)
+    loadCustomThemes().then((data) => {
+      console.log('Loaded custom themes:', data)
+      setCustomThemes(data.themes)
+      setThemeUsage(data.usage)
     }).catch((error) => {
       console.error('Error loading custom themes:', error)
       setCustomThemes([])
+      setThemeUsage({ current: 0, limit: 10, remaining: 10 })
     })
   }, [])
 
@@ -148,6 +151,12 @@ export default function ThemesPage() {
   const handleCreateCustomTheme = async () => {
     if (!customThemeForm.label.trim()) return
     
+    // Check if user has reached the limit
+    if (themeUsage.remaining <= 0) {
+      alert(`You've reached your custom theme limit of ${themeUsage.limit}. Please delete an existing theme to create a new one.`)
+      return
+    }
+    
     try {
       const response = await fetch('/api/user/custom-themes', {
         method: 'POST',
@@ -183,6 +192,11 @@ export default function ThemesPage() {
         
         const updatedCustomThemes = [...customThemes, customTheme]
         setCustomThemes(updatedCustomThemes)
+        setThemeUsage(prev => ({
+          current: prev.current + 1,
+          limit: prev.limit,
+          remaining: prev.remaining - 1
+        }))
         setSelectedTheme(customTheme.value)
         setShowCustomCreator(false)
         setCustomThemeForm({
@@ -194,10 +208,13 @@ export default function ThemesPage() {
           textColor: '#1f2937'
         })
       } else {
-        console.error('Failed to create custom theme')
+        const errorData = await response.json()
+        console.error('Failed to create custom theme:', errorData)
+        alert(errorData.error || 'Failed to create custom theme')
       }
     } catch (error) {
       console.error('Error creating custom theme:', error)
+      alert('Network error. Please try again.')
     }
   }
 
@@ -213,14 +230,21 @@ export default function ThemesPage() {
       if (response.ok) {
         const updatedCustomThemes = customThemes.filter(theme => theme.value !== themeValue)
         setCustomThemes(updatedCustomThemes)
+        setThemeUsage(prev => ({
+          current: prev.current - 1,
+          limit: prev.limit,
+          remaining: prev.remaining + 1
+        }))
         if (selectedTheme === themeValue) {
           setSelectedTheme('default')
         }
       } else {
         console.error('Failed to delete custom theme')
+        alert('Failed to delete custom theme')
       }
     } catch (error) {
       console.error('Error deleting custom theme:', error)
+      alert('Network error. Please try again.')
     }
   }
 
@@ -394,75 +418,101 @@ export default function ThemesPage() {
                   {category}
                 </Button>
               ))}
-            </div>
+        </div>
 
-            {/* Theme Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {/* Theme Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {getThemesByCategory(activeCategory).map((theme) => (
-                <Card
-                  key={theme.value}
-                  className={`cursor-pointer transition-all duration-200 ${
-                    selectedTheme === theme.value
-                      ? 'ring-2 ring-blue-500 shadow-lg'
-                      : 'hover:shadow-md'
-                  }`}
-                  onClick={() => setSelectedTheme(theme.value)}
-                >
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-lg">{theme.label}</CardTitle>
-                      {selectedTheme === theme.value && (
-                        <Badge variant="default" className="text-xs">
-                          Selected
-                        </Badge>
-                      )}
+            <Card
+              key={theme.value}
+              className={`cursor-pointer transition-all duration-200 ${
+                selectedTheme === theme.value
+                  ? 'ring-2 ring-blue-500 shadow-lg'
+                  : 'hover:shadow-md'
+              }`}
+              onClick={() => setSelectedTheme(theme.value)}
+            >
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg">{theme.label}</CardTitle>
+                  {selectedTheme === theme.value && (
+                    <Badge variant="default" className="text-xs">
+                      Selected
+                    </Badge>
+                  )}
+                </div>
+                <CardDescription className="text-sm">
+                  {theme.description}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {/* Theme Preview */}
+                <div className={`h-24 rounded-lg ${theme.preview} mb-4 relative overflow-hidden`}>
+                  <div className="absolute inset-0 bg-white/20 backdrop-blur-sm"></div>
+                  <div className="absolute bottom-2 left-2 right-2">
+                    <div className="bg-white/90 rounded px-2 py-1 text-xs font-medium text-gray-800">
+                      {profile.displayName}
                     </div>
-                    <CardDescription className="text-sm">
-                      {theme.description}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    {/* Theme Preview */}
-                    <div className={`h-24 rounded-lg ${theme.preview} mb-4 relative overflow-hidden`}>
-                      <div className="absolute inset-0 bg-white/20 backdrop-blur-sm"></div>
-                      <div className="absolute bottom-2 left-2 right-2">
-                        <div className="bg-white/90 rounded px-2 py-1 text-xs font-medium text-gray-800">
-                          {profile.displayName}
-                        </div>
-                      </div>
-                    </div>
+                  </div>
+                </div>
 
-                    {/* Color Palette */}
-                    <div className="flex space-x-1 mb-3">
-                      {theme.colors.map((color, index) => (
-                        <div
-                          key={index}
-                          className="w-6 h-6 rounded-full border border-gray-200"
-                          style={{ backgroundColor: color }}
-                          title={color}
-                        />
-                      ))}
-                    </div>
+                {/* Color Palette */}
+                <div className="flex space-x-1 mb-3">
+                  {theme.colors.map((color, index) => (
+                    <div
+                      key={index}
+                      className="w-6 h-6 rounded-full border border-gray-200"
+                      style={{ backgroundColor: color }}
+                      title={color}
+                    />
+                  ))}
+                </div>
 
-                    {/* Theme Info */}
-                    <div className="text-xs text-gray-500">
-                      <div className="flex justify-between">
-                        <span>Primary</span>
-                        <span className="font-mono">{theme.colors[2]}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Secondary</span>
-                        <span className="font-mono">{theme.colors[3]}</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                {/* Theme Info */}
+                <div className="text-xs text-gray-500">
+                  <div className="flex justify-between">
+                    <span>Primary</span>
+                    <span className="font-mono">{theme.colors[2]}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Secondary</span>
+                    <span className="font-mono">{theme.colors[3]}</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
           </TabsContent>
 
           {/* Custom Themes Tab */}
           <TabsContent value="custom" className="space-y-6">
+            {/* Usage Indicator */}
+            <Card className="bg-blue-50 border-blue-200">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-semibold text-blue-900">Custom Theme Usage</h3>
+                    <p className="text-sm text-blue-700">
+                      {themeUsage.current} of {themeUsage.limit} themes used
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-blue-900">{themeUsage.remaining}</div>
+                    <div className="text-sm text-blue-700">remaining</div>
+                  </div>
+                </div>
+                <div className="mt-3">
+                  <div className="w-full bg-blue-200 rounded-full h-2">
+                    <div 
+                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${(themeUsage.current / themeUsage.limit) * 100}%` }}
+                    ></div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             {customThemes.length === 0 ? (
               <Card>
                 <CardContent className="text-center py-12">
@@ -698,30 +748,39 @@ export default function ThemesPage() {
                   </div>
                 </div>
 
-                <div className="flex gap-3">
-                  {editingTheme && (
-                    <Button 
-                      variant="outline"
-                      onClick={() => {
-                        setEditingTheme(null)
-                        setShowCustomCreator(false)
-                        setCustomThemeForm({
-                          label: '',
-                          description: '',
-                          primaryColor: '#3b82f6',
-                          secondaryColor: '#1e40af',
-                          accentColor: '#60a5fa',
-                          textColor: '#1f2937'
-                        })
-                      }}
-                      className="flex-1"
-                    >
-                      Cancel
-                    </Button>
-                  )}
+                        {!editingTheme && themeUsage.remaining <= 0 && (
+                          <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md">
+                            <p className="text-sm text-yellow-800">
+                              <strong>Theme limit reached:</strong> You've used all {themeUsage.limit} of your custom themes. 
+                              Delete an existing theme to create a new one.
+                            </p>
+                          </div>
+                        )}
+
+                        <div className="flex gap-3">
+                          {editingTheme && (
+                            <Button 
+                              variant="outline"
+                              onClick={() => {
+                                setEditingTheme(null)
+                                setShowCustomCreator(false)
+                                setCustomThemeForm({
+                                  label: '',
+                                  description: '',
+                                  primaryColor: '#3b82f6',
+                                  secondaryColor: '#1e40af',
+                                  accentColor: '#60a5fa',
+                                  textColor: '#1f2937'
+                                })
+                              }}
+                              className="flex-1"
+                            >
+                              Cancel
+                            </Button>
+                          )}
                   <Button 
                     onClick={editingTheme ? handleUpdateCustomTheme : handleCreateCustomTheme}
-                    disabled={!customThemeForm.label.trim()}
+                    disabled={!customThemeForm.label.trim() || (!editingTheme && themeUsage.remaining <= 0)}
                     className={editingTheme ? "flex-1" : "w-full"}
                   >
                     {editingTheme ? (

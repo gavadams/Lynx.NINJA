@@ -48,7 +48,23 @@ export async function GET() {
       return NextResponse.json({ error: "Failed to fetch custom themes" }, { status: 500 })
     }
 
-    return NextResponse.json(customThemes || [])
+    // Get the theme limit from system settings
+    const { data: systemSettings, error: settingsError } = await supabase
+      .from('SystemSetting')
+      .select('value')
+      .eq('key', 'maxCustomThemesPerUser')
+      .single()
+
+    const themeLimit = settingsError ? 10 : parseInt(systemSettings?.value || '10') // Default to 10 if not set
+
+    return NextResponse.json({
+      themes: customThemes || [],
+      usage: {
+        current: customThemes?.length || 0,
+        limit: themeLimit,
+        remaining: Math.max(0, themeLimit - (customThemes?.length || 0))
+      }
+    })
   } catch (error) {
     console.error("Error fetching custom themes:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
@@ -92,6 +108,34 @@ export async function POST(request: NextRequest) {
 
     if (!name || !primaryColor || !secondaryColor || !accentColor || !textColor) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
+    }
+
+    // Check current theme count for user
+    const { count: currentThemeCount, error: countError } = await supabase
+      .from('CustomTheme')
+      .select('*', { count: 'exact', head: true })
+      .eq('userId', currentUser.id)
+
+    if (countError) {
+      console.error("Error checking theme count:", countError)
+      return NextResponse.json({ error: "Failed to check theme limit" }, { status: 500 })
+    }
+
+    // Get the theme limit from system settings
+    const { data: systemSettings, error: settingsError } = await supabase
+      .from('SystemSetting')
+      .select('value')
+      .eq('key', 'maxCustomThemesPerUser')
+      .single()
+
+    const themeLimit = settingsError ? 10 : parseInt(systemSettings?.value || '10') // Default to 10 if not set
+
+    if (currentThemeCount && currentThemeCount >= themeLimit) {
+      return NextResponse.json({ 
+        error: `Theme limit reached. You can create up to ${themeLimit} custom themes.`,
+        limit: themeLimit,
+        current: currentThemeCount
+      }, { status: 400 })
     }
 
     // Create custom theme
