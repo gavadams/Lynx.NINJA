@@ -55,6 +55,8 @@ export default function LinkModal({ isOpen, onClose, onSave, link, loading = fal
         expiresAt: link.expiresAt || null,
         password: link.password || null,
       })
+      // For existing links, show advanced if they have advanced features
+      setShowAdvanced(!!(link.scheduledAt || link.expiresAt || link.password))
     } else {
       setFormData({
         title: '',
@@ -64,9 +66,10 @@ export default function LinkModal({ isOpen, onClose, onSave, link, loading = fal
         expiresAt: null,
         password: null,
       })
+      // For new links, show advanced options by default for premium users
+      setShowAdvanced(isPremium)
     }
-    setShowAdvanced(false)
-  }, [link, isOpen])
+  }, [link, isOpen, isPremium])
 
 
   const validateForm = () => {

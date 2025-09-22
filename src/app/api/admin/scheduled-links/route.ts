@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     const cookieStore = await cookies()
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
       {
         cookies: {
           get(name: string) {
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Admin access required" }, { status: 403 })
     }
 
-    // Get all links with scheduling information
+    // Get all links (we'll filter for scheduling info on the frontend)
     const { data: links, error: linksError } = await supabase
       .from('Link')
       .select(`
@@ -54,14 +54,15 @@ export async function GET(request: NextRequest) {
           displayName
         )
       `)
-      .not('scheduledAt', 'is', null)
-      .or('expiresAt.not.is.null')
       .order('createdAt', { ascending: false })
+      .limit(100) // Limit to prevent too much data
 
     if (linksError) {
       console.error('Error fetching scheduled links:', linksError)
       return NextResponse.json({ error: "Failed to fetch scheduled links" }, { status: 500 })
     }
+
+    console.log('Scheduled links fetched:', { count: links?.length || 0, links: links?.slice(0, 3) })
 
     return NextResponse.json({
       links: links || [],

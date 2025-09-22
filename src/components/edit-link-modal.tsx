@@ -56,8 +56,10 @@ export function EditLinkModal({ isOpen, onClose, link, onSave, isPremium = false
       setExpiresAt(link.expiresAt || null)
       setPassword(link.password || null)
       setError("")
+      // Show advanced options if link has advanced features or user is premium
+      setShowAdvanced(!!(link.scheduledAt || link.expiresAt || link.password) || isPremium)
     }
-  }, [link])
+  }, [link, isPremium])
 
 
   const handleSave = async () => {

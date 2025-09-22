@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useSession } from "next-auth/react"
 
 // Extend Window interface for auto-save timeouts
 declare global {
@@ -225,6 +226,7 @@ function SortableLinkItem({
 }
 
 export default function LinksPage() {
+  const { data: session } = useSession()
   const [links, setLinks] = useState<Link[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isAdding, setIsAdding] = useState(false)
@@ -235,6 +237,7 @@ export default function LinksPage() {
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [selectedLink, setSelectedLink] = useState<Link | null>(null)
   const [profileQRModalOpen, setProfileQRModalOpen] = useState(false)
+  const [userProfile, setUserProfile] = useState<{ isPremium: boolean } | null>(null)
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -245,7 +248,20 @@ export default function LinksPage() {
 
   useEffect(() => {
     fetchLinks()
+    fetchUserProfile()
   }, [])
+
+  const fetchUserProfile = async () => {
+    try {
+      const response = await fetch('/api/user/profile')
+      if (response.ok) {
+        const profile = await response.json()
+        setUserProfile(profile)
+      }
+    } catch (error) {
+      console.error('Error fetching user profile:', error)
+    }
+  }
 
   const fetchLinks = async () => {
     try {
@@ -563,6 +579,7 @@ export default function LinksPage() {
         onClose={() => setEditModalOpen(false)}
         link={selectedLink}
         onSave={handleSaveLink}
+        isPremium={userProfile?.isPremium || false}
       />
 
       {/* Profile QR Code Modal */}
