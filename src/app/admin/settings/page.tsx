@@ -18,6 +18,7 @@ import {
   Shield,
   Database
 } from 'lucide-react'
+import { saveLogoSizeSettings } from '@/lib/logo-sizes'
 
 interface SystemSettings {
   siteName: string
@@ -97,6 +98,15 @@ export default function AdminSettingsPage() {
     try {
       setSaving(true)
       setMessage(null)
+      
+      // Save logo size settings to localStorage immediately
+      if (settings.logoSize) {
+        saveLogoSizeSettings(settings.logoSize)
+        // Dispatch custom event to notify other components
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('logoSizeChanged'))
+        }
+      }
       
       const response = await fetch('/api/admin/settings', {
         method: 'PUT',

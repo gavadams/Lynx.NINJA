@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Link as LinkIcon, BarChart3, Palette, Zap } from "lucide-react"
 import { useFeatureFlag } from "@/lib/feature-flags"
 import { getSiteConfig, getUserProfileUrl } from "@/lib/config"
-import Image from "next/image"
+import { DynamicLogo } from "@/components/dynamic-logo"
 
 export default function Home() {
   const { data: session, status } = useSession()
@@ -62,12 +62,9 @@ export default function Home() {
       <header className="px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4 sm:py-6">
           <div className="flex items-center">
-            <Image
-              src="/logo.png"
-              alt={siteName}
-              width={240}
-              height={80}
-              className="h-16 sm:h-20 w-auto"
+            <DynamicLogo
+              pageType="landingPage"
+              className="h-16 sm:h-20"
               priority
             />
           </div>

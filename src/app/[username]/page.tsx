@@ -8,7 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ExternalLink, Copy, Check, Clock, Lock } from "lucide-react"
 import PasswordProtection from "@/components/password-protection"
 import { EmailCaptureForm } from "@/components/email-capture-form"
-import Image from "next/image"
+import { DynamicLogo } from "@/components/dynamic-logo"
 import { getSiteConfig } from "@/lib/config"
 import { getThemeClasses } from "@/lib/theme-utils"
 
@@ -264,11 +264,8 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
       <div className="container mx-auto px-4 py-8 max-w-md">
         {/* Site Logo */}
         <div className="text-center mb-6">
-          <Image
-            src="/logo.png"
-            alt={siteName}
-            width={160}
-            height={52}
+          <DynamicLogo
+            pageType="publicProfile"
             className="h-12 w-auto mx-auto opacity-80"
           />
         </div>

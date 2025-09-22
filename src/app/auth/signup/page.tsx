@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import Image from "next/image"
+import { DynamicLogo } from "@/components/dynamic-logo"
 import { getSiteConfig } from "@/lib/config"
 
 export default function SignUpPage() {
@@ -113,11 +113,8 @@ export default function SignUpPage() {
     <div className="min-h-screen flex items-center justify-center bg-background dark py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <Image
-            src="/logo.png"
-            alt={siteName}
-            width={280}
-            height={92}
+          <DynamicLogo
+            pageType="authPages"
             className="h-20 w-auto mx-auto mb-8"
             priority
           />

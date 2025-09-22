@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import { useInvitations } from "@/hooks/useInvitations"
 import { useFeatureFlag } from "@/lib/feature-flags"
 import { getSiteConfig } from "@/lib/config"
+import { DynamicLogo } from "@/components/dynamic-logo"
 import { 
   LayoutDashboard, 
   Link as LinkIcon, 
@@ -17,7 +18,6 @@ import {
   Mail,
   X
 } from "lucide-react"
-import Image from "next/image"
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -59,12 +59,10 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
         "fixed lg:relative z-50"
       )}>
         <div className="flex h-16 shrink-0 items-center justify-between px-6">
-          <Image
-            src="/logo.png"
-            alt={siteName}
-            width={200}
-            height={64}
-            className="h-16 w-auto brightness-0 invert"
+          <DynamicLogo
+            pageType="dashboard"
+            className="h-16 w-auto"
+            invert
           />
           <button
             onClick={onClose}
