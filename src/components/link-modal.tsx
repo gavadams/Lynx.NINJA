@@ -120,15 +120,15 @@ export default function LinkModal({ isOpen, onClose, onSave, link, loading = fal
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <Card className="w-full max-w-md modal-content">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-          <div>
-            <CardTitle>{link ? 'Edit Link' : 'Add New Link'}</CardTitle>
-            <CardDescription>
+      <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto modal-content">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 sticky top-0 bg-background z-10">
+          <div className="flex-1 min-w-0">
+            <CardTitle className="text-lg sm:text-xl">{link ? 'Edit Link' : 'Add New Link'}</CardTitle>
+            <CardDescription className="text-sm">
               {link ? 'Update your link details' : 'Create a new link for your bio page'}
             </CardDescription>
           </div>
-          <Button variant="ghost" size="sm" onClick={onClose}>
+          <Button variant="ghost" size="sm" onClick={onClose} className="flex-shrink-0">
             <X className="h-4 w-4" />
           </Button>
         </CardHeader>

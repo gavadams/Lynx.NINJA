@@ -14,7 +14,8 @@ import {
   Settings,
   User,
   Users,
-  Mail
+  Mail,
+  X
 } from "lucide-react"
 
 const navigation = [
@@ -26,7 +27,12 @@ const navigation = [
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ]
 
-export function Sidebar() {
+interface SidebarProps {
+  isOpen?: boolean
+  onClose?: () => void
+}
+
+export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
   const pathname = usePathname()
   const { invitationCount } = useInvitations()
   const teamsEnabled = useFeatureFlag('teams')
@@ -35,10 +41,31 @@ export function Sidebar() {
   const { siteName } = getSiteConfig()
 
   return (
-    <div className="flex h-full w-64 flex-col bg-gray-900">
-      <div className="flex h-16 shrink-0 items-center px-6">
-        <h1 className="text-xl font-bold text-white">{siteName}</h1>
-      </div>
+    <>
+      {/* Mobile overlay */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={onClose}
+        />
+      )}
+      
+      {/* Sidebar */}
+      <div className={cn(
+        "flex h-full w-64 flex-col bg-gray-900 transition-transform duration-300 ease-in-out",
+        "lg:translate-x-0 lg:static lg:z-auto",
+        isOpen ? "translate-x-0" : "-translate-x-full",
+        "fixed lg:relative z-50"
+      )}>
+        <div className="flex h-16 shrink-0 items-center justify-between px-6">
+          <h1 className="text-xl font-bold text-white">{siteName}</h1>
+          <button
+            onClick={onClose}
+            className="lg:hidden text-white hover:text-gray-300"
+          >
+            <X className="h-6 w-6" />
+          </button>
+        </div>
       <nav className="flex flex-1 flex-col px-3 py-4">
         <ul role="list" className="flex flex-1 flex-col gap-y-7">
           <li>
@@ -107,6 +134,7 @@ export function Sidebar() {
           </li>
         </ul>
       </nav>
-    </div>
+      </div>
+    </>
   )
 }

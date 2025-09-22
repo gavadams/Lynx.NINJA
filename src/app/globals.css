@@ -159,10 +159,14 @@
   /* Brand Button Styles */
   .btn-ninja {
     @apply bg-primary text-primary-foreground font-semibold px-6 py-3 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 hover:scale-105;
+    min-height: 44px; /* iOS touch target minimum */
+    touch-action: manipulation; /* Prevent double-tap zoom */
   }
   
   .btn-ninja-outline {
     @apply border-2 border-primary text-primary font-semibold px-6 py-3 rounded-lg transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:shadow-lg hover:shadow-primary/25;
+    min-height: 44px; /* iOS touch target minimum */
+    touch-action: manipulation; /* Prevent double-tap zoom */
   }
   
   /* Brand Card Styles */
@@ -219,6 +223,43 @@
   .card-content-overflow {
     @apply min-w-0;
     word-wrap: break-word;
-    overflow-wrap: break-word;
   }
-}
+  
+  /* Mobile-specific optimizations */
+  @media (max-width: 640px) {
+    /* Ensure proper touch targets on mobile */
+    button, [role="button"], input[type="button"], input[type="submit"] {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    /* Improve text readability on mobile */
+    body {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    
+    /* Prevent horizontal scrolling */
+    html, body {
+      overflow-x: hidden;
+    }
+    
+    /* Better form inputs on mobile */
+    input, textarea, select {
+      font-size: 16px; /* Prevents zoom on iOS */
+    }
+  }
+  
+  /* Touch-friendly interactions */
+  @media (hover: none) and (pointer: coarse) {
+    /* Remove hover effects on touch devices */
+    .hover\:glow-ninja:hover {
+      @apply shadow-lg shadow-primary/25;
+    }
+    
+    /* Ensure buttons are large enough for touch */
+    .btn-ninja, .btn-ninja-outline {
+      min-height: 48px;
+      padding: 12px 24px;
+    }
+  }

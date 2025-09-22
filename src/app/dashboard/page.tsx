@@ -181,9 +181,9 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="p-6 bg-background dark min-h-screen">
-      <div className="mb-8">
-        <h1 className="text-3xl font-heading font-bold text-foreground">Dashboard</h1>
+    <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground">Dashboard</h1>
         <p className="mt-2 text-muted-foreground">
           Link with stealth and style
         </p>
@@ -215,20 +215,20 @@ export default function DashboardPage() {
       )}
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+      <div className="grid grid-cols-1 gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-6 sm:mb-8">
         {stats.map((stat) => (
           <Card key={stat.name} className="card-ninja hover:glow-ninja transition-all duration-300">
-            <CardContent className="p-6">
+            <CardContent className="p-4 sm:p-6">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <stat.icon className="h-6 w-6 text-primary" />
+                  <stat.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                 </div>
-                <div className="ml-5 w-0 flex-1">
+                <div className="ml-3 sm:ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-medium text-muted-foreground truncate">
+                    <dt className="text-xs sm:text-sm font-medium text-muted-foreground truncate">
                       {stat.name}
                     </dt>
-                    <dd className="text-lg font-heading font-bold text-card-foreground">
+                    <dd className="text-base sm:text-lg font-heading font-bold text-card-foreground">
                       {stat.value}
                     </dd>
                   </dl>
@@ -240,10 +240,10 @@ export default function DashboardPage() {
       </div>
 
       {/* Links Management */}
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <h2 className="text-xl font-heading font-semibold text-foreground">Your Links</h2>
-          <Button onClick={() => setShowAddLink(true)} className="btn-ninja glow-ninja">
+      <div className="space-y-4 sm:space-y-6">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+          <h2 className="text-lg sm:text-xl font-heading font-semibold text-foreground">Your Links</h2>
+          <Button onClick={() => setShowAddLink(true)} className="btn-ninja glow-ninja w-full sm:w-auto">
             <Plus className="h-4 w-4 mr-2" />
             Add New Link
           </Button>
@@ -264,26 +264,26 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {links.map((link) => (
               <Card key={link.id} className="card-ninja hover:glow-ninja transition-all duration-300">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <GripVertical className="h-5 w-5 text-muted-foreground cursor-move" />
-                      <div className="flex-1">
-                        <h3 className="text-lg font-heading font-medium text-card-foreground">{link.title}</h3>
-                        <p className="text-sm text-muted-foreground">{link.url}</p>
-                        <div className="flex items-center space-x-2 mt-2">
+                <CardContent className="p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div className="flex items-start space-x-3 sm:space-x-4 flex-1 min-w-0">
+                      <GripVertical className="h-5 w-5 text-muted-foreground cursor-move flex-shrink-0 mt-1" />
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-base sm:text-lg font-heading font-medium text-card-foreground truncate">{link.title}</h3>
+                        <p className="text-xs sm:text-sm text-muted-foreground truncate">{link.url}</p>
+                        <div className="flex flex-wrap items-center gap-2 mt-2">
                           <Badge variant={
                             getLinkDisplayStatus(link) === 'Active' ? "default" : 
                             getLinkDisplayStatus(link) === 'Scheduled' ? "secondary" :
                             getLinkDisplayStatus(link) === 'Expired' ? "destructive" : "secondary"
-                          }>
+                          } className="text-xs">
                             {getLinkDisplayStatus(link)}
                           </Badge>
                           {analyticsEnabled && (
-                            <span className="text-sm text-muted-foreground">
+                            <span className="text-xs sm:text-sm text-muted-foreground">
                               {link.clicks || 0} clicks
                             </span>
                           )}
@@ -300,16 +300,16 @@ export default function DashboardPage() {
                           <div className="mt-2 space-y-1">
                             {link.scheduledAt && (
                               <div className="flex items-center space-x-1 text-xs text-gray-500">
-                                <Calendar className="h-3 w-3" />
-                                <span>
+                                <Calendar className="h-3 w-3 flex-shrink-0" />
+                                <span className="truncate">
                                   {getLinkScheduleStatus(link).isScheduled ? 'Goes live' : 'Went live'} {formatScheduleDate(link.scheduledAt)}
                                 </span>
                               </div>
                             )}
                             {link.expiresAt && (
                               <div className="flex items-center space-x-1 text-xs text-gray-500">
-                                <Clock className="h-3 w-3" />
-                                <span>
+                                <Clock className="h-3 w-3 flex-shrink-0" />
+                                <span className="truncate">
                                   {getLinkScheduleStatus(link).isExpired ? 'Expired' : 'Expires'} {formatScheduleDate(link.expiresAt)}
                                 </span>
                               </div>
@@ -318,12 +318,13 @@ export default function DashboardPage() {
                         )}
                       </div>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center justify-end sm:justify-start space-x-1 sm:space-x-2">
                       <Button 
                         variant="outline" 
                         size="sm"
                         onClick={() => window.open(link.url, '_blank')}
-                        className="btn-ninja-outline"
+                        className="btn-ninja-outline p-2"
+                        title="Open link"
                       >
                         <ExternalLink className="h-4 w-4" />
                       </Button>
@@ -331,15 +332,17 @@ export default function DashboardPage() {
                         variant="outline" 
                         size="sm"
                         onClick={() => setEditingLink(link)}
-                        className="btn-ninja-outline"
+                        className="btn-ninja-outline p-2"
+                        title="Edit link"
                       >
                         <Edit className="h-4 w-4" />
                       </Button>
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="text-destructive hover:text-destructive-foreground hover:bg-destructive"
+                        className="text-destructive hover:text-destructive-foreground hover:bg-destructive p-2"
                         onClick={() => handleDeleteLink(link.id)}
+                        title="Delete link"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>

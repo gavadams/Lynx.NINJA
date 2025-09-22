@@ -117,102 +117,108 @@ function SortableLinkItem({
     <div
       ref={setNodeRef}
       style={style}
-      className="bg-white shadow rounded-lg p-4 flex items-center justify-between"
+      className="bg-white shadow rounded-lg p-3 sm:p-4"
     >
-      <div className="flex items-center space-x-4">
-        <div 
-          className="flex-shrink-0 cursor-grab active:cursor-grabbing"
-          {...attributes}
-          {...listeners}
-        >
-          <GripVertical className="h-5 w-5 text-gray-400" />
-        </div>
-        <div className="flex-shrink-0">
-          <div className="h-10 w-10 bg-gray-200 rounded flex items-center justify-center">
-            <span className="text-sm font-medium text-gray-600">
-              {link.title.charAt(0).toUpperCase()}
-            </span>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="flex items-start space-x-3 sm:space-x-4 flex-1 min-w-0">
+          <div 
+            className="flex-shrink-0 cursor-grab active:cursor-grabbing mt-1"
+            {...attributes}
+            {...listeners}
+          >
+            <GripVertical className="h-5 w-5 text-gray-400" />
+          </div>
+          <div className="flex-shrink-0">
+            <div className="h-8 w-8 sm:h-10 sm:w-10 bg-gray-200 rounded flex items-center justify-center">
+              <span className="text-xs sm:text-sm font-medium text-gray-600">
+                {link.title.charAt(0).toUpperCase()}
+              </span>
+            </div>
+          </div>
+          <div className="flex-1 min-w-0">
+            {isEditingTitle ? (
+              <Input
+                value={editTitle}
+                onChange={(e) => setEditTitle(e.target.value)}
+                onBlur={handleTitleSave}
+                onKeyDown={handleTitleKeyDown}
+                className="text-sm font-medium h-8 text-base"
+                autoFocus
+              />
+            ) : (
+              <p 
+                className="text-sm sm:text-base font-medium text-gray-900 prevent-overflow cursor-pointer hover:bg-gray-50 p-1 rounded truncate"
+                onClick={() => setIsEditingTitle(true)}
+                title="Click to edit title"
+              >
+                {link.title}
+              </p>
+            )}
+            {isEditingUrl ? (
+              <Input
+                value={editUrl}
+                onChange={(e) => setEditUrl(e.target.value)}
+                onBlur={handleUrlSave}
+                onKeyDown={handleUrlKeyDown}
+                className="text-sm text-gray-500 h-8 mt-1 text-base"
+                autoFocus
+              />
+            ) : (
+              <p 
+                className="text-xs sm:text-sm text-gray-500 url-break cursor-pointer hover:bg-gray-50 p-1 rounded truncate"
+                onClick={() => setIsEditingUrl(true)}
+                title="Click to edit URL"
+              >
+                {link.url}
+              </p>
+            )}
+            <p className="text-xs text-gray-400 mt-1">
+              {link.clicks} clicks
+            </p>
           </div>
         </div>
-        <div className="flex-1 min-w-0">
-          {isEditingTitle ? (
-            <Input
-              value={editTitle}
-              onChange={(e) => setEditTitle(e.target.value)}
-              onBlur={handleTitleSave}
-              onKeyDown={handleTitleKeyDown}
-              className="text-sm font-medium h-8"
-              autoFocus
-            />
-          ) : (
-            <p 
-              className="text-sm font-medium text-gray-900 prevent-overflow cursor-pointer hover:bg-gray-50 p-1 rounded"
-              onClick={() => setIsEditingTitle(true)}
-              title="Click to edit title"
-            >
-              {link.title}
-            </p>
-          )}
-          {isEditingUrl ? (
-            <Input
-              value={editUrl}
-              onChange={(e) => setEditUrl(e.target.value)}
-              onBlur={handleUrlSave}
-              onKeyDown={handleUrlKeyDown}
-              className="text-sm text-gray-500 h-8 mt-1"
-              autoFocus
-            />
-          ) : (
-            <p 
-              className="text-sm text-gray-500 url-break cursor-pointer hover:bg-gray-50 p-1 rounded"
-              onClick={() => setIsEditingUrl(true)}
-              title="Click to edit URL"
-            >
-              {link.url}
-            </p>
-          )}
-          <p className="text-xs text-gray-400">
-            {link.clicks} clicks
-          </p>
+        <div className="flex items-center justify-end sm:justify-start space-x-1 sm:space-x-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onToggleActive(link.id)}
+            title={link.isActive ? "Hide link" : "Show link"}
+            className="p-2"
+          >
+            {link.isActive ? (
+              <Eye className="h-4 w-4" />
+            ) : (
+              <EyeOff className="h-4 w-4" />
+            )}
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onGenerateQR(link.id, link.title)}
+            title="Generate QR Code"
+            className="p-2"
+          >
+            <QrCode className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onEdit(link.id)}
+            title="Edit link"
+            className="p-2"
+          >
+            <Edit className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onDelete(link.id)}
+            title="Delete link"
+            className="p-2"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
         </div>
-      </div>
-      <div className="flex items-center space-x-2">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => onToggleActive(link.id)}
-          title={link.isActive ? "Hide link" : "Show link"}
-        >
-          {link.isActive ? (
-            <Eye className="h-4 w-4" />
-          ) : (
-            <EyeOff className="h-4 w-4" />
-          )}
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => onGenerateQR(link.id, link.title)}
-          title="Generate QR Code"
-        >
-          <QrCode className="h-4 w-4" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => onEdit(link.id)}
-          title="Edit link"
-        >
-          <Edit className="h-4 w-4" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => onDelete(link.id)}
-          title="Delete link"
-        >
-          <Trash2 className="h-4 w-4" />
-        </Button>
       </div>
     </div>
   )
@@ -428,19 +434,20 @@ export default function LinksPage() {
   }
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Links</h1>
-        <div className="flex gap-3">
+    <div className="p-4 sm:p-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Links</h1>
+        <div className="flex flex-col sm:flex-row gap-3">
           <Button 
             variant="outline" 
             onClick={() => setProfileQRModalOpen(true)}
             title="Generate QR code for your profile page"
+            className="w-full sm:w-auto"
           >
             <User className="h-4 w-4 mr-2" />
             Profile QR
           </Button>
-          <Button onClick={() => setIsAdding(true)}>
+          <Button onClick={() => setIsAdding(true)} className="w-full sm:w-auto">
             <Plus className="h-4 w-4 mr-2" />
             Add Link
           </Button>
@@ -449,31 +456,37 @@ export default function LinksPage() {
 
       {/* Add Link Form */}
       {isAdding && (
-        <div className="bg-white shadow rounded-lg p-6 mb-6">
+        <div className="bg-white shadow rounded-lg p-4 sm:p-6 mb-6">
           <h3 className="text-lg font-medium text-gray-900 mb-4">Add New Link</h3>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="title">Title</Label>
+              <Label htmlFor="title" className="text-sm font-medium">Title</Label>
               <Input
                 id="title"
                 type="text"
                 value={newLink.title}
                 onChange={(e) => setNewLink({ ...newLink, title: e.target.value })}
                 placeholder="Enter link title"
+                className="text-base"
               />
             </div>
             <div>
-              <Label htmlFor="url">URL</Label>
+              <Label htmlFor="url" className="text-sm font-medium">URL</Label>
               <Input
                 id="url"
                 type="url"
                 value={newLink.url}
                 onChange={(e) => setNewLink({ ...newLink, url: e.target.value })}
                 placeholder="https://example.com"
+                className="text-base"
               />
             </div>
-            <div className="flex space-x-3">
-              <Button onClick={handleAddLink} disabled={!newLink.title || !newLink.url}>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button 
+                onClick={handleAddLink} 
+                disabled={!newLink.title || !newLink.url}
+                className="w-full sm:w-auto"
+              >
                 Add Link
               </Button>
               <Button 
@@ -482,6 +495,7 @@ export default function LinksPage() {
                   setIsAdding(false)
                   setNewLink({ title: "", url: "" })
                 }}
+                className="w-full sm:w-auto"
               >
                 Cancel
               </Button>

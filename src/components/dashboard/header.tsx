@@ -2,9 +2,13 @@
 
 import { useSession, signOut } from "next-auth/react"
 import { Button } from "@/components/ui/button"
-import { User, LogOut } from "lucide-react"
+import { User, LogOut, Menu } from "lucide-react"
 
-export function Header() {
+interface HeaderProps {
+  onMenuClick?: () => void
+}
+
+export function Header({ onMenuClick }: HeaderProps) {
   const { data: session } = useSession()
 
   return (
@@ -12,24 +16,30 @@ export function Header() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 justify-between items-center">
           <div className="flex items-center">
-            <h2 className="text-xl font-semibold text-gray-900">
-              Welcome back, {session?.user?.name || "User"}
+            <button
+              onClick={onMenuClick}
+              className="lg:hidden mr-3 p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+            >
+              <Menu className="h-6 w-6" />
+            </button>
+            <h2 className="text-lg lg:text-xl font-semibold text-gray-900 truncate">
+              <span className="hidden sm:inline">Welcome back, </span>{session?.user?.name || "User"}
             </h2>
           </div>
           
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 lg:space-x-4">
+            <div className="hidden sm:flex items-center space-x-2">
               <User className="h-5 w-5 text-gray-500" />
-              <span className="text-sm text-gray-700">{session?.user?.email}</span>
+              <span className="text-sm text-gray-700 truncate max-w-32 lg:max-w-none">{session?.user?.email}</span>
             </div>
             <Button
               variant="outline"
               size="sm"
               onClick={() => signOut()}
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-1 lg:space-x-2"
             >
               <LogOut className="h-4 w-4" />
-              <span>Sign out</span>
+              <span className="hidden sm:inline">Sign out</span>
             </Button>
           </div>
         </div>
