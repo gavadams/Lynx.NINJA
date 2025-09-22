@@ -69,7 +69,9 @@ export const themes: Theme[] = [
 
 export function getThemeClasses(themeValue: string): string {
   const theme = themes.find(t => t.value === themeValue)
-  return theme ? theme.preview : themes[0].preview // fallback to default
+  const result = theme ? theme.preview : themes[0].preview // fallback to default
+  console.log(`getThemeClasses(${themeValue}):`, result)
+  return result
 }
 
 export function getTheme(themeValue: string): Theme {

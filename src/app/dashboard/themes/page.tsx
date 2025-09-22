@@ -54,6 +54,8 @@ export default function ThemesPage() {
 
     setSaving(true)
     try {
+      console.log('Saving theme:', selectedTheme, 'for user:', profile.username)
+      
       const response = await fetch('/api/user/profile', {
         method: 'PUT',
         headers: {
@@ -65,13 +67,17 @@ export default function ThemesPage() {
         }),
       })
 
+      console.log('Theme save response status:', response.status)
+
       if (response.ok) {
         const updatedProfile = await response.json()
+        console.log('Theme saved successfully:', updatedProfile)
         setProfile(updatedProfile)
         // Show success message or redirect
         router.push('/dashboard')
       } else {
-        console.error('Failed to save theme')
+        const errorData = await response.json()
+        console.error('Failed to save theme:', errorData)
       }
     } catch (error) {
       console.error('Error saving theme:', error)

@@ -259,6 +259,12 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
   // Get the user's theme classes
   const themeClasses = getThemeClasses(user.theme || 'default')
   
+  console.log('Public profile theme debug:', {
+    userTheme: user.theme,
+    themeClasses: themeClasses,
+    user: user.username
+  })
+  
   return (
     <div className={`min-h-screen ${themeClasses}`}>
       <div className="container mx-auto px-4 py-8 max-w-md">
