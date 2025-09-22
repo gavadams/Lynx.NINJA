@@ -197,24 +197,28 @@ export default function AdminMailingListsPage() {
 
   if (loading && mailingLists.length === 0) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin text-gray-900 mx-auto mb-4" />
-          <p className="text-gray-600">Loading mailing lists...</p>
+          <RefreshCw className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading mailing lists...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Mailing Lists</h1>
-          <p className="text-gray-600 mt-2">
-            Manage email marketing and newsletter subscriptions
-          </p>
-        </div>
+    <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground flex items-center">
+          <Mail className="h-6 w-6 sm:h-8 sm:w-8 mr-3" />
+          Mailing Lists
+        </h1>
+        <p className="text-muted-foreground mt-2">
+          Manage email marketing and newsletter subscriptions
+        </p>
+      </div>
+
+      <div className="flex items-center justify-end mb-6">
         <Button onClick={() => setShowCreateForm(true)}>
           <Plus className="h-4 w-4 mr-2" />
           Create Mailing List
@@ -229,7 +233,7 @@ export default function AdminMailingListsPage() {
 
       {/* Create/Edit Form */}
       {(showCreateForm || editingList) && (
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle>
               {editingList ? 'Edit Mailing List' : 'Create New Mailing List'}
@@ -289,7 +293,7 @@ export default function AdminMailingListsPage() {
       )}
 
       {/* Mailing Lists Table */}
-      <Card>
+      <Card className="card-ninja hover:glow-ninja transition-all duration-300">
         <CardHeader>
           <CardTitle>Mailing Lists</CardTitle>
           <CardDescription>
@@ -369,7 +373,7 @@ export default function AdminMailingListsPage() {
       </Card>
 
       {/* Recent Emails */}
-      <Card>
+      <Card className="card-ninja hover:glow-ninja transition-all duration-300">
         <CardHeader>
           <CardTitle>Recent Emails</CardTitle>
           <CardDescription>

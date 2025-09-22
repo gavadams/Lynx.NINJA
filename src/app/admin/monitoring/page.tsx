@@ -158,10 +158,10 @@ export default function MonitoringPage() {
 
   if (loading && !data) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading system monitoring...</p>
+          <RefreshCw className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading system monitoring...</p>
         </div>
       </div>
     )
@@ -169,14 +169,17 @@ export default function MonitoringPage() {
 
   if (error && !data) {
     return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">System Monitoring</h1>
-          <p className="text-gray-600 mt-2">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground flex items-center">
+            <Activity className="h-6 w-6 sm:h-8 sm:w-8 mr-3" />
+            System Monitoring
+          </h1>
+          <p className="text-muted-foreground mt-2">
             Monitor system health and performance
           </p>
         </div>
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6 text-center">
             <p className="text-red-600">{error}</p>
             <Button onClick={fetchMonitoringData} className="mt-4">
@@ -192,14 +195,18 @@ export default function MonitoringPage() {
   if (!data) return null
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">System Monitoring</h1>
-          <p className="text-gray-600 mt-2">
-            Monitor system health and performance
-          </p>
-        </div>
+    <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground flex items-center">
+          <Activity className="h-6 w-6 sm:h-8 sm:w-8 mr-3" />
+          System Monitoring
+        </h1>
+        <p className="text-muted-foreground mt-2">
+          Monitor system health and performance
+        </p>
+      </div>
+
+      <div className="flex items-center justify-end mb-6">
         <div className="flex items-center space-x-4">
           <p className="text-sm text-gray-500">
             Last updated: {formatDistanceToNow(lastRefresh, { addSuffix: true })}
@@ -213,7 +220,7 @@ export default function MonitoringPage() {
 
       {/* System Health Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -228,7 +235,7 @@ export default function MonitoringPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -249,7 +256,7 @@ export default function MonitoringPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -264,7 +271,7 @@ export default function MonitoringPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -284,7 +291,7 @@ export default function MonitoringPage() {
 
       {/* Recent Activity */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <Users className="h-8 w-8 text-blue-600" />
@@ -297,7 +304,7 @@ export default function MonitoringPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <LinkIcon className="h-8 w-8 text-green-600" />
@@ -310,7 +317,7 @@ export default function MonitoringPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <MousePointer className="h-8 w-8 text-purple-600" />
@@ -323,7 +330,7 @@ export default function MonitoringPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <Bug className="h-8 w-8 text-red-600" />
@@ -339,7 +346,7 @@ export default function MonitoringPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent System Logs */}
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle>Recent System Logs</CardTitle>
             <CardDescription>
@@ -366,7 +373,7 @@ export default function MonitoringPage() {
         </Card>
 
         {/* Error Logs */}
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle>Recent Errors</CardTitle>
             <CardDescription>
@@ -401,7 +408,7 @@ export default function MonitoringPage() {
       </div>
 
       {/* Feature Flags Status */}
-      <Card>
+      <Card className="card-ninja hover:glow-ninja transition-all duration-300">
         <CardHeader>
           <CardTitle>Feature Flags</CardTitle>
           <CardDescription>

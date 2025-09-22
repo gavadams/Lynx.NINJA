@@ -152,10 +152,10 @@ export default function DatabasePage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading database information...</p>
+          <RefreshCw className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading database information...</p>
         </div>
       </div>
     )
@@ -163,14 +163,17 @@ export default function DatabasePage() {
 
   if (error || !data) {
     return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Database Management</h1>
-          <p className="text-gray-600 mt-2">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground flex items-center">
+            <Database className="h-6 w-6 sm:h-8 sm:w-8 mr-3" />
+            Database Management
+          </h1>
+          <p className="text-muted-foreground mt-2">
             Monitor and maintain database health
           </p>
         </div>
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6 text-center">
             <p className="text-red-600">{error || 'Failed to load database data'}</p>
             <Button onClick={fetchDatabaseData} className="mt-4">
@@ -183,25 +186,27 @@ export default function DatabasePage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Database Management</h1>
-          <p className="text-gray-600 mt-2">
-            Monitor and maintain database health
-          </p>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Button onClick={fetchDatabaseData} disabled={loading}>
-            <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-            Refresh
-          </Button>
-        </div>
+    <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground flex items-center">
+          <Database className="h-6 w-6 sm:h-8 sm:w-8 mr-3" />
+          Database Management
+        </h1>
+        <p className="text-muted-foreground mt-2">
+          Monitor and maintain database health
+        </p>
+      </div>
+
+      <div className="flex items-center justify-end mb-6">
+        <Button onClick={fetchDatabaseData} disabled={loading}>
+          <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+          Refresh
+        </Button>
       </div>
 
       {/* Database Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -215,7 +220,7 @@ export default function DatabasePage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -229,7 +234,7 @@ export default function DatabasePage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -243,7 +248,7 @@ export default function DatabasePage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -262,7 +267,7 @@ export default function DatabasePage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Table Information */}
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle>Table Information</CardTitle>
             <CardDescription>
@@ -288,7 +293,7 @@ export default function DatabasePage() {
         </Card>
 
         {/* Database Issues */}
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center">
               <AlertTriangle className="h-5 w-5 mr-2 text-red-600" />
@@ -356,7 +361,7 @@ export default function DatabasePage() {
       </div>
 
       {/* Database Actions */}
-      <Card>
+      <Card className="card-ninja hover:glow-ninja transition-all duration-300">
         <CardHeader>
           <CardTitle>Database Actions</CardTitle>
           <CardDescription>
@@ -422,7 +427,7 @@ export default function DatabasePage() {
 
       {/* Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle>Recent Users</CardTitle>
             <CardDescription>
@@ -446,7 +451,7 @@ export default function DatabasePage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle>Recent Links</CardTitle>
             <CardDescription>

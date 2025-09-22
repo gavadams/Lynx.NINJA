@@ -179,10 +179,10 @@ export default function ModerationPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading moderation data...</p>
+          <RefreshCw className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading moderation data...</p>
         </div>
       </div>
     )
@@ -190,14 +190,17 @@ export default function ModerationPage() {
 
   if (error || !data) {
     return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Content Moderation</h1>
-          <p className="text-gray-600 mt-2">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground flex items-center">
+            <Shield className="h-6 w-6 sm:h-8 sm:w-8 mr-3" />
+            Content Moderation
+          </h1>
+          <p className="text-muted-foreground mt-2">
             Monitor and moderate platform content
           </p>
         </div>
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6 text-center">
             <p className="text-red-600">{error || 'Failed to load moderation data'}</p>
             <Button onClick={fetchModerationData} className="mt-4">
@@ -210,33 +213,35 @@ export default function ModerationPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Content Moderation</h1>
-          <p className="text-gray-600 mt-2">
-            Monitor and moderate platform content
-          </p>
-        </div>
-        <div className="flex items-center space-x-4">
-          <Select value={filterType} onValueChange={setFilterType}>
-            <SelectTrigger className="w-48">
-              <SelectValue placeholder="Filter content" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Content</SelectItem>
-              <SelectItem value="links">Flagged Links</SelectItem>
-              <SelectItem value="users">Flagged Users</SelectItem>
-              <SelectItem value="high-click">High Click Links</SelectItem>
-              <SelectItem value="prolific">Prolific Users</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+    <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground flex items-center">
+          <Shield className="h-6 w-6 sm:h-8 sm:w-8 mr-3" />
+          Content Moderation
+        </h1>
+        <p className="text-muted-foreground mt-2">
+          Monitor and moderate platform content
+        </p>
+      </div>
+
+      <div className="flex items-center justify-end mb-6">
+        <Select value={filterType} onValueChange={setFilterType}>
+          <SelectTrigger className="w-48">
+            <SelectValue placeholder="Filter content" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Content</SelectItem>
+            <SelectItem value="links">Flagged Links</SelectItem>
+            <SelectItem value="users">Flagged Users</SelectItem>
+            <SelectItem value="high-click">High Click Links</SelectItem>
+            <SelectItem value="prolific">Prolific Users</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Moderation Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -250,7 +255,7 @@ export default function ModerationPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -264,7 +269,7 @@ export default function ModerationPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -278,7 +283,7 @@ export default function ModerationPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -295,7 +300,7 @@ export default function ModerationPage() {
 
       {/* Flagged Links */}
       {(filterType === 'all' || filterType === 'links') && (
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center">
               <AlertTriangle className="h-5 w-5 mr-2 text-red-600" />
@@ -391,7 +396,7 @@ export default function ModerationPage() {
 
       {/* High Click Links */}
       {(filterType === 'all' || filterType === 'high-click') && (
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center">
               <MousePointer className="h-5 w-5 mr-2 text-blue-600" />
@@ -439,7 +444,7 @@ export default function ModerationPage() {
 
       {/* Flagged Users */}
       {(filterType === 'all' || filterType === 'users') && (
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center">
               <Shield className="h-5 w-5 mr-2 text-purple-600" />
@@ -507,7 +512,7 @@ export default function ModerationPage() {
 
       {/* Prolific Users */}
       {(filterType === 'all' || filterType === 'prolific') && (
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center">
               <Users className="h-5 w-5 mr-2 text-orange-600" />

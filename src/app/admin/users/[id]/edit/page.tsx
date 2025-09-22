@@ -18,7 +18,9 @@ import {
 import { 
   ArrowLeft,
   Save,
-  Crown
+  Crown,
+  RefreshCw,
+  User
 } from 'lucide-react'
 
 interface User {
@@ -137,10 +139,10 @@ export default function EditUserPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading user details...</p>
+          <RefreshCw className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading user details...</p>
         </div>
       </div>
     )
@@ -148,14 +150,25 @@ export default function EditUserPage() {
 
   if (error && !user) {
     return (
-      <div className="space-y-6">
-        <div className="flex items-center space-x-4">
-          <Button variant="outline" onClick={() => router.back()}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
-          </Button>
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+        <div className="mb-6 sm:mb-8">
+          <div className="flex items-center space-x-4">
+            <Button variant="outline" onClick={() => router.back()}>
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back
+            </Button>
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground flex items-center">
+                <User className="h-6 w-6 sm:h-8 sm:w-8 mr-3" />
+                Edit User
+              </h1>
+              <p className="text-muted-foreground mt-2">
+                Update user account information
+              </p>
+            </div>
+          </div>
         </div>
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6 text-center">
             <p className="text-red-600">{error}</p>
           </CardContent>
@@ -165,17 +178,19 @@ export default function EditUserPage() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
+    <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+      <div className="mb-6 sm:mb-8">
         <div className="flex items-center space-x-4">
           <Button variant="outline" onClick={() => router.back()}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Edit User</h1>
-            <p className="text-gray-600 mt-2">
+            <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground flex items-center">
+              <User className="h-6 w-6 sm:h-8 sm:w-8 mr-3" />
+              Edit User
+            </h1>
+            <p className="text-muted-foreground mt-2">
               Update user account information
             </p>
           </div>
@@ -205,7 +220,7 @@ export default function EditUserPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Edit Form */}
         <div className="lg:col-span-2">
-          <Card>
+          <Card className="card-ninja hover:glow-ninja transition-all duration-300">
             <CardHeader>
               <CardTitle>User Information</CardTitle>
               <CardDescription>
@@ -293,7 +308,7 @@ export default function EditUserPage() {
         {/* Sidebar */}
         <div className="space-y-6">
           {/* User Info */}
-          <Card>
+          <Card className="card-ninja hover:glow-ninja transition-all duration-300">
             <CardHeader>
               <CardTitle>User Details</CardTitle>
             </CardHeader>
@@ -322,7 +337,7 @@ export default function EditUserPage() {
           </Card>
 
           {/* Actions */}
-          <Card>
+          <Card className="card-ninja hover:glow-ninja transition-all duration-300">
             <CardHeader>
               <CardTitle>Actions</CardTitle>
             </CardHeader>

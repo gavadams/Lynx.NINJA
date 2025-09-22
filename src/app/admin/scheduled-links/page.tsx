@@ -98,33 +98,28 @@ export default function ScheduledLinksPage() {
 
   if (loading) {
     return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold">Scheduled Links</h1>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          {[...Array(4)].map((_, i) => (
-            <Card key={i}>
-              <CardContent className="p-6">
-                <div className="animate-pulse">
-                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                  <div className="h-8 bg-gray-200 rounded w-1/2"></div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <RefreshCw className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading scheduled links...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Scheduled Links</h1>
-          <p className="text-gray-600 mt-1">Manage scheduled and expired links across all users</p>
-        </div>
+    <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground flex items-center">
+          <Clock className="h-6 w-6 sm:h-8 sm:w-8 mr-3" />
+          Scheduled Links
+        </h1>
+        <p className="text-muted-foreground mt-2">
+          Manage scheduled and expired links across all users
+        </p>
+      </div>
+
+      <div className="flex items-center justify-end mb-6">
         <Button onClick={fetchScheduledLinks} variant="outline">
           <RefreshCw className="h-4 w-4 mr-2" />
           Refresh
@@ -133,7 +128,7 @@ export default function ScheduledLinksPage() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <Calendar className="h-8 w-8 text-blue-600" />
@@ -145,7 +140,7 @@ export default function ScheduledLinksPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <Clock className="h-8 w-8 text-yellow-600" />
@@ -157,7 +152,7 @@ export default function ScheduledLinksPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <AlertCircle className="h-8 w-8 text-red-600" />
@@ -169,7 +164,7 @@ export default function ScheduledLinksPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <Crown className="h-8 w-8 text-green-600" />
@@ -183,7 +178,7 @@ export default function ScheduledLinksPage() {
       </div>
 
       {/* Filters and Search */}
-      <Card>
+      <Card className="card-ninja hover:glow-ninja transition-all duration-300">
         <CardContent className="p-6">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
@@ -234,7 +229,7 @@ export default function ScheduledLinksPage() {
       {/* Links List */}
       <div className="space-y-4">
         {filteredLinks.length === 0 ? (
-          <Card>
+          <Card className="card-ninja hover:glow-ninja transition-all duration-300">
             <CardContent className="p-8 text-center">
               <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">No scheduled links found</h3>
@@ -249,7 +244,7 @@ export default function ScheduledLinksPage() {
             const displayStatus = getLinkDisplayStatus(link)
 
             return (
-              <Card key={link.id}>
+              <Card key={link.id} className="card-ninja hover:glow-ninja transition-all duration-300">
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">

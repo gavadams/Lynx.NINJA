@@ -204,24 +204,26 @@ export default function EmailComposerPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin text-gray-900 mx-auto mb-4" />
-          <p className="text-gray-600">Loading email composer...</p>
+          <RefreshCw className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading email composer...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Email Composer</h1>
-          <p className="text-gray-600 mt-2">
-            Create and send emails to your mailing lists
-          </p>
-        </div>
+    <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground flex items-center">
+          <Mail className="h-6 w-6 sm:h-8 sm:w-8 mr-3" />
+          Email Composer
+        </h1>
+        <p className="text-muted-foreground mt-2">
+          Create and send emails to your mailing lists
+        </p>
+      </div>
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
@@ -260,7 +262,7 @@ export default function EmailComposerPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Email Form */}
         <div className="lg:col-span-2 space-y-6">
-          <Card>
+          <Card className="card-ninja hover:glow-ninja transition-all duration-300">
             <CardHeader>
               <CardTitle>Email Details</CardTitle>
               <CardDescription>
@@ -334,7 +336,7 @@ export default function EmailComposerPage() {
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Mailing List Selection */}
-          <Card>
+          <Card className="card-ninja hover:glow-ninja transition-all duration-300">
             <CardHeader>
               <CardTitle>Recipients</CardTitle>
             </CardHeader>
@@ -380,7 +382,7 @@ export default function EmailComposerPage() {
           </Card>
 
           {/* Scheduling */}
-          <Card>
+          <Card className="card-ninja hover:glow-ninja transition-all duration-300">
             <CardHeader>
               <CardTitle>Send Options</CardTitle>
             </CardHeader>
@@ -439,7 +441,7 @@ export default function EmailComposerPage() {
           </Card>
 
           {/* Email Stats */}
-          <Card>
+          <Card className="card-ninja hover:glow-ninja transition-all duration-300">
             <CardHeader>
               <CardTitle>Email Stats</CardTitle>
             </CardHeader>

@@ -175,10 +175,10 @@ export default function EmailPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading email data...</p>
+          <RefreshCw className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading email data...</p>
         </div>
       </div>
     )
@@ -186,14 +186,17 @@ export default function EmailPage() {
 
   if (error || !data) {
     return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Email Management</h1>
-          <p className="text-gray-600 mt-2">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground flex items-center">
+            <Mail className="h-6 w-6 sm:h-8 sm:w-8 mr-3" />
+            Email Management
+          </h1>
+          <p className="text-muted-foreground mt-2">
             Manage email communications and captures
           </p>
         </div>
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6 text-center">
             <p className="text-red-600">{error || 'Failed to load email data'}</p>
             <Button onClick={fetchEmailData} className="mt-4">
@@ -206,24 +209,26 @@ export default function EmailPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Email Management</h1>
-          <p className="text-gray-600 mt-2">
-            Manage email communications and captures
-          </p>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Button onClick={fetchEmailData} disabled={loading}>
-            <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-            Refresh
-          </Button>
-        </div>
+    <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground flex items-center">
+          <Mail className="h-6 w-6 sm:h-8 sm:w-8 mr-3" />
+          Email Management
+        </h1>
+        <p className="text-muted-foreground mt-2">
+          Manage email communications and captures
+        </p>
+      </div>
+
+      <div className="flex items-center justify-end mb-6">
+        <Button onClick={fetchEmailData} disabled={loading}>
+          <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+          Refresh
+        </Button>
       </div>
 
       {/* Email Configuration Status */}
-      <Card>
+      <Card className="card-ninja hover:glow-ninja transition-all duration-300">
         <CardHeader>
           <CardTitle className="flex items-center">
             <Mail className="h-5 w-5 mr-2" />
@@ -259,7 +264,7 @@ export default function EmailPage() {
 
       {/* Email Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -273,7 +278,7 @@ export default function EmailPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -288,7 +293,7 @@ export default function EmailPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -302,7 +307,7 @@ export default function EmailPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -319,7 +324,7 @@ export default function EmailPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Test Email */}
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle>Test Email</CardTitle>
             <CardDescription>
@@ -372,7 +377,7 @@ export default function EmailPage() {
         </Card>
 
         {/* Bulk Email */}
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle>Bulk Email</CardTitle>
             <CardDescription>
@@ -425,7 +430,7 @@ export default function EmailPage() {
       </div>
 
       {/* Email Actions */}
-      <Card>
+      <Card className="card-ninja hover:glow-ninja transition-all duration-300">
         <CardHeader>
           <CardTitle>Email Actions</CardTitle>
           <CardDescription>
@@ -461,7 +466,7 @@ export default function EmailPage() {
 
       {/* Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle>Recent Email Captures</CardTitle>
             <CardDescription>
@@ -493,7 +498,7 @@ export default function EmailPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle>Recent Team Invitations</CardTitle>
             <CardDescription>

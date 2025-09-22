@@ -169,10 +169,10 @@ export default function BillingPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading billing data...</p>
+          <RefreshCw className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading billing data...</p>
         </div>
       </div>
     )
@@ -180,14 +180,17 @@ export default function BillingPage() {
 
   if (error || !data) {
     return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Billing Management</h1>
-          <p className="text-gray-600 mt-2">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground flex items-center">
+            <CreditCard className="h-6 w-6 sm:h-8 sm:w-8 mr-3" />
+            Billing Management
+          </h1>
+          <p className="text-muted-foreground mt-2">
             Manage subscriptions and billing
           </p>
         </div>
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6 text-center">
             <p className="text-red-600">{error || 'Failed to load billing data'}</p>
             <Button onClick={fetchBillingData} className="mt-4">
@@ -200,32 +203,34 @@ export default function BillingPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Billing Management</h1>
-          <p className="text-gray-600 mt-2">
-            Manage subscriptions and billing
-          </p>
-        </div>
-        <div className="flex items-center space-x-4">
-          <Select value={period} onValueChange={setPeriod}>
-            <SelectTrigger className="w-48">
-              <SelectValue placeholder="Select period" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="7d">Last 7 days</SelectItem>
-              <SelectItem value="30d">Last 30 days</SelectItem>
-              <SelectItem value="90d">Last 90 days</SelectItem>
-              <SelectItem value="1y">Last year</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+    <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground flex items-center">
+          <CreditCard className="h-6 w-6 sm:h-8 sm:w-8 mr-3" />
+          Billing Management
+        </h1>
+        <p className="text-muted-foreground mt-2">
+          Manage subscriptions and billing
+        </p>
+      </div>
+
+      <div className="flex items-center justify-end mb-6">
+        <Select value={period} onValueChange={setPeriod}>
+          <SelectTrigger className="w-48">
+            <SelectValue placeholder="Select period" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="7d">Last 7 days</SelectItem>
+            <SelectItem value="30d">Last 30 days</SelectItem>
+            <SelectItem value="90d">Last 90 days</SelectItem>
+            <SelectItem value="1y">Last year</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Billing Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -241,7 +246,7 @@ export default function BillingPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -256,7 +261,7 @@ export default function BillingPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -270,7 +275,7 @@ export default function BillingPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -287,7 +292,7 @@ export default function BillingPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Subscription Status */}
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center">
               <CreditCard className="h-5 w-5 mr-2" />
@@ -319,7 +324,7 @@ export default function BillingPage() {
         </Card>
 
         {/* Recent Issues */}
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center">
               <AlertTriangle className="h-5 w-5 mr-2 text-red-600" />
@@ -373,7 +378,7 @@ export default function BillingPage() {
       </div>
 
       {/* Recent Subscriptions */}
-      <Card>
+      <Card className="card-ninja hover:glow-ninja transition-all duration-300">
         <CardHeader>
           <CardTitle>Recent Subscriptions</CardTitle>
           <CardDescription>

@@ -16,7 +16,8 @@ import {
   MousePointer,
   Crown,
   User,
-  Globe
+  Globe,
+  RefreshCw
 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import Link from 'next/link'
@@ -97,10 +98,10 @@ export default function UserDetailPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading user details...</p>
+          <RefreshCw className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading user details...</p>
         </div>
       </div>
     )
@@ -108,14 +109,25 @@ export default function UserDetailPage() {
 
   if (error || !user) {
     return (
-      <div className="space-y-6">
-        <div className="flex items-center space-x-4">
-          <Button variant="outline" onClick={() => router.back()}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
-          </Button>
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+        <div className="mb-6 sm:mb-8">
+          <div className="flex items-center space-x-4">
+            <Button variant="outline" onClick={() => router.back()}>
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back
+            </Button>
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground flex items-center">
+                <User className="h-6 w-6 sm:h-8 sm:w-8 mr-3" />
+                User Details
+              </h1>
+              <p className="text-muted-foreground mt-2">
+                View and manage user account information
+              </p>
+            </div>
+          </div>
         </div>
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-6 text-center">
             <p className="text-red-600">{error || 'User not found'}</p>
           </CardContent>
@@ -125,17 +137,19 @@ export default function UserDetailPage() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
+    <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+      <div className="mb-6 sm:mb-8">
         <div className="flex items-center space-x-4">
           <Button variant="outline" onClick={() => router.back()}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">User Details</h1>
-            <p className="text-gray-600 mt-2">
+            <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground flex items-center">
+              <User className="h-6 w-6 sm:h-8 sm:w-8 mr-3" />
+              User Details
+            </h1>
+            <p className="text-muted-foreground mt-2">
               View and manage user account information
             </p>
           </div>
@@ -163,7 +177,7 @@ export default function UserDetailPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* User Profile */}
         <div className="lg:col-span-2 space-y-6">
-          <Card>
+          <Card className="card-ninja hover:glow-ninja transition-all duration-300">
             <CardHeader>
               <CardTitle className="flex items-center">
                 <User className="h-5 w-5 mr-2" />
@@ -239,7 +253,7 @@ export default function UserDetailPage() {
           </Card>
 
           {/* Activity Stats */}
-          <Card>
+          <Card className="card-ninja hover:glow-ninja transition-all duration-300">
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Activity className="h-5 w-5 mr-2" />
@@ -271,7 +285,7 @@ export default function UserDetailPage() {
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Account Information */}
-          <Card>
+          <Card className="card-ninja hover:glow-ninja transition-all duration-300">
             <CardHeader>
               <CardTitle>Account Information</CardTitle>
             </CardHeader>
@@ -307,7 +321,7 @@ export default function UserDetailPage() {
           </Card>
 
           {/* Quick Actions */}
-          <Card>
+          <Card className="card-ninja hover:glow-ninja transition-all duration-300">
             <CardHeader>
               <CardTitle>Quick Actions</CardTitle>
             </CardHeader>
