@@ -164,22 +164,22 @@ export default function ThemesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-background dark">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
+        <div className="mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Theme Customization</h1>
-              <p className="text-gray-600 mt-2">
+              <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground">Theme Customization</h1>
+              <p className="text-muted-foreground mt-2">
                 Choose a theme that reflects your personal brand
               </p>
             </div>
-            <div className="flex space-x-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <Button
                 variant="outline"
                 onClick={handlePreview}
-                className="flex items-center"
+                className="flex items-center btn-ninja-outline w-full sm:w-auto"
               >
                 <Eye className="h-4 w-4 mr-2" />
                 {previewMode ? 'Exit Preview' : 'Preview'}
@@ -187,7 +187,7 @@ export default function ThemesPage() {
               <Button
                 onClick={handleSave}
                 disabled={saving || selectedTheme === profile.theme}
-                className="flex items-center"
+                className="flex items-center btn-ninja glow-ninja w-full sm:w-auto"
               >
                 {saving ? (
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />

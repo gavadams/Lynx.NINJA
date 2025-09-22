@@ -221,7 +221,7 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="p-6">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen">
         <div className="animate-pulse">
           <div className="h-8 bg-gray-200 rounded w-1/3 mb-2"></div>
           <div className="h-4 bg-gray-200 rounded w-1/2 mb-8"></div>
@@ -238,7 +238,7 @@ export default function SettingsPage() {
   if (!profile) {
     return (
       <div className="p-6">
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardContent className="p-8 text-center">
             <p className="text-gray-500">Failed to load profile settings.</p>
           </CardContent>
@@ -248,17 +248,17 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-        <p className="mt-2 text-gray-600">
+    <div className="p-4 sm:p-6 bg-background dark min-h-screen max-w-4xl mx-auto">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground">Settings</h1>
+        <p className="mt-2 text-muted-foreground">
           Manage your profile and customize your link page
         </p>
       </div>
 
       <form onSubmit={handleSave} className="space-y-6">
         {/* Profile Information */}
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center">
               <User className="h-5 w-5 mr-2" />
@@ -324,7 +324,7 @@ export default function SettingsPage() {
 
 
         {/* Public Profile Preview */}
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center">
               <LinkIcon className="h-5 w-5 mr-2" />
@@ -377,7 +377,7 @@ export default function SettingsPage() {
         <SocialMediaManagement />
 
         {/* Premium Features */}
-        <Card>
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle>Premium Features</CardTitle>
             <CardDescription>

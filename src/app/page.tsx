@@ -65,9 +65,9 @@ export default function Home() {
             <Image
               src="/logo.png"
               alt={siteName}
-              width={180}
-              height={60}
-              className="h-12 sm:h-16 w-auto"
+              width={240}
+              height={80}
+              className="h-16 sm:h-20 w-auto"
               priority
             />
           </div>

@@ -263,9 +263,9 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
           <Image
             src="/logo.png"
             alt={siteName}
-            width={120}
-            height={40}
-            className="h-10 w-auto mx-auto opacity-80"
+            width={160}
+            height={52}
+            className="h-12 w-auto mx-auto opacity-80"
           />
         </div>
         

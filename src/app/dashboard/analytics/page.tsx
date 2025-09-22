@@ -88,11 +88,11 @@ export default function AnalyticsPage() {
 
   if (loading) {
     return (
-      <div className="p-6">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen">
         <div className="animate-pulse">
           <div className="h-8 bg-gray-200 rounded w-1/3 mb-2"></div>
           <div className="h-4 bg-gray-200 rounded w-1/2 mb-8"></div>
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+          <div className="grid grid-cols-1 gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="bg-gray-200 h-24 rounded-lg"></div>
             ))}
@@ -104,10 +104,10 @@ export default function AnalyticsPage() {
 
   if (!isPremium) {
     return (
-      <div className="p-6">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
-          <p className="mt-2 text-gray-600">
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground">Analytics</h1>
+          <p className="mt-2 text-muted-foreground">
             Advanced analytics are available with Premium
           </p>
         </div>
@@ -156,28 +156,28 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="p-6">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
-        <p className="mt-2 text-gray-600">
+    <div className="p-4 sm:p-6 bg-background dark min-h-screen">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground">Analytics</h1>
+        <p className="mt-2 text-muted-foreground">
           Detailed insights into your link performance
         </p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
-        <Card>
-          <CardContent className="p-6">
+      <div className="grid grid-cols-1 gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-6 sm:mb-8">
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <BarChart3 className="h-6 w-6 text-blue-400" />
+                <BarChart3 className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
               </div>
-              <div className="ml-5 w-0 flex-1">
+              <div className="ml-3 sm:ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
+                  <dt className="text-xs sm:text-sm font-medium text-muted-foreground truncate">
                     Total Clicks
                   </dt>
-                  <dd className="text-lg font-medium text-gray-900">
+                  <dd className="text-base sm:text-lg font-heading font-bold text-card-foreground">
                     {analytics?.totalClicks || 0}
                   </dd>
                 </dl>
@@ -186,11 +186,11 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6">
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <TrendingUp className="h-6 w-6 text-green-400" />
+                <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
@@ -206,8 +206,8 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6">
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <Calendar className="h-6 w-6 text-purple-400" />
@@ -226,8 +226,8 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6">
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <Users className="h-6 w-6 text-orange-400" />
@@ -246,8 +246,8 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6">
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <Clock className="h-6 w-6 text-orange-400" />
