@@ -43,6 +43,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true)
   const [showAddLink, setShowAddLink] = useState(false)
   const [editingLink, setEditingLink] = useState<Link | null>(null)
+  const [analytics, setAnalytics] = useState<any>(null)
   const { invitationCount, invitations } = useInvitations()
   const teamsEnabled = useFeatureFlag('teams')
   const analyticsEnabled = useFeatureFlag('analytics')
@@ -68,6 +69,15 @@ export default function DashboardPage() {
                const linksData = await linksResponse.json()
                setLinks(linksData)
              }
+
+             // Fetch analytics if enabled
+             if (analyticsEnabled) {
+               const analyticsResponse = await fetch('/api/analytics')
+               if (analyticsResponse.ok) {
+                 const analyticsData = await analyticsResponse.json()
+                 setAnalytics(analyticsData)
+               }
+             }
            } catch (error) {
              console.error('Error fetching data:', error)
            } finally {
@@ -75,7 +85,8 @@ export default function DashboardPage() {
            }
          }
 
-  const totalClicks = links.reduce((sum, link) => sum + link.clickCount, 0)
+  const totalClicks = analytics?.totalClicks || links.reduce((sum, link) => sum + link.clickCount, 0)
+  const profileViews = analytics?.totalProfileViews || 0
 
   const handleSaveLink = async (linkData: Link) => {
     try {
@@ -142,7 +153,7 @@ export default function DashboardPage() {
   const stats = [
     { name: "Total Links", value: links.length.toString(), icon: LinkIcon },
     ...(analyticsEnabled ? [{ name: "Total Clicks", value: totalClicks.toString(), icon: BarChart3 }] : []),
-    ...(analyticsEnabled ? [{ name: "Profile Views", value: "0", icon: Eye }] : []),
+    ...(analyticsEnabled ? [{ name: "Profile Views", value: profileViews.toString(), icon: Eye }] : []),
   ]
 
   if (loading) {

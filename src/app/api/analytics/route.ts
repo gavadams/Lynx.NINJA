@@ -1,9 +1,18 @@
 import { NextResponse } from "next/server"
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
 
 export async function GET() {
   try {
+    // Get the current user from NextAuth
+    const session = await getServerSession(authOptions)
+    
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
     const cookieStore = await cookies()
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -17,11 +26,16 @@ export async function GET() {
       }
     )
 
-    // Get the current user
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    
-    if (authError || !user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    // First, get the user from the database by email
+    const { data: user, error: userError } = await supabase
+      .from('User')
+      .select('id')
+      .eq('email', session.user.email)
+      .single()
+
+    if (userError || !user) {
+      console.error("Error fetching user:", userError)
+      return NextResponse.json({ error: "User not found" }, { status: 404 })
     }
 
     // Get user's links with click counts
@@ -48,9 +62,20 @@ export async function GET() {
       return NextResponse.json({ error: "Failed to fetch analytics" }, { status: 500 })
     }
 
+    // Get profile view count
+    const { data: profileViews, error: profileViewsError } = await supabase
+      .from('ProfileViewAnalytics')
+      .select('id')
+      .eq('userId', user.id)
+
+    if (profileViewsError) {
+      console.error("Error fetching profile views:", profileViewsError)
+    }
+
     // Calculate stats
     const totalClicks = links?.reduce((sum, link) => sum + link.clickCount, 0) || 0
     const totalLinks = links?.length || 0
+    const totalProfileViews = profileViews?.length || 0
 
     // Calculate time-based stats
     const now = new Date()
@@ -110,6 +135,7 @@ export async function GET() {
     return NextResponse.json({
       totalClicks,
       totalLinks,
+      totalProfileViews,
       clicksToday,
       clicksThisWeek,
       clicksThisMonth,

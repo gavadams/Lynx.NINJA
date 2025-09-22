@@ -74,6 +74,28 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
       if (response.ok) {
         const data = await response.json()
         setProfileData(data)
+        
+        // Track profile view
+        try {
+          await fetch(`/api/profile-view/${resolvedParams.username}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              ipAddress: '', // Will be filled by server
+              userAgent: navigator.userAgent,
+              referer: document.referrer,
+              country: '',
+              city: '',
+              device: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop',
+              browser: getBrowserName(navigator.userAgent)
+            }),
+          })
+        } catch (trackingError) {
+          console.error('Failed to track profile view:', trackingError)
+          // Don't fail the page load if tracking fails
+        }
       } else if (response.status === 404) {
         setError("User not found")
       } else {
@@ -84,6 +106,14 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
     } finally {
       setLoading(false)
     }
+  }
+
+  const getBrowserName = (userAgent: string) => {
+    if (userAgent.includes('Chrome')) return 'Chrome'
+    if (userAgent.includes('Firefox')) return 'Firefox'
+    if (userAgent.includes('Safari')) return 'Safari'
+    if (userAgent.includes('Edge')) return 'Edge'
+    return 'Unknown'
   }
 
   const copyProfileUrl = async () => {
