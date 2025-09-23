@@ -68,21 +68,21 @@ export async function GET(request: NextRequest) {
     ] = await Promise.all([
       supabase.from('User').select('*', { count: 'exact', head: true }),
       supabase.from('Link').select('*', { count: 'exact', head: true }),
-      supabase.from('Click').select('*', { count: 'exact', head: true }),
+      supabase.from('Analytics').select('*', { count: 'exact', head: true }),
       supabase.from('User').select('*', { count: 'exact', head: true }).eq('isPremium', true)
     ])
 
     // Get user registration trends
     const { data: userRegistrations } = await supabase
       .from('User')
-      .select('createdAt')
-      .gte('createdAt', dateFilter.split(',')[0].replace('gte.', ''))
+      .select('clickTime')
+      .gte('clickTime', dateFilter.split(',')[0].replace('gte.', ''))
 
     // Get click trends
     const { data: clickTrends } = await supabase
-      .from('Click')
-      .select('createdAt')
-      .gte('createdAt', dateFilter.split(',')[0].replace('gte.', ''))
+      .from('Analytics')
+      .select('clickTime')
+      .gte('clickTime', dateFilter.split(',')[0].replace('gte.', ''))
 
     // Get top performing links
     const { data: topLinks } = await supabase
@@ -102,17 +102,17 @@ export async function GET(request: NextRequest) {
 
     // Get geographic distribution
     const { data: geoData } = await supabase
-      .from('Click')
+      .from('Analytics')
       .select('country, city')
       .not('country', 'is', null)
-      .gte('createdAt', dateFilter.split(',')[0].replace('gte.', ''))
+      .gte('clickTime', dateFilter.split(',')[0].replace('gte.', ''))
 
     // Get device/browser stats
     const { data: deviceData } = await supabase
-      .from('Click')
-      .select('deviceType, browser')
-      .not('deviceType', 'is', null)
-      .gte('createdAt', dateFilter.split(',')[0].replace('gte.', ''))
+      .from('Analytics')
+      .select('device, browser')
+      .not('device', 'is', null)
+      .gte('clickTime', dateFilter.split(',')[0].replace('gte.', ''))
 
     // Process data for charts
     const processTimeSeriesData = (data: any[], dateField: string) => {
@@ -144,7 +144,7 @@ export async function GET(request: NextRequest) {
 
     // Process device data
     const deviceStats = deviceData?.reduce((acc, click) => {
-      const device = click.deviceType || 'Unknown'
+      const device = click.device || 'Unknown'
       acc[device] = (acc[device] || 0) + 1
       return acc
     }, {} as Record<string, number>) || {}

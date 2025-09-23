@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
     ] = await Promise.all([
       supabase.from('User').select('*', { count: 'exact', head: true }).gte('createdAt', oneHourAgo.toISOString()),
       supabase.from('Link').select('*', { count: 'exact', head: true }).gte('createdAt', oneHourAgo.toISOString()),
-      supabase.from('Click').select('*', { count: 'exact', head: true }).gte('createdAt', oneHourAgo.toISOString()),
+      supabase.from('Analytics').select('*', { count: 'exact', head: true }).gte('clickTime', oneHourAgo.toISOString()),
       supabase.from('SystemLog').select('*', { count: 'exact', head: true }).eq('logLevel', 'error').gte('timestamp', oneHourAgo.toISOString())
     ])
 

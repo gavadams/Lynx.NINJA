@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
     ] = await Promise.all([
       supabase.from('User').select('*', { count: 'exact', head: true }),
       supabase.from('Link').select('*', { count: 'exact', head: true }),
-      supabase.from('Click').select('*', { count: 'exact', head: true }),
+      supabase.from('Analytics').select('*', { count: 'exact', head: true }),
       supabase.from('Subscription').select('*', { count: 'exact', head: true }),
       supabase.from('Team').select('*', { count: 'exact', head: true }),
       supabase.from('CustomDomain').select('*', { count: 'exact', head: true }),
@@ -80,8 +80,8 @@ export async function GET(request: NextRequest) {
       .limit(10)
 
     const { data: orphanedClicks } = await supabase
-      .from('Click')
-      .select('id, linkId, createdAt')
+      .from('Analytics')
+      .select('id, linkId, clickTime')
       .is('linkId', null)
       .limit(10)
 
@@ -162,7 +162,7 @@ export async function POST(request: NextRequest) {
       case 'cleanup_orphaned_records':
         // Clean up orphaned clicks
         const { error: cleanupClicksError } = await supabase
-          .from('Click')
+          .from('Analytics')
           .delete()
           .is('linkId', null)
 

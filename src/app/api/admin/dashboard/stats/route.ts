@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
 
     // Get total clicks count
     const { count: totalClicks } = await supabase
-      .from('Click')
+      .from('Analytics')
       .select('*', { count: 'exact', head: true })
 
     // Get premium users count
