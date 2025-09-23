@@ -340,12 +340,12 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
               <p className="text-gray-700 mb-4 text-wrap-balance">{user.bio}</p>
             )}
 
-            <div className="flex space-x-2 mb-4">
+            <div className="flex items-center justify-center mb-4">
               <Button 
                 variant="outline" 
                 size="sm" 
                 onClick={copyProfileUrl}
-                className="flex-1"
+                className="mr-2"
               >
                 {copied ? (
                   <>
@@ -360,17 +360,17 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
                 )}
               </Button>
               <Button 
-                variant="outline" 
+                variant="ghost" 
                 size="sm" 
                 onClick={() => setReportModal({ 
                   type: 'user', 
                   userId: user.id, 
                   userName: user.username 
                 })}
-                className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 p-2"
+                title="Report this profile"
               >
-                <Flag className="h-4 w-4 mr-2" />
-                Report
+                <Flag className="h-4 w-4" />
               </Button>
             </div>
 
@@ -467,7 +467,7 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
               return (
                 <Card 
                   key={link.id} 
-                  className={`transition-shadow ${
+                  className={`group transition-shadow ${
                     isClickable ? 'hover:shadow-lg cursor-pointer' : 'cursor-not-allowed opacity-60'
                   }`}
                   onClick={() => isClickable && handleLinkClick(link)}
@@ -525,9 +525,10 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
                               linkTitle: link.title 
                             })
                           }}
-                          className="text-red-600 hover:text-red-700 hover:bg-red-50 p-1 h-8 w-8"
+                          className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 p-1 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                          title="Report this link"
                         >
-                          <Flag className="h-4 w-4" />
+                          <Flag className="h-3 w-3" />
                         </Button>
                       </div>
                     </div>
