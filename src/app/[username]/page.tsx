@@ -226,32 +226,6 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
     }
   }
 
-  const handlePasswordSubmit = async (password: string): Promise<boolean> => {
-    if (!passwordModal) return false
-
-    try {
-      const response = await fetch(`/api/links/${passwordModal.linkId}/check-password`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ password })
-      })
-
-      if (response.ok) {
-        const link = profileData?.links.find(l => l.id === passwordModal.linkId)
-        if (link) {
-          await openLink(link.id, link.url)
-          setPasswordModal(null)
-          return true
-        }
-      }
-      return false
-    } catch (error) {
-      console.error('Password check failed:', error)
-      return false
-    }
-  }
 
   const isLinkScheduled = (link: Link) => {
     return link.scheduledAt && new Date(link.scheduledAt) > new Date()
@@ -544,7 +518,13 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
           <PasswordProtection
             linkId={passwordModal.linkId}
             linkTitle={passwordModal.linkTitle}
-            onPasswordVerified={() => setPasswordModal(null)}
+            onPasswordVerified={async () => {
+              const link = profileData?.links.find(l => l.id === passwordModal.linkId)
+              if (link) {
+                await openLink(link.id, link.url)
+              }
+              setPasswordModal(null)
+            }}
             onCancel={() => setPasswordModal(null)}
           />
         )}
