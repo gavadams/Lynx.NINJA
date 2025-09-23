@@ -113,7 +113,7 @@ export default function UserDetailPage() {
       <div className="p-4 sm:p-6 bg-background dark min-h-screen">
         <div className="mb-6 sm:mb-8">
           <div className="flex items-center space-x-4">
-            <Button variant="outline" onClick={() => router.back()}>
+            <Button variant="secondary" onClick={() => router.back()}>
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back
             </Button>
@@ -153,7 +153,7 @@ export default function UserDetailPage() {
     <div className="p-4 sm:p-6 bg-background dark min-h-screen">
       <div className="mb-6 sm:mb-8">
         <div className="flex items-center space-x-4">
-          <Button variant="outline" onClick={() => router.back()}>
+          <Button variant="secondary" onClick={() => router.back()}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
