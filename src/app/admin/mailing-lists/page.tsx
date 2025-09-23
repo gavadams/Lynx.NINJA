@@ -282,7 +282,7 @@ export default function AdminMailingListsPage() {
               </div>
             </div>
             <div className="flex justify-end space-x-2">
-              <Button variant="outline" onClick={editingList ? cancelEdit : () => setShowCreateForm(false)}>
+              <Button variant="secondary" onClick={editingList ? cancelEdit : () => setShowCreateForm(false)}>
                 Cancel
               </Button>
               <Button onClick={editingList ? handleUpdateList : handleCreateList}>

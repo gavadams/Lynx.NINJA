@@ -120,7 +120,7 @@ export default function ScheduledLinksPage() {
       </div>
 
       <div className="flex items-center justify-end mb-6">
-        <Button onClick={fetchScheduledLinks} variant="outline">
+        <Button onClick={fetchScheduledLinks} variant="secondary">
           <RefreshCw className="h-4 w-4 mr-2" />
           Refresh
         </Button>

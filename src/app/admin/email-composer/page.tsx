@@ -229,14 +229,14 @@ export default function EmailComposerPage() {
       <div className="flex items-center justify-end mb-6">
         <div className="flex items-center space-x-2">
           <Button
-            variant="outline"
+            variant="secondary"
             onClick={() => setPreviewMode(!previewMode)}
           >
             <Eye className="h-4 w-4 mr-2" />
             {previewMode ? 'Edit' : 'Preview'}
           </Button>
           <Button
-            variant="outline"
+            variant="secondary"
             onClick={handleSaveTemplate}
             disabled={saving}
           >

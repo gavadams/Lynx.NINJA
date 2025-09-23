@@ -216,7 +216,7 @@ export default function BillingPage() {
 
       <div className="flex items-center justify-end mb-6">
         <Select value={period} onValueChange={setPeriod}>
-          <SelectTrigger className="w-48">
+          <SelectTrigger className="w-48 bg-background border-border text-foreground">
             <SelectValue placeholder="Select period" />
           </SelectTrigger>
           <SelectContent>

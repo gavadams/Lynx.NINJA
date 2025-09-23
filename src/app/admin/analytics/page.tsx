@@ -134,7 +134,7 @@ export default function AnalyticsPage() {
           </p>
         </div>
         <Select value={period} onValueChange={setPeriod}>
-          <SelectTrigger className="w-48">
+          <SelectTrigger className="w-48 bg-background border-border text-foreground">
             <SelectValue placeholder="Select period" />
           </SelectTrigger>
           <SelectContent>

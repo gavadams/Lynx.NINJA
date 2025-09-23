@@ -227,7 +227,7 @@ export default function ModerationPage() {
 
       <div className="flex items-center justify-end mb-6">
         <Select value={filterType} onValueChange={setFilterType}>
-          <SelectTrigger className="w-48">
+          <SelectTrigger className="w-48 bg-background border-border text-foreground">
             <SelectValue placeholder="Filter content" />
           </SelectTrigger>
           <SelectContent>

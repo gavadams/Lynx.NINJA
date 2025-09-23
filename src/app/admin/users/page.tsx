@@ -213,7 +213,7 @@ export default function UsersPage() {
               </div>
             </div>
             <Select value={status} onValueChange={handleStatusChange}>
-              <SelectTrigger className="w-full sm:w-48">
+              <SelectTrigger className="w-full sm:w-48 bg-background border-border text-foreground">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
               <SelectContent>
