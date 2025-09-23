@@ -15,6 +15,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Save, Loader2, User, Link as LinkIcon } from "lucide-react"
+import { ProfilePictureUpload } from "@/components/profile-picture-upload"
 import PremiumFeatures from "@/components/premium-features"
 import { DomainManagement } from "@/components/domain-management"
 import { EmailCaptureManagement } from "@/components/email-capture-management"
@@ -269,20 +270,15 @@ export default function SettingsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex items-center space-x-4">
-              <Avatar className="h-20 w-20">
-                <AvatarImage src={profile.profileImage} alt={profile.displayName} />
-                <AvatarFallback className="text-2xl">
-                  {profile.displayName.charAt(0).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-              <div>
-                <p className="text-sm text-gray-500">Profile Picture</p>
-                <p className="text-xs text-gray-400">
-                  Update your profile picture through your OAuth provider
-                </p>
-              </div>
-            </div>
+            <ProfilePictureUpload
+              currentImage={profile.profileImage}
+              displayName={profile.displayName}
+              onImageUpdate={(imageUrl) => {
+                setFormData(prev => ({ ...prev, profileImage: imageUrl || undefined }))
+                setProfile(prev => prev ? { ...prev, profileImage: imageUrl || undefined } : null)
+              }}
+              disabled={saving}
+            />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -338,7 +334,12 @@ export default function SettingsPage() {
             <div className="bg-muted rounded-lg p-4">
               <div className="rounded-lg p-6 bg-gradient-to-br from-blue-50 to-indigo-100">
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-gray-300 rounded-full mx-auto mb-4"></div>
+                  <Avatar className="w-16 h-16 mx-auto mb-4">
+                    <AvatarImage src={formData.profileImage} alt={formData.displayName || 'Your Name'} />
+                    <AvatarFallback className="text-lg">
+                      {(formData.displayName || 'Your Name').charAt(0).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
                   <h3 className="text-lg font-semibold text-blue-600 mb-1">
                     {formData.displayName || 'Your Name'}
                   </h3>
