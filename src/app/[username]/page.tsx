@@ -405,10 +405,19 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
                     return colors[platform] || 'bg-gray-500 hover:bg-gray-600'
                   }
 
+                  // Format URL to ensure it has proper protocol
+                  const formatUrl = (url: string) => {
+                    const trimmedUrl = url.trim()
+                    if (!trimmedUrl.startsWith('http://') && !trimmedUrl.startsWith('https://')) {
+                      return 'https://' + trimmedUrl
+                    }
+                    return trimmedUrl
+                  }
+
                   return (
                     <a
                       key={socialLink.id}
-                      href={socialLink.url}
+                      href={formatUrl(socialLink.url)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={`w-12 h-12 rounded-full flex items-center justify-center text-white transition-colors ${getPlatformColor(socialLink.platform)}`}
