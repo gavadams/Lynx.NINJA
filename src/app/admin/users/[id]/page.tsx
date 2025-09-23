@@ -62,6 +62,7 @@ export default function UserDetailPage() {
       const data = await response.json()
 
       if (response.ok) {
+        console.log('User data received:', data.user)
         setUser(data.user)
       } else {
         setError(data.error || 'Failed to fetch user')
@@ -136,6 +137,18 @@ export default function UserDetailPage() {
     )
   }
 
+  // Don't render main content until user data is loaded
+  if (!user) {
+    return (
+      <div className="p-4 sm:p-6 bg-background dark min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <RefreshCw className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading user details...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="p-4 sm:p-6 bg-background dark min-h-screen">
       <div className="mb-6 sm:mb-8">
@@ -156,7 +169,7 @@ export default function UserDetailPage() {
         </div>
         <div className="flex items-center space-x-2">
           <Button asChild>
-            <Link href={`/admin/users/${user.id}/edit`}>
+            <Link href={`/admin/users/${user?.id}/edit`}>
               <Edit className="h-4 w-4 mr-2" />
               Edit User
             </Link>
@@ -204,7 +217,7 @@ export default function UserDetailPage() {
                     {user.displayName || 'No display name'}
                   </h3>
                   <p className="text-gray-600">@{user.username}</p>
-                  {user.isPremium && (
+                  {Boolean(user.isPremium) && (
                     <Badge variant="default" className="bg-yellow-100 text-yellow-800 mt-1">
                       <Crown className="h-3 w-3 mr-1" />
                       Premium User
@@ -295,7 +308,7 @@ export default function UserDetailPage() {
                 <div className="flex items-center mt-1">
                   <Calendar className="h-4 w-4 text-gray-400 mr-2" />
                   <span className="text-blue-600">
-                    {formatDistanceToNow(new Date(user.createdAt), { addSuffix: true })}
+                    {user.createdAt ? formatDistanceToNow(new Date(user.createdAt), { addSuffix: true }) : 'Unknown'}
                   </span>
                 </div>
               </div>
@@ -304,7 +317,7 @@ export default function UserDetailPage() {
                 <div className="flex items-center mt-1">
                   <Calendar className="h-4 w-4 text-gray-400 mr-2" />
                   <span className="text-blue-600">
-                    {formatDistanceToNow(new Date(user.updatedAt), { addSuffix: true })}
+                    {user.updatedAt ? formatDistanceToNow(new Date(user.updatedAt), { addSuffix: true }) : 'Unknown'}
                   </span>
                 </div>
               </div>
@@ -327,13 +340,13 @@ export default function UserDetailPage() {
             </CardHeader>
             <CardContent className="space-y-2">
               <Button asChild className="w-full">
-                <Link href={`/admin/users/${user.id}/edit`}>
+                <Link href={`/admin/users/${user?.id}/edit`}>
                   <Edit className="h-4 w-4 mr-2" />
                   Edit User
                 </Link>
               </Button>
               <Button asChild variant="outline" className="w-full">
-                <Link href={`/${user.username}`} target="_blank">
+                <Link href={`/${user?.username}`} target="_blank">
                   <Globe className="h-4 w-4 mr-2" />
                   View Public Profile
                 </Link>
