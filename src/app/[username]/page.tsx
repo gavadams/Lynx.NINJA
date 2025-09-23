@@ -463,7 +463,7 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
                             <Clock className="h-4 w-4 text-red-600 flex-shrink-0" />
                           )}
                         </div>
-                        {!isPasswordProtected && !isScheduled && (
+                        {!isPasswordProtected && !isScheduled && !isExpired && (
                         <p className="text-sm text-gray-500 url-break">
                           {link.url}
                         </p>
