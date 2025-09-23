@@ -218,8 +218,11 @@ export async function POST(request: NextRequest) {
     }
 
     const { action, resourceType, resourceId, reason } = await request.json()
+    
+    console.log('🔧 Admin moderation action received:', { action, resourceType, resourceId, reason })
 
     if (!action || !resourceType || !resourceId) {
+      console.error('❌ Missing required fields:', { action, resourceType, resourceId })
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
     }
 
@@ -240,6 +243,7 @@ export async function POST(request: NextRequest) {
 
     switch (action) {
       case 'deactivate_link':
+        console.log('🔧 Attempting to deactivate link:', resourceId)
         const { data: deactivatedLink, error: deactivateError } = await supabase
           .from('Link')
           .update({ isActive: false })
@@ -248,9 +252,11 @@ export async function POST(request: NextRequest) {
           .single()
 
         if (deactivateError) {
+          console.error('❌ Failed to deactivate link:', deactivateError)
           return NextResponse.json({ error: "Failed to deactivate link" }, { status: 500 })
         }
 
+        console.log('✅ Link deactivated successfully:', deactivatedLink)
         result = { link: deactivatedLink }
         break
 

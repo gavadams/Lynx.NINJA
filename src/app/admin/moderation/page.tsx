@@ -165,6 +165,7 @@ export default function ModerationPage() {
   }
 
   const handleModerationAction = async (action: string, resourceType: string, resourceId: string, reason?: string) => {
+    console.log('🔧 Moderation action called:', { action, resourceType, resourceId, reason })
     setActionLoading(resourceId)
     try {
       const response = await fetch('/api/admin/moderation', {
@@ -180,14 +181,20 @@ export default function ModerationPage() {
         }),
       })
 
+      console.log('📡 API response status:', response.status)
+      const responseData = await response.json()
+      console.log('📡 API response data:', responseData)
+
       if (response.ok) {
+        console.log('✅ Moderation action successful, refreshing data...')
         // Refresh the data
         fetchModerationData()
       } else {
-        const errorData = await response.json()
-        setError(errorData.error || 'Failed to perform moderation action')
+        console.error('❌ Moderation action failed:', responseData)
+        setError(responseData.error || 'Failed to perform moderation action')
       }
     } catch (err) {
+      console.error('🚨 Network error during moderation action:', err)
       setError('Network error. Please try again.')
     } finally {
       setActionLoading(null)
@@ -396,7 +403,14 @@ export default function ModerationPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => window.open(link.url, '_blank')}
+                      onClick={() => {
+                        // Format URL to ensure it has proper protocol
+                        let formattedUrl = link.url.trim()
+                        if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://')) {
+                          formattedUrl = 'https://' + formattedUrl
+                        }
+                        window.open(formattedUrl, '_blank')
+                      }}
                     >
                       <Eye className="h-4 w-4" />
                     </Button>
@@ -481,7 +495,14 @@ export default function ModerationPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => window.open(link.url, '_blank')}
+                      onClick={() => {
+                        // Format URL to ensure it has proper protocol
+                        let formattedUrl = link.url.trim()
+                        if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://')) {
+                          formattedUrl = 'https://' + formattedUrl
+                        }
+                        window.open(formattedUrl, '_blank')
+                      }}
                     >
                       <Eye className="h-4 w-4" />
                     </Button>
@@ -668,6 +689,22 @@ export default function ModerationPage() {
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
+                    {report.ReportedLink && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          // Format URL to ensure it has proper protocol
+                          let formattedUrl = report.ReportedLink!.url.trim()
+                          if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://')) {
+                            formattedUrl = 'https://' + formattedUrl
+                          }
+                          window.open(formattedUrl, '_blank')
+                        }}
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                    )}
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="sm" disabled={actionLoading === report.id}>
