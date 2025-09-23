@@ -41,7 +41,7 @@ interface FlaggedLink {
   title: string
   url: string
   isActive: boolean
-  clickCount: number
+  clicks: number
   createdAt: string
   User: {
     id: string
@@ -65,7 +65,7 @@ interface HighClickLink {
   id: string
   title: string
   url: string
-  clickCount: number
+  clicks: number
   createdAt: string
   User: {
     id: string
@@ -83,11 +83,42 @@ interface ProlificUser {
   linkCount: number
 }
 
+interface UserReport {
+  id: string
+  reportType: string
+  reason: string
+  description?: string
+  status: string
+  createdAt: string
+  Reporter?: {
+    id: string
+    username: string
+    displayName: string
+  }
+  ReportedUser?: {
+    id: string
+    username: string
+    displayName: string
+    email: string
+  }
+  ReportedLink?: {
+    id: string
+    title: string
+    url: string
+    User: {
+      id: string
+      username: string
+      displayName: string
+    }
+  }
+}
+
 interface ModerationData {
   flaggedLinks: FlaggedLink[]
   flaggedUsers: FlaggedUser[]
   highClickLinks: HighClickLink[]
   prolificUsers: ProlificUser[]
+  userReports: UserReport[]
   stats: {
     totalLinks: number
     totalUsers: number
@@ -95,6 +126,7 @@ interface ModerationData {
     premiumUsers: number
     flaggedLinks: number
     flaggedUsers: number
+    pendingReports: number
   }
 }
 
@@ -160,8 +192,8 @@ export default function ModerationPage() {
   }
 
   const getRiskLevel = (link: FlaggedLink | HighClickLink) => {
-    if (link.clickCount > 10000) return 'high'
-    if (link.clickCount > 1000) return 'medium'
+    if (link.clicks > 10000) return 'high'
+    if (link.clicks > 1000) return 'medium'
     return 'low'
   }
 
@@ -234,6 +266,7 @@ export default function ModerationPage() {
             <SelectItem value="all">All Content</SelectItem>
             <SelectItem value="links">Flagged Links</SelectItem>
             <SelectItem value="users">Flagged Users</SelectItem>
+            <SelectItem value="reports">User Reports</SelectItem>
             <SelectItem value="high-click">High Click Links</SelectItem>
             <SelectItem value="prolific">Prolific Users</SelectItem>
           </SelectContent>
@@ -297,6 +330,20 @@ export default function ModerationPage() {
             </div>
           </CardContent>
         </Card>
+
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300">
+          <CardContent className="p-6">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <Flag className="h-8 w-8 text-orange-600" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-500">Pending Reports</p>
+                <p className="text-2xl font-bold text-blue-600">{data.stats.pendingReports}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Flagged Links */}
@@ -338,7 +385,7 @@ export default function ModerationPage() {
                     <p className="text-sm text-gray-600 truncate">{link.url}</p>
                     <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500">
                       <span>by @{link.User.username}</span>
-                      <span>{link.clickCount.toLocaleString()} clicks</span>
+                      <span>{link.clicks.toLocaleString()} clicks</span>
                       <span>{formatDistanceToNow(new Date(link.createdAt), { addSuffix: true })}</span>
                     </div>
                   </div>
@@ -423,7 +470,7 @@ export default function ModerationPage() {
                     <p className="text-sm text-gray-600 truncate">{link.url}</p>
                     <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500">
                       <span>by @{link.User.username}</span>
-                      <span className="font-medium text-blue-600">{link.clickCount.toLocaleString()} clicks</span>
+                      <span className="font-medium text-blue-600">{link.clicks.toLocaleString()} clicks</span>
                       <span>{formatDistanceToNow(new Date(link.createdAt), { addSuffix: true })}</span>
                     </div>
                   </div>
@@ -566,6 +613,108 @@ export default function ModerationPage() {
                 <div className="text-center py-8">
                   <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-2" />
                   <p className="text-sm text-gray-500">No prolific users found</p>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* User Reports */}
+      {(filterType === 'all' || filterType === 'reports') && (
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300 mb-6">
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <Flag className="h-5 w-5 mr-2 text-orange-600" />
+              User Reports
+            </CardTitle>
+            <CardDescription>
+              Reports submitted by users about inappropriate content
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {data.userReports.map((report) => (
+                <div key={report.id} className="flex items-start justify-between p-4 bg-orange-50 rounded-lg">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <Badge variant="outline" className="text-xs">
+                        {report.reportType}
+                      </Badge>
+                      <Badge variant={report.status === 'pending' ? 'destructive' : 'secondary'} className="text-xs">
+                        {report.status}
+                      </Badge>
+                    </div>
+                    <h4 className="text-sm font-medium text-orange-600 mb-1">
+                      {report.reason}
+                    </h4>
+                    {report.description && (
+                      <p className="text-sm text-gray-600 mb-2">{report.description}</p>
+                    )}
+                    <div className="flex items-center space-x-4 text-xs text-gray-500">
+                      {report.ReportedUser && (
+                        <span>User: @{report.ReportedUser.username}</span>
+                      )}
+                      {report.ReportedLink && (
+                        <span>Link: "{report.ReportedLink.title}" by @{report.ReportedLink.User.username}</span>
+                      )}
+                      {report.Reporter && (
+                        <span>Reported by: @{report.Reporter.username}</span>
+                      )}
+                      <span>{formatDistanceToNow(new Date(report.createdAt), { addSuffix: true })}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="sm" disabled={actionLoading === report.id}>
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem 
+                          onClick={() => handleModerationAction('resolve_report', 'report', report.id, 'Report resolved')}
+                        >
+                          <CheckCircle className="h-4 w-4 mr-2" />
+                          Mark as Resolved
+                        </DropdownMenuItem>
+                        <DropdownMenuItem 
+                          onClick={() => handleModerationAction('dismiss_report', 'report', report.id, 'Report dismissed')}
+                        >
+                          <X className="h-4 w-4 mr-2" />
+                          Dismiss Report
+                        </DropdownMenuItem>
+                        {report.ReportedUser && (
+                          <>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem 
+                              onClick={() => handleModerationAction('suspend_user', 'user', report.ReportedUser!.id, 'Suspended due to report')}
+                            >
+                              <Shield className="h-4 w-4 mr-2" />
+                              Suspend User
+                            </DropdownMenuItem>
+                          </>
+                        )}
+                        {report.ReportedLink && (
+                          <>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem 
+                              onClick={() => handleModerationAction('deactivate_link', 'link', report.ReportedLink!.id, 'Deactivated due to report')}
+                            >
+                              <AlertTriangle className="h-4 w-4 mr-2" />
+                              Deactivate Link
+                            </DropdownMenuItem>
+                          </>
+                        )}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </div>
+              ))}
+              {data.userReports.length === 0 && (
+                <div className="text-center py-8">
+                  <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-2" />
+                  <p className="text-sm text-gray-500">No user reports found</p>
                 </div>
               )}
             </div>

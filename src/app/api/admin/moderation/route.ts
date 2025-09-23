@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
           title,
           url,
           isActive,
-          clickCount,
+          clicks,
           createdAt,
           User (
             id,
@@ -92,7 +92,7 @@ export async function GET(request: NextRequest) {
         id,
         title,
         url,
-        clickCount,
+        clicks,
         createdAt,
         User (
           id,
@@ -100,8 +100,8 @@ export async function GET(request: NextRequest) {
           displayName
         )
       `)
-      .gt('clickCount', 1000)
-      .order('clickCount', { ascending: false })
+      .gt('clicks', 1000)
+      .order('clicks', { ascending: false })
       .limit(10)
 
     data.highClickLinks = highClickLinks || []
@@ -135,17 +135,56 @@ export async function GET(request: NextRequest) {
       .sort((a, b) => b.linkCount - a.linkCount)
       .slice(0, 10)
 
+    // Get recent user reports
+    const { data: userReports } = await supabase
+      .from('Report')
+      .select(`
+        id,
+        reportType,
+        reason,
+        description,
+        status,
+        createdAt,
+        Reporter:reporterId (
+          id,
+          username,
+          displayName
+        ),
+        ReportedUser:reportedUserId (
+          id,
+          username,
+          displayName,
+          email
+        ),
+        ReportedLink:reportedLinkId (
+          id,
+          title,
+          url,
+          User (
+            id,
+            username,
+            displayName
+          )
+        )
+      `)
+      .order('createdAt', { ascending: false })
+      .limit(20)
+
+    data.userReports = userReports || []
+
     // Get moderation statistics
     const [
       { count: totalLinks },
       { count: totalUsers },
       { count: activeLinks },
-      { count: premiumUsers }
+      { count: premiumUsers },
+      { count: pendingReports }
     ] = await Promise.all([
       supabase.from('Link').select('*', { count: 'exact', head: true }),
       supabase.from('User').select('*', { count: 'exact', head: true }),
       supabase.from('Link').select('*', { count: 'exact', head: true }).eq('isActive', true),
-      supabase.from('User').select('*', { count: 'exact', head: true }).eq('isPremium', true)
+      supabase.from('User').select('*', { count: 'exact', head: true }).eq('isPremium', true),
+      supabase.from('Report').select('*', { count: 'exact', head: true }).eq('status', 'pending')
     ])
 
     data.stats = {
@@ -154,7 +193,8 @@ export async function GET(request: NextRequest) {
       activeLinks: activeLinks || 0,
       premiumUsers: premiumUsers || 0,
       flaggedLinks: data.flaggedLinks?.length || 0,
-      flaggedUsers: data.flaggedUsers?.length || 0
+      flaggedUsers: data.flaggedUsers?.length || 0,
+      pendingReports: pendingReports || 0
     }
 
     return NextResponse.json(data)
@@ -259,6 +299,27 @@ export async function POST(request: NextRequest) {
         }
 
         result = { user: suspendedUser }
+        break
+
+      case 'resolve_report':
+      case 'dismiss_report':
+        const { data: updatedReport, error: reportError } = await supabase
+          .from('Report')
+          .update({ 
+            status: action === 'resolve_report' ? 'resolved' : 'dismissed',
+            resolvedBy: authResult.admin!.id,
+            resolvedAt: new Date().toISOString()
+          })
+          .eq('id', resourceId)
+          .select()
+          .single()
+
+        if (reportError) {
+          console.error('Error updating report:', reportError)
+          return NextResponse.json({ error: "Failed to update report" }, { status: 500 })
+        }
+
+        result = { report: updatedReport }
         break
 
       default:

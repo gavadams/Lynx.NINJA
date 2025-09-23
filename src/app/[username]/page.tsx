@@ -5,10 +5,11 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { ExternalLink, Copy, Check, Clock, Lock } from "lucide-react"
+import { ExternalLink, Copy, Check, Clock, Lock, Flag } from "lucide-react"
 import PasswordProtection from "@/components/password-protection"
 import { EmailCaptureForm } from "@/components/email-capture-form"
 import { DynamicLogo } from "@/components/dynamic-logo"
+import { ReportModal } from "@/components/report-modal"
 import { getSiteConfig } from "@/lib/config"
 import { getThemeClasses, loadCustomThemes, getCustomThemeStyles } from "@/lib/theme-utils"
 import Link from "next/link"
@@ -65,6 +66,7 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
   const [error, setError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
   const [passwordModal, setPasswordModal] = useState<{ linkId: string; linkTitle: string } | null>(null)
+  const [reportModal, setReportModal] = useState<{ type: 'user' | 'link'; userId?: string; linkId?: string; userName?: string; linkTitle?: string } | null>(null)
   const [customThemeStyles, setCustomThemeStyles] = useState<React.CSSProperties | null>(null)
   const { siteName } = getSiteConfig()
 
@@ -338,24 +340,39 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
               <p className="text-gray-700 mb-4 text-wrap-balance">{user.bio}</p>
             )}
 
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={copyProfileUrl}
-              className="mb-4"
-            >
-              {copied ? (
-                <>
-                  <Check className="h-4 w-4 mr-2" />
-                  Copied!
-                </>
-              ) : (
-                <>
-                  <Copy className="h-4 w-4 mr-2" />
-                  Copy Link
-                </>
-              )}
-            </Button>
+            <div className="flex space-x-2 mb-4">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={copyProfileUrl}
+                className="flex-1"
+              >
+                {copied ? (
+                  <>
+                    <Check className="h-4 w-4 mr-2" />
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy className="h-4 w-4 mr-2" />
+                    Copy Link
+                  </>
+                )}
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => setReportModal({ 
+                  type: 'user', 
+                  userId: user.id, 
+                  userName: user.username 
+                })}
+                className="text-red-600 hover:text-red-700 hover:bg-red-50"
+              >
+                <Flag className="h-4 w-4 mr-2" />
+                Report
+              </Button>
+            </div>
 
             <div className="flex justify-center space-x-4 text-sm text-gray-500">
               <span>{activeLinks.length} links</span>
@@ -495,7 +512,24 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
                           )}
                         </div>
                       </div>
-                      {isClickable && <ExternalLink className="h-5 w-5 text-gray-400" />}
+                      <div className="flex items-center space-x-2">
+                        {isClickable && <ExternalLink className="h-5 w-5 text-gray-400" />}
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setReportModal({ 
+                              type: 'link', 
+                              linkId: link.id, 
+                              linkTitle: link.title 
+                            })
+                          }}
+                          className="text-red-600 hover:text-red-700 hover:bg-red-50 p-1 h-8 w-8"
+                        >
+                          <Flag className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -540,6 +574,19 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
                    </Link>
                  </p>
                </div>
+
+               {/* Report Modal */}
+               {reportModal && (
+                 <ReportModal
+                   isOpen={!!reportModal}
+                   onClose={() => setReportModal(null)}
+                   reportType={reportModal.type}
+                   reportedUserId={reportModal.userId}
+                   reportedLinkId={reportModal.linkId}
+                   reportedUserName={reportModal.userName}
+                   reportedLinkTitle={reportModal.linkTitle}
+                 />
+               )}
       </div>
     </div>
   )
