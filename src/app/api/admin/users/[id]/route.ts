@@ -46,7 +46,8 @@ export async function GET(
         theme,
         isPremium,
         createdAt,
-        updatedAt
+        updatedAt,
+        lastLoginAt
       `)
       .eq('id', id)
       .single()

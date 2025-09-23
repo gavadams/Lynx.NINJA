@@ -107,10 +107,10 @@ export const authOptions: NextAuthOptions = {
       return token
     },
     signIn: async ({ user, account, profile }) => {
-      // Auto-create user profile in database
+      // Auto-create user profile in database and update last login
       if (user?.id && user?.email) {
         try {
-                 const response = await fetch(`${getBaseUrl()}/api/user/profile`, {
+          const response = await fetch(`${getBaseUrl()}/api/user/profile`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -125,6 +125,32 @@ export const authOptions: NextAuthOptions = {
           
           if (!response.ok) {
             console.log('User profile creation failed, but continuing with sign in')
+          }
+
+          // Update last login time
+          try {
+            const { createServerClient } = await import('@supabase/ssr')
+            const { cookies } = await import('next/headers')
+
+            const cookieStore = await cookies()
+            const supabase = createServerClient(
+              process.env.NEXT_PUBLIC_SUPABASE_URL!,
+              process.env.SUPABASE_SERVICE_ROLE_KEY!,
+              {
+                cookies: {
+                  get(name: string) {
+                    return cookieStore.get(name)?.value
+                  },
+                },
+              }
+            )
+
+            await supabase
+              .from('User')
+              .update({ lastLoginAt: new Date().toISOString() })
+              .eq('id', user.id)
+          } catch (loginUpdateError) {
+            console.log('Error updating last login time:', loginUpdateError)
           }
         } catch (error) {
           console.log('Error creating user profile:', error)
