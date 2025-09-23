@@ -77,6 +77,8 @@ export default function DatabasePage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [actionLoading, setActionLoading] = useState<string | null>(null)
+  const [selectedTable, setSelectedTable] = useState<string>('')
+  const [tableDetails, setTableDetails] = useState<any>(null)
 
   useEffect(() => {
     fetchDatabaseData()
@@ -126,6 +128,37 @@ export default function DatabasePage() {
       setError('Network error. Please try again.')
     } finally {
       setActionLoading(null)
+    }
+  }
+
+  const fetchTableDetails = async (tableName: string) => {
+    try {
+      const response = await fetch('/api/admin/database', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ action: 'get_table_details', tableName }),
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        setTableDetails(result.result)
+      } else {
+        const errorData = await response.json()
+        setError(errorData.error || 'Failed to fetch table details')
+      }
+    } catch (err) {
+      setError('Network error. Please try again.')
+    }
+  }
+
+  const handleTableSelect = (tableName: string) => {
+    setSelectedTable(tableName)
+    if (tableName) {
+      fetchTableDetails(tableName)
+    } else {
+      setTableDetails(null)
     }
   }
 
@@ -266,28 +299,61 @@ export default function DatabasePage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        {/* Table Information */}
+        {/* Table Selection */}
         <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
-            <CardTitle>Table Information</CardTitle>
+            <CardTitle>Table Explorer</CardTitle>
             <CardDescription>
-              Size and row count for each table
+              Select a table to view its details and data
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {data.tables.map((table) => (
-                <div key={table.table} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <div className="flex items-center space-x-3">
-                    {getTableIcon(table.table)}
-                    <span className="text-sm font-medium text-blue-600">{table.table}</span>
+              <Select value={selectedTable} onValueChange={handleTableSelect}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a table to explore" />
+                </SelectTrigger>
+                <SelectContent>
+                  {data.tables.map((table) => (
+                    <SelectItem key={table.table} value={table.table}>
+                      <div className="flex items-center space-x-2">
+                        {getTableIcon(table.table)}
+                        <span>{table.table}</span>
+                        <span className="text-xs text-gray-500">({table.rows.toLocaleString()} rows)</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              {tableDetails && (
+                <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                  <h4 className="font-medium text-blue-600 mb-2">{tableDetails.tableName}</h4>
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <span className="text-gray-500">Total Rows:</span>
+                      <span className="ml-2 font-medium">{tableDetails.count.toLocaleString()}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-500">Columns:</span>
+                      <span className="ml-2 font-medium">{tableDetails.columns.length}</span>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm font-medium text-blue-600">{table.rows.toLocaleString()} rows</p>
-                    <p className="text-xs text-gray-500">{table.size}</p>
-                  </div>
+                  
+                  {tableDetails.columns.length > 0 && (
+                    <div className="mt-3">
+                      <p className="text-sm text-gray-500 mb-2">Columns:</p>
+                      <div className="flex flex-wrap gap-1">
+                        {tableDetails.columns.map((column: string) => (
+                          <Badge key={column} variant="secondary" className="text-xs">
+                            {column}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              ))}
+              )}
             </div>
           </CardContent>
         </Card>
@@ -424,6 +490,47 @@ export default function DatabasePage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Table Data Preview */}
+      {tableDetails && tableDetails.sampleData.length > 0 && (
+        <Card className="card-ninja hover:glow-ninja transition-all duration-300 mb-6">
+          <CardHeader>
+            <CardTitle>Sample Data - {tableDetails.tableName}</CardTitle>
+            <CardDescription>
+              First 10 rows from the selected table
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b">
+                    {tableDetails.columns.map((column: string) => (
+                      <th key={column} className="text-left p-2 font-medium text-gray-600">
+                        {column}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {tableDetails.sampleData.map((row: any, index: number) => (
+                    <tr key={index} className="border-b hover:bg-gray-50">
+                      {tableDetails.columns.map((column: string) => (
+                        <td key={column} className="p-2 text-gray-800">
+                          {typeof row[column] === 'object' 
+                            ? JSON.stringify(row[column]) 
+                            : String(row[column] || '')
+                          }
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
