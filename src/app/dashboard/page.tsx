@@ -66,13 +66,13 @@ function SortableLinkItem({
     <div
       ref={setNodeRef}
       style={style}
-      className="flex items-center justify-between p-4 bg-white rounded-lg border border-gray-200 hover:shadow-md transition-shadow"
+      className="flex items-center justify-between p-4 bg-card text-foreground rounded-lg border border-border hover:shadow-md transition-shadow"
     >
       <div className="flex items-center space-x-3 flex-1 min-w-0">
         <div
           {...attributes}
           {...listeners}
-          className="cursor-move p-1 hover:bg-gray-100 rounded"
+          className="cursor-move p-1 hover:bg-muted rounded"
         >
           <GripVertical className="h-4 w-4 text-gray-400" />
         </div>

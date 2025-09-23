@@ -172,9 +172,9 @@ export function MailingListPreferences({ className }: MailingListPreferencesProp
         <div className="space-y-4">
           <h3 className="text-lg font-medium text-blue-600">Your Subscriptions</h3>
           {subscriptions.length === 0 ? (
-            <div className="text-center py-8 bg-gray-50 rounded-lg">
-              <Mail className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600">No mailing list subscriptions found.</p>
+            <div className="text-center py-8 bg-muted rounded-lg">
+              <Mail className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+              <p className="text-muted-foreground">No mailing list subscriptions found.</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -242,7 +242,7 @@ export function MailingListPreferences({ className }: MailingListPreferencesProp
                 return (
                   <div
                     key={list.id}
-                    className="flex items-center justify-between p-4 border rounded-lg bg-gray-50"
+                    className="flex items-center justify-between p-4 border rounded-lg bg-muted"
                   >
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-1">

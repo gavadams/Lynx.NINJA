@@ -335,7 +335,7 @@ export default function SettingsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="bg-gray-50 rounded-lg p-4">
+            <div className="bg-muted rounded-lg p-4">
               <div className="rounded-lg p-6 bg-gradient-to-br from-blue-50 to-indigo-100">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-gray-300 rounded-full mx-auto mb-4"></div>
@@ -395,9 +395,9 @@ export default function SettingsPage() {
 
         {/* Error Display */}
         {errors.general && (
-          <Card className="border-red-200 bg-red-50">
+          <Card className="border-destructive/20 bg-destructive/10">
             <CardContent className="p-4">
-              <p className="text-sm text-red-600">{errors.general}</p>
+              <p className="text-sm text-destructive">{errors.general}</p>
             </CardContent>
           </Card>
         )}

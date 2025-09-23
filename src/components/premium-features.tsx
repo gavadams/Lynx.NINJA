@@ -140,8 +140,8 @@ export default function PremiumFeatures({ isPremium, onUpgrade, onManageBilling 
           <Card key={index} className={isPremium ? "" : "opacity-60"}>
             <CardContent className="p-6">
               <div className="flex items-start space-x-4">
-                <div className={`p-2 rounded-lg ${isPremium ? "bg-green-100" : "bg-gray-100"}`}>
-                  <feature.icon className={`h-6 w-6 ${isPremium ? "text-green-600" : "text-gray-400"}`} />
+                <div className={`p-2 rounded-lg ${isPremium ? "bg-green-500/10" : "bg-muted"}`}>
+                  <feature.icon className={`h-6 w-6 ${isPremium ? "text-green-600" : "text-muted-foreground"}`} />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center space-x-2">

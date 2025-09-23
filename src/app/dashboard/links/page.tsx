@@ -118,7 +118,7 @@ function SortableLinkItem({
     <div
       ref={setNodeRef}
       style={style}
-      className="bg-white shadow rounded-lg p-3 sm:p-4"
+      className="bg-card text-foreground shadow rounded-lg p-3 sm:p-4 border border-border"
     >
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-start space-x-3 sm:space-x-4 flex-1 min-w-0">
@@ -148,7 +148,7 @@ function SortableLinkItem({
               />
             ) : (
               <p 
-                className="text-sm sm:text-base font-medium text-blue-600 prevent-overflow cursor-pointer hover:bg-gray-50 p-1 rounded truncate"
+                className="text-sm sm:text-base font-medium text-primary prevent-overflow cursor-pointer hover:bg-muted p-1 rounded truncate"
                 onClick={() => setIsEditingTitle(true)}
                 title="Click to edit title"
               >
@@ -166,7 +166,7 @@ function SortableLinkItem({
               />
             ) : (
               <p 
-                className="text-xs sm:text-sm text-gray-500 url-break cursor-pointer hover:bg-gray-50 p-1 rounded truncate"
+                className="text-xs sm:text-sm text-muted-foreground url-break cursor-pointer hover:bg-muted p-1 rounded truncate"
                 onClick={() => setIsEditingUrl(true)}
                 title="Click to edit URL"
               >
@@ -472,7 +472,7 @@ export default function LinksPage() {
 
       {/* Add Link Form */}
       {isAdding && (
-        <div className="bg-white shadow rounded-lg p-4 sm:p-6 mb-6">
+      <div className="bg-card text-foreground border border-border shadow rounded-lg p-4 sm:p-6 mb-6">
           <h3 className="text-lg font-medium text-blue-600 mb-4">Add New Link</h3>
           <div className="space-y-4">
             <div>

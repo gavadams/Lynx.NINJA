@@ -294,8 +294,8 @@ export function EmailCaptureManagement({
               </div>
               
               {selectedEmailCaptureId && (
-                <div className="p-3 bg-white rounded-md border border-blue-200">
-                  <p className="text-xs text-blue-700">
+                <div className="p-3 bg-card rounded-md border border-primary/20">
+                  <p className="text-xs text-primary">
                     <strong>✓ Active:</strong> This form will appear at the bottom of your public links page, 
                     allowing visitors to subscribe to your updates.
                   </p>
@@ -303,8 +303,8 @@ export function EmailCaptureManagement({
               )}
               
               {!selectedEmailCaptureId && captures.length > 0 && (
-                <div className="p-3 bg-white rounded-md border border-blue-200">
-                  <p className="text-xs text-blue-700">
+                <div className="p-3 bg-card rounded-md border border-primary/20">
+                  <p className="text-xs text-primary">
                     <strong>ℹ️ No form selected:</strong> Choose a form above to display it on your links page.
                   </p>
                 </div>
@@ -455,10 +455,10 @@ export function EmailCaptureManagement({
                     </div>
 
                     <div className="mt-3 space-y-3">
-                      <div className="p-3 bg-gray-50 rounded-md">
-                        <p className="text-xs text-gray-600 mb-2">Embed Code (for websites):</p>
+                      <div className="p-3 bg-muted rounded-md">
+                        <p className="text-xs text-muted-foreground mb-2">Embed Code (for websites):</p>
                         <div className="flex items-center gap-2">
-                          <code className="text-xs bg-white px-2 py-1 rounded flex-1 overflow-x-auto break-all">
+                          <code className="text-xs bg-background px-2 py-1 rounded flex-1 overflow-x-auto break-all">
                             {getEmbedCode(capture.id)}
                           </code>
                           <Button
@@ -471,10 +471,10 @@ export function EmailCaptureManagement({
                         </div>
                       </div>
                       
-                      <div className="p-3 bg-blue-50 rounded-md">
-                        <p className="text-xs text-blue-600 mb-2">Direct Link (for testing):</p>
+                      <div className="p-3 bg-primary/10 rounded-md">
+                        <p className="text-xs text-primary mb-2">Direct Link (for testing):</p>
                         <div className="flex items-center gap-2">
-                          <code className="text-xs bg-white px-2 py-1 rounded flex-1 overflow-x-auto break-all">
+                          <code className="text-xs bg-background px-2 py-1 rounded flex-1 overflow-x-auto break-all">
                             {getDirectLink(capture.id)}
                           </code>
                           <Button
