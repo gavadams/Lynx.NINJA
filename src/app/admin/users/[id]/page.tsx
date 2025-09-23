@@ -29,7 +29,7 @@ interface User {
   displayName: string
   profileImage?: string
   bio?: string
-  theme: string
+  theme: string | object
   isPremium: boolean
   createdAt: string
   updatedAt: string
@@ -245,7 +245,9 @@ export default function UserDetailPage() {
                   <label className="text-sm font-medium text-gray-500">Theme</label>
                   <div className="flex items-center mt-1">
                     <Globe className="h-4 w-4 text-gray-400 mr-2" />
-                    <span className="text-blue-600 capitalize">{user.theme}</span>
+                    <span className="text-blue-600 capitalize">
+                      {typeof user.theme === 'string' ? user.theme : 'default'}
+                    </span>
                   </div>
                 </div>
                 <div>
