@@ -205,12 +205,22 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
         })
       })
 
+      // Format URL to ensure it has proper protocol
+      let formattedUrl = url.trim()
+      if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://')) {
+        formattedUrl = 'https://' + formattedUrl
+      }
+
       // Open the link
-      window.open(url, '_blank')
+      window.open(formattedUrl, '_blank')
     } catch (err) {
       console.error('Failed to track click:', err)
       // Still open the link even if tracking fails
-      window.open(url, '_blank')
+      let formattedUrl = url.trim()
+      if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://')) {
+        formattedUrl = 'https://' + formattedUrl
+      }
+      window.open(formattedUrl, '_blank')
     }
   }
 
