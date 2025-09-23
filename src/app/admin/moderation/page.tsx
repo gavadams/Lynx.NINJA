@@ -148,9 +148,11 @@ export default function ModerationPage() {
     try {
       setLoading(true)
       setError(null)
+      console.log('🔄 Fetching moderation data...')
 
       const response = await fetch('/api/admin/moderation')
       const moderationData = await response.json()
+      console.log('📊 Fetched moderation data:', moderationData)
 
       if (response.ok) {
         setData(moderationData)
@@ -158,6 +160,7 @@ export default function ModerationPage() {
         setError(moderationData.error || 'Failed to fetch moderation data')
       }
     } catch (err) {
+      console.error('❌ Failed to fetch moderation data:', err)
       setError('Network error. Please try again.')
     } finally {
       setLoading(false)
@@ -187,8 +190,10 @@ export default function ModerationPage() {
 
       if (response.ok) {
         console.log('✅ Moderation action successful, refreshing data...')
+        console.log('📊 Result data:', responseData.result)
         // Refresh the data
-        fetchModerationData()
+        await fetchModerationData()
+        console.log('🔄 Data refreshed after moderation action')
       } else {
         console.error('❌ Moderation action failed:', responseData)
         setError(responseData.error || 'Failed to perform moderation action')
