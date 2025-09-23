@@ -79,11 +79,11 @@ export default function EditUserPage() {
       if (response.ok) {
         setUser(data.user)
         setFormData({
-          username: data.user.username || '',
-          displayName: data.user.displayName || '',
-          bio: data.user.bio || '',
-          theme: data.user.theme || 'default',
-          isPremium: data.user.isPremium || false
+          username: data.user?.username || '',
+          displayName: data.user?.displayName || '',
+          bio: data.user?.bio || '',
+          theme: data.user?.theme || 'default',
+          isPremium: Boolean(data.user?.isPremium)
         })
       } else {
         setError(data.error || 'Failed to fetch user')
@@ -134,6 +134,16 @@ export default function EditUserPage() {
     setFormData(prev => ({
       ...prev,
       [field]: value
+    }))
+  }
+
+  const handleSwitchChange = (field: string, checked: boolean | string) => {
+    console.log('Switch change:', field, checked, typeof checked)
+    // Ensure we only pass boolean values
+    const booleanValue = typeof checked === 'boolean' ? checked : checked === 'true'
+    setFormData(prev => ({
+      ...prev,
+      [field]: booleanValue
     }))
   }
 
@@ -291,7 +301,7 @@ export default function EditUserPage() {
                       <Switch
                         id="isPremium"
                         checked={formData.isPremium}
-                        onCheckedChange={(checked) => handleInputChange('isPremium', checked)}
+                        onCheckedChange={(checked) => handleSwitchChange('isPremium', checked)}
                       />
                       <Label htmlFor="isPremium" className="flex items-center">
                         <Crown className="h-4 w-4 mr-1" />

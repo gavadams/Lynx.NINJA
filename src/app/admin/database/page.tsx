@@ -361,7 +361,7 @@ export default function DatabasePage() {
       </div>
 
       {/* Database Actions */}
-      <Card className="card-ninja hover:glow-ninja transition-all duration-300">
+      <Card className="card-ninja hover:glow-ninja transition-all duration-300 mb-6">
         <CardHeader>
           <CardTitle>Database Actions</CardTitle>
           <CardDescription>
