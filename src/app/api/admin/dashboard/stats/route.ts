@@ -81,6 +81,19 @@ export async function GET(request: NextRequest) {
       .select('*', { count: 'exact', head: true })
       .eq('status', 'pending')
 
+    // Get moderation stats
+    const [
+      { count: pendingReports },
+      { count: flaggedLinks },
+      { count: flaggedUsers },
+      { count: highClickLinks }
+    ] = await Promise.all([
+      supabase.from('Report').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+      supabase.from('Link').select('*', { count: 'exact', head: true }).or('title.ilike.%spam%,title.ilike.%scam%,title.ilike.%fake%,url.ilike.%spam%,url.ilike.%scam%'),
+      supabase.from('User').select('*', { count: 'exact', head: true }).or('username.ilike.%spam%,displayName.ilike.%spam%,bio.ilike.%spam%'),
+      supabase.from('Link').select('*', { count: 'exact', head: true }).gt('clicks', 1000)
+    ])
+
     // Get recent system logs for health check
     const { data: recentLogs } = await supabase
       .from('SystemLog')
@@ -123,7 +136,12 @@ export async function GET(request: NextRequest) {
       systemHealth,
       uptime: '99.9%', // This would need to be calculated from actual uptime data
       lastBackup: new Date().toISOString(), // This would need to be fetched from backup system
-      pendingInvitations: pendingInvitations || 0
+      pendingInvitations: pendingInvitations || 0,
+      // Moderation stats
+      pendingReports: pendingReports || 0,
+      flaggedLinks: flaggedLinks || 0,
+      flaggedUsers: flaggedUsers || 0,
+      highClickLinks: highClickLinks || 0
     }
 
     return NextResponse.json({ stats })

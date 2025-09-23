@@ -217,9 +217,9 @@ export default function ModerationPage() {
       case 'high':
         return 'bg-red-100 text-red-800'
       case 'medium':
-        return 'bg-yellow-100 text-yellow-800'
+        return 'bg-yellow-500/10 text-yellow-600'
       case 'low':
-        return 'bg-green-100 text-green-800'
+        return 'bg-green-500/10 text-green-600'
       default:
         return 'bg-gray-100 text-gray-800'
     }
@@ -294,11 +294,11 @@ export default function ModerationPage() {
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <LinkIcon className="h-8 w-8 text-blue-600" />
+                <LinkIcon className="h-8 w-8 text-primary" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">Total Links</p>
-                <p className="text-2xl font-bold text-blue-600">{data.stats.totalLinks.toLocaleString()}</p>
+                <p className="text-sm font-medium text-muted-foreground">Total Links</p>
+                <p className="text-2xl font-bold text-primary">{data.stats.totalLinks.toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -311,8 +311,8 @@ export default function ModerationPage() {
                 <Users className="h-8 w-8 text-green-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">Total Users</p>
-                <p className="text-2xl font-bold text-blue-600">{data.stats.totalUsers.toLocaleString()}</p>
+                <p className="text-sm font-medium text-muted-foreground">Total Users</p>
+                <p className="text-2xl font-bold text-primary">{data.stats.totalUsers.toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -325,8 +325,8 @@ export default function ModerationPage() {
                 <AlertTriangle className="h-8 w-8 text-red-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">Flagged Links</p>
-                <p className="text-2xl font-bold text-blue-600">{data.stats.flaggedLinks}</p>
+                <p className="text-sm font-medium text-muted-foreground">Flagged Links</p>
+                <p className="text-2xl font-bold text-primary">{data.stats.flaggedLinks}</p>
               </div>
             </div>
           </CardContent>
@@ -339,8 +339,8 @@ export default function ModerationPage() {
                 <Shield className="h-8 w-8 text-purple-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">Flagged Users</p>
-                <p className="text-2xl font-bold text-blue-600">{data.stats.flaggedUsers}</p>
+                <p className="text-sm font-medium text-muted-foreground">Flagged Users</p>
+                <p className="text-2xl font-bold text-primary">{data.stats.flaggedUsers}</p>
               </div>
             </div>
           </CardContent>
@@ -353,8 +353,8 @@ export default function ModerationPage() {
                 <Flag className="h-8 w-8 text-orange-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">Pending Reports</p>
-                <p className="text-2xl font-bold text-blue-600">{data.stats.pendingReports}</p>
+                <p className="text-sm font-medium text-muted-foreground">Pending Reports</p>
+                <p className="text-2xl font-bold text-primary">{data.stats.pendingReports}</p>
               </div>
             </div>
           </CardContent>
@@ -376,17 +376,17 @@ export default function ModerationPage() {
           <CardContent>
             <div className="space-y-4">
               {data.flaggedLinks.map((link) => (
-                <div key={link.id} className="flex items-center justify-between p-4 bg-red-50 rounded-lg">
+                <div key={link.id} className="flex items-center justify-between p-4 bg-destructive/10 rounded-lg">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2 mb-2">
-                      <h4 className="text-sm font-medium text-blue-600 truncate">
+                      <h4 className="text-sm font-medium text-primary truncate">
                         {link.title}
                       </h4>
                       <Badge className={getRiskColor(getRiskLevel(link))}>
                         {getRiskLevel(link)} risk
                       </Badge>
                       {link.isActive ? (
-                        <Badge variant="default" className="bg-green-100 text-green-800">
+                        <Badge variant="default" className="bg-green-500/10 text-green-600">
                           <CheckCircle className="h-3 w-3 mr-1" />
                           Active
                         </Badge>
@@ -397,8 +397,8 @@ export default function ModerationPage() {
                         </Badge>
                       )}
                     </div>
-                    <p className="text-sm text-gray-600 truncate">{link.url}</p>
-                    <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500">
+                    <p className="text-sm text-muted-foreground truncate">{link.url}</p>
+                    <div className="flex items-center space-x-4 mt-2 text-xs text-muted-foreground">
                       <span>by @{link.User.username}</span>
                       <span>{link.clicks.toLocaleString()} clicks</span>
                       <span>{formatDistanceToNow(new Date(link.createdAt), { addSuffix: true })}</span>
@@ -421,7 +421,7 @@ export default function ModerationPage() {
                     </Button>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" disabled={actionLoading === link.id}>
+                        <Button variant="secondary" size="sm" disabled={actionLoading === link.id}>
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
@@ -456,7 +456,7 @@ export default function ModerationPage() {
               {data.flaggedLinks.length === 0 && (
                 <div className="text-center py-8">
                   <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                  <p className="text-sm text-gray-500">No flagged links found</p>
+                  <p className="text-sm text-muted-foreground">No flagged links found</p>
                 </div>
               )}
             </div>
@@ -469,7 +469,7 @@ export default function ModerationPage() {
         <Card className="card-ninja hover:glow-ninja transition-all duration-300 mb-6">
           <CardHeader>
             <CardTitle className="flex items-center">
-              <MousePointer className="h-5 w-5 mr-2 text-blue-600" />
+              <MousePointer className="h-5 w-5 mr-2 text-primary" />
               High Click Links
             </CardTitle>
             <CardDescription>
@@ -479,20 +479,20 @@ export default function ModerationPage() {
           <CardContent>
             <div className="space-y-4">
               {data.highClickLinks.map((link) => (
-                <div key={link.id} className="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
+                <div key={link.id} className="flex items-center justify-between p-4 bg-primary/10 rounded-lg">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2 mb-2">
-                      <h4 className="text-sm font-medium text-blue-600 truncate">
+                      <h4 className="text-sm font-medium text-primary truncate">
                         {link.title}
                       </h4>
                       <Badge className={getRiskColor(getRiskLevel(link))}>
                         {getRiskLevel(link)} risk
                       </Badge>
                     </div>
-                    <p className="text-sm text-gray-600 truncate">{link.url}</p>
-                    <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500">
+                    <p className="text-sm text-muted-foreground truncate">{link.url}</p>
+                    <div className="flex items-center space-x-4 mt-2 text-xs text-muted-foreground">
                       <span>by @{link.User.username}</span>
-                      <span className="font-medium text-blue-600">{link.clicks.toLocaleString()} clicks</span>
+                      <span className="font-medium text-primary">{link.clicks.toLocaleString()} clicks</span>
                       <span>{formatDistanceToNow(new Date(link.createdAt), { addSuffix: true })}</span>
                     </div>
                   </div>
@@ -534,24 +534,24 @@ export default function ModerationPage() {
           <CardContent>
             <div className="space-y-4">
               {data.flaggedUsers.map((user) => (
-                <div key={user.id} className="flex items-center justify-between p-4 bg-purple-50 rounded-lg">
+                <div key={user.id} className="flex items-center justify-between p-4 bg-purple-500/10 rounded-lg">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2 mb-2">
-                      <h4 className="text-sm font-medium text-blue-600">
+                      <h4 className="text-sm font-medium text-primary">
                         {user.displayName || 'No display name'}
                       </h4>
-                      <span className="text-sm text-gray-500">@{user.username}</span>
+                      <span className="text-sm text-muted-foreground">@{user.username}</span>
                       {user.isPremium && (
-                        <Badge variant="default" className="bg-yellow-100 text-yellow-800">
+                        <Badge variant="default" className="bg-yellow-500/10 text-yellow-600">
                           <Crown className="h-3 w-3 mr-1" />
                           Premium
                         </Badge>
                       )}
                     </div>
                     {user.bio && (
-                      <p className="text-sm text-gray-600 mb-2">{user.bio}</p>
+                      <p className="text-sm text-muted-foreground mb-2">{user.bio}</p>
                     )}
-                    <div className="flex items-center space-x-4 text-xs text-gray-500">
+                    <div className="flex items-center space-x-4 text-xs text-muted-foreground">
                       <span>{user.email}</span>
                       <span>{formatDistanceToNow(new Date(user.createdAt), { addSuffix: true })}</span>
                     </div>
@@ -559,7 +559,7 @@ export default function ModerationPage() {
                   <div className="flex items-center space-x-2">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" disabled={actionLoading === user.id}>
+                        <Button variant="secondary" size="sm" disabled={actionLoading === user.id}>
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
@@ -579,7 +579,7 @@ export default function ModerationPage() {
               {data.flaggedUsers.length === 0 && (
                 <div className="text-center py-8">
                   <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                  <p className="text-sm text-gray-500">No flagged users found</p>
+                  <p className="text-sm text-muted-foreground">No flagged users found</p>
                 </div>
               )}
             </div>
@@ -602,18 +602,18 @@ export default function ModerationPage() {
           <CardContent>
             <div className="space-y-4">
               {data.prolificUsers.map((user) => (
-                <div key={user.id} className="flex items-center justify-between p-4 bg-orange-50 rounded-lg">
+                <div key={user.id} className="flex items-center justify-between p-4 bg-orange-500/10 rounded-lg">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2 mb-2">
-                      <h4 className="text-sm font-medium text-blue-600">
+                      <h4 className="text-sm font-medium text-primary">
                         {user.displayName || 'No display name'}
                       </h4>
-                      <span className="text-sm text-gray-500">@{user.username}</span>
+                      <span className="text-sm text-muted-foreground">@{user.username}</span>
                       <Badge variant="secondary">
                         {user.linkCount} links
                       </Badge>
                     </div>
-                    <div className="flex items-center space-x-4 text-xs text-gray-500">
+                    <div className="flex items-center space-x-4 text-xs text-muted-foreground">
                       <span>{user.email}</span>
                       <span>{formatDistanceToNow(new Date(user.createdAt), { addSuffix: true })}</span>
                     </div>
@@ -621,7 +621,7 @@ export default function ModerationPage() {
                   <div className="flex items-center space-x-2">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" disabled={actionLoading === user.id}>
+                        <Button variant="secondary" size="sm" disabled={actionLoading === user.id}>
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
@@ -641,7 +641,7 @@ export default function ModerationPage() {
               {data.prolificUsers.length === 0 && (
                 <div className="text-center py-8">
                   <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                  <p className="text-sm text-gray-500">No prolific users found</p>
+                  <p className="text-sm text-muted-foreground">No prolific users found</p>
                 </div>
               )}
             </div>
@@ -664,7 +664,7 @@ export default function ModerationPage() {
           <CardContent>
             <div className="space-y-4">
               {data.userReports.map((report) => (
-                <div key={report.id} className="flex items-start justify-between p-4 bg-orange-50 rounded-lg">
+                <div key={report.id} className="flex items-start justify-between p-4 bg-orange-500/10 rounded-lg">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2 mb-2">
                       <Badge variant="outline" className="text-xs">
@@ -678,9 +678,9 @@ export default function ModerationPage() {
                       {report.reason}
                     </h4>
                     {report.description && (
-                      <p className="text-sm text-gray-600 mb-2">{report.description}</p>
+                      <p className="text-sm text-muted-foreground mb-2">{report.description}</p>
                     )}
-                    <div className="flex items-center space-x-4 text-xs text-gray-500">
+                    <div className="flex items-center space-x-4 text-xs text-muted-foreground">
                       {report.ReportedUser && (
                         <span>User: @{report.ReportedUser.username}</span>
                       )}
@@ -712,7 +712,7 @@ export default function ModerationPage() {
                     )}
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" disabled={actionLoading === report.id}>
+                        <Button variant="secondary" size="sm" disabled={actionLoading === report.id}>
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
@@ -759,7 +759,7 @@ export default function ModerationPage() {
               {data.userReports.length === 0 && (
                 <div className="text-center py-8">
                   <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                  <p className="text-sm text-gray-500">No user reports found</p>
+                  <p className="text-sm text-muted-foreground">No user reports found</p>
                 </div>
               )}
             </div>

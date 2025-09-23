@@ -13,6 +13,9 @@ import {
   CheckCircle,
   Clock,
   TrendingUp,
+  Flag,
+  Shield,
+  MousePointer,
 } from 'lucide-react'
 
 interface DashboardStats {
@@ -28,6 +31,11 @@ interface DashboardStats {
   uptime: string
   lastBackup: string
   pendingInvitations: number
+  // Moderation stats
+  pendingReports: number
+  flaggedLinks: number
+  flaggedUsers: number
+  highClickLinks: number
 }
 
 export default function AdminDashboard() {
@@ -57,13 +65,13 @@ export default function AdminDashboard() {
   const getHealthBadge = (health: string) => {
     switch (health) {
       case 'healthy':
-        return <Badge className="bg-green-100 text-green-800"><CheckCircle className="h-3 w-3 mr-1" />Healthy</Badge>
+        return <Badge className="bg-green-500/10 text-green-600"><CheckCircle className="h-3 w-3 mr-1" />Healthy</Badge>
       case 'warning':
-        return <Badge className="bg-yellow-100 text-yellow-800"><AlertTriangle className="h-3 w-3 mr-1" />Warning</Badge>
+        return <Badge className="bg-yellow-500/10 text-yellow-600"><AlertTriangle className="h-3 w-3 mr-1" />Warning</Badge>
       case 'critical':
-        return <Badge className="bg-red-100 text-red-800"><AlertTriangle className="h-3 w-3 mr-1" />Critical</Badge>
+        return <Badge className="bg-red-500/10 text-red-600"><AlertTriangle className="h-3 w-3 mr-1" />Critical</Badge>
       default:
-        return <Badge className="bg-gray-100 text-gray-800">Unknown</Badge>
+        return <Badge className="bg-muted text-muted-foreground">Unknown</Badge>
     }
   }
 
@@ -135,14 +143,14 @@ export default function AdminDashboard() {
           <CardContent className="p-4 sm:p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <Users className="h-5 w-5 sm:h-6 sm:w-6 text-gray-400" />
+                <Users className="h-5 w-5 sm:h-6 sm:w-6 text-muted-foreground" />
               </div>
               <div className="ml-3 sm:ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-xs sm:text-sm font-medium text-gray-500 truncate">
+                  <dt className="text-xs sm:text-sm font-medium text-muted-foreground truncate">
                     Total Users
                   </dt>
-                  <dd className="text-base sm:text-lg font-medium text-blue-600">
+                  <dd className="text-base sm:text-lg font-medium text-primary">
                     {stats.totalUsers.toLocaleString()}
                   </dd>
                 </dl>
@@ -155,14 +163,14 @@ export default function AdminDashboard() {
           <CardContent className="p-4 sm:p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <LinkIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gray-400" />
+                <LinkIcon className="h-5 w-5 sm:h-6 sm:w-6 text-muted-foreground" />
               </div>
               <div className="ml-3 sm:ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-xs sm:text-sm font-medium text-gray-500 truncate">
+                  <dt className="text-xs sm:text-sm font-medium text-muted-foreground truncate">
                     Total Links
                   </dt>
-                  <dd className="text-base sm:text-lg font-medium text-blue-600">
+                  <dd className="text-base sm:text-lg font-medium text-primary">
                     {stats.totalLinks.toLocaleString()}
                   </dd>
                 </dl>
@@ -175,14 +183,14 @@ export default function AdminDashboard() {
           <CardContent className="p-4 sm:p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <BarChart3 className="h-5 w-5 sm:h-6 sm:w-6 text-gray-400" />
+                <BarChart3 className="h-5 w-5 sm:h-6 sm:w-6 text-muted-foreground" />
               </div>
               <div className="ml-3 sm:ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-xs sm:text-sm font-medium text-gray-500 truncate">
+                  <dt className="text-xs sm:text-sm font-medium text-muted-foreground truncate">
                     Total Clicks
                   </dt>
-                  <dd className="text-base sm:text-lg font-medium text-blue-600">
+                  <dd className="text-base sm:text-lg font-medium text-primary">
                     {stats.totalClicks.toLocaleString()}
                   </dd>
                 </dl>
@@ -195,14 +203,14 @@ export default function AdminDashboard() {
           <CardContent className="p-4 sm:p-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <PoundSterling className="h-5 w-5 sm:h-6 sm:w-6 text-gray-400" />
+                <PoundSterling className="h-5 w-5 sm:h-6 sm:w-6 text-muted-foreground" />
               </div>
               <div className="ml-3 sm:ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-xs sm:text-sm font-medium text-gray-500 truncate">
+                  <dt className="text-xs sm:text-sm font-medium text-muted-foreground truncate">
                     Total Revenue
                   </dt>
-                  <dd className="text-base sm:text-lg font-medium text-blue-600">
+                  <dd className="text-base sm:text-lg font-medium text-primary">
                     ${stats.totalRevenue.toLocaleString()}
                   </dd>
                 </dl>
@@ -227,15 +235,15 @@ export default function AdminDashboard() {
           <CardContent>
             <div className="space-y-4">
               <div className="flex justify-between">
-                <span className="text-sm text-gray-600">Today</span>
+                <span className="text-sm text-muted-foreground">Today</span>
                 <span className="text-sm font-medium">{stats.newUsersToday}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-gray-600">This Week</span>
+                <span className="text-sm text-muted-foreground">This Week</span>
                 <span className="text-sm font-medium">{stats.newUsersThisWeek}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-gray-600">This Month</span>
+                <span className="text-sm text-muted-foreground">This Month</span>
                 <span className="text-sm font-medium">{stats.newUsersThisMonth}</span>
               </div>
             </div>
@@ -245,7 +253,7 @@ export default function AdminDashboard() {
         <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center">
-              <Activity className="h-5 w-5 mr-2 text-blue-600" />
+              <Activity className="h-5 w-5 mr-2 text-primary" />
               System Status
             </CardTitle>
             <CardDescription>
@@ -255,15 +263,15 @@ export default function AdminDashboard() {
           <CardContent>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">Health Status</span>
+                <span className="text-sm text-muted-foreground">Health Status</span>
                 {getHealthBadge(stats.systemHealth)}
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-gray-600">Uptime</span>
+                <span className="text-sm text-muted-foreground">Uptime</span>
                 <span className="text-sm font-medium">{stats.uptime}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-gray-600">Last Backup</span>
+                <span className="text-sm text-muted-foreground">Last Backup</span>
                 <span className="text-sm font-medium">{stats.lastBackup}</span>
               </div>
             </div>
@@ -273,22 +281,38 @@ export default function AdminDashboard() {
         <Card className="card-ninja hover:glow-ninja transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center">
-              <Clock className="h-5 w-5 mr-2 text-orange-600" />
-              Pending Actions
+              <Shield className="h-5 w-5 mr-2 text-orange-600" />
+              Moderation Actions
             </CardTitle>
             <CardDescription>
-              Items requiring attention
+              Items requiring moderation attention
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="flex justify-between">
-                <span className="text-sm text-gray-600">Team Invitations</span>
-                <Badge variant="secondary">{stats.pendingInvitations}</Badge>
+                <span className="text-sm text-muted-foreground">Pending Reports</span>
+                <Badge variant={stats.pendingReports > 0 ? "destructive" : "secondary"}>
+                  {stats.pendingReports}
+                </Badge>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-gray-600">Active Users</span>
-                <span className="text-sm font-medium">{stats.activeUsers}</span>
+                <span className="text-sm text-muted-foreground">Flagged Links</span>
+                <Badge variant={stats.flaggedLinks > 0 ? "destructive" : "secondary"}>
+                  {stats.flaggedLinks}
+                </Badge>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-sm text-muted-foreground">Flagged Users</span>
+                <Badge variant={stats.flaggedUsers > 0 ? "destructive" : "secondary"}>
+                  {stats.flaggedUsers}
+                </Badge>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-sm text-muted-foreground">High Click Links</span>
+                <Badge variant={stats.highClickLinks > 0 ? "default" : "secondary"}>
+                  {stats.highClickLinks}
+                </Badge>
               </div>
             </div>
           </CardContent>
