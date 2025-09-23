@@ -11,6 +11,7 @@ import { EmailCaptureForm } from "@/components/email-capture-form"
 import { DynamicLogo } from "@/components/dynamic-logo"
 import { getSiteConfig } from "@/lib/config"
 import { getThemeClasses, loadCustomThemes, getCustomThemeStyles } from "@/lib/theme-utils"
+import Link from "next/link"
 
 interface Link {
   id: string
@@ -299,10 +300,12 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
       <div className="container mx-auto px-4 py-8 max-w-md">
         {/* Site Logo */}
         <div className="text-center mb-6">
-          <DynamicLogo
-            pageType="publicProfile"
-            className="h-12 w-auto mx-auto opacity-80"
-          />
+          <Link href="/" className="inline-block">
+            <DynamicLogo
+              pageType="publicProfile"
+              className="h-12 w-auto mx-auto opacity-80 hover:opacity-100 transition-opacity"
+            />
+          </Link>
         </div>
         
         {/* Profile Header */}
@@ -508,7 +511,15 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
 
                {/* Footer */}
                <div className="text-center mt-8 text-sm text-gray-500">
-                 <p>Powered by {process.env.NEXT_PUBLIC_SITE_NAME || 'Lynx.NINJA'}</p>
+                 <p>
+                   Powered by{' '}
+                   <Link 
+                     href="/" 
+                     className="text-blue-600 hover:text-blue-800 hover:underline transition-colors"
+                   >
+                     {process.env.NEXT_PUBLIC_SITE_NAME || 'Lynx.NINJA'}
+                   </Link>
+                 </p>
                </div>
       </div>
     </div>
