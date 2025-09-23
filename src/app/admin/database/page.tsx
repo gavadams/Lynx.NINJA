@@ -253,8 +253,8 @@ export default function DatabasePage() {
                 <Database className="h-8 w-8 text-blue-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">Total Tables</p>
-                <p className="text-2xl font-bold text-blue-600">{data.overview.totalTables}</p>
+                <p className="text-sm font-medium text-muted-foreground">Total Tables</p>
+                <p className="text-2xl font-bold text-foreground">{data.overview.totalTables}</p>
               </div>
             </div>
           </CardContent>
@@ -267,8 +267,8 @@ export default function DatabasePage() {
                 <Users className="h-8 w-8 text-green-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">Total Rows</p>
-                <p className="text-2xl font-bold text-blue-600">{data.overview.totalRows.toLocaleString()}</p>
+                <p className="text-sm font-medium text-muted-foreground">Total Rows</p>
+                <p className="text-2xl font-bold text-foreground">{data.overview.totalRows.toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -281,8 +281,8 @@ export default function DatabasePage() {
                 <Download className="h-8 w-8 text-purple-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">Database Size</p>
-                <p className="text-2xl font-bold text-blue-600">{data.overview.totalSize}</p>
+                <p className="text-sm font-medium text-muted-foreground">Database Size</p>
+                <p className="text-2xl font-bold text-foreground">{data.overview.totalSize}</p>
               </div>
             </div>
           </CardContent>
@@ -295,8 +295,8 @@ export default function DatabasePage() {
                 <CheckCircle className="h-8 w-8 text-green-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">Last Backup</p>
-                <p className="text-sm font-bold text-blue-600">
+                <p className="text-sm font-medium text-muted-foreground">Last Backup</p>
+                <p className="text-sm font-bold text-foreground">
                   {formatDistanceToNow(new Date(data.overview.lastBackup), { addSuffix: true })}
                 </p>
               </div>
@@ -326,7 +326,7 @@ export default function DatabasePage() {
                       <div className="flex items-center space-x-2">
                         {getTableIcon(table.table)}
                         <span>{table.table}</span>
-                        <span className="text-xs text-gray-500">({table.rows.toLocaleString()} rows)</span>
+                        <span className="text-xs text-muted-foreground">({table.rows.toLocaleString()} rows)</span>
                       </div>
                     </SelectItem>
                   ))}
@@ -334,25 +334,25 @@ export default function DatabasePage() {
               </Select>
 
               {tableDetails && (
-                <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                  <h4 className="font-medium text-blue-600 mb-2">{tableDetails.tableName}</h4>
+                <div className="mt-4 p-4 bg-muted/50 rounded-lg border">
+                  <h4 className="font-medium text-foreground mb-3">{tableDetails.tableName}</h4>
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                      <span className="text-gray-500">Total Rows:</span>
-                      <span className="ml-2 font-medium">{tableDetails.count.toLocaleString()}</span>
+                      <span className="text-muted-foreground">Total Rows:</span>
+                      <span className="ml-2 font-medium text-foreground">{tableDetails.count.toLocaleString()}</span>
                     </div>
                     <div>
-                      <span className="text-gray-500">Columns:</span>
-                      <span className="ml-2 font-medium">{tableDetails.columns.length}</span>
+                      <span className="text-muted-foreground">Columns:</span>
+                      <span className="ml-2 font-medium text-foreground">{tableDetails.columns.length}</span>
                     </div>
                   </div>
                   
                   {tableDetails.columns.length > 0 && (
                     <div className="mt-3">
-                      <p className="text-sm text-gray-500 mb-2">Columns:</p>
+                      <p className="text-sm text-muted-foreground mb-2">Columns:</p>
                       <div className="flex flex-wrap gap-1">
                         {tableDetails.columns.map((column: string) => (
-                          <Badge key={column} variant="secondary" className="text-xs">
+                          <Badge key={column} variant="outline" className="text-xs">
                             {column}
                           </Badge>
                         ))}
@@ -425,7 +425,7 @@ export default function DatabasePage() {
                data.issues.duplicateUsernames.length === 0 && (
                 <div className="text-center py-4">
                   <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                  <p className="text-sm text-gray-500">No database issues found</p>
+                  <p className="text-sm text-muted-foreground">No database issues found</p>
                 </div>
               )}
             </div>
@@ -452,7 +452,7 @@ export default function DatabasePage() {
               <Trash2 className="h-6 w-6" />
               <span className="text-sm">Cleanup Orphaned Records</span>
               {actionLoading === 'cleanup_orphaned_records' && (
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-900"></div>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
               )}
             </Button>
 
@@ -465,7 +465,7 @@ export default function DatabasePage() {
               <Users className="h-6 w-6" />
               <span className="text-sm">Fix Duplicate Usernames</span>
               {actionLoading === 'fix_duplicate_usernames' && (
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-900"></div>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
               )}
             </Button>
 
@@ -478,7 +478,7 @@ export default function DatabasePage() {
               <Wrench className="h-6 w-6" />
               <span className="text-sm">Optimize Database</span>
               {actionLoading === 'optimize_database' && (
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-900"></div>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
               )}
             </Button>
 
@@ -491,7 +491,7 @@ export default function DatabasePage() {
               <Download className="h-6 w-6" />
               <span className="text-sm">Backup Database</span>
               {actionLoading === 'backup_database' && (
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-900"></div>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
               )}
             </Button>
           </div>
@@ -511,9 +511,9 @@ export default function DatabasePage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b">
+                  <tr className="border-b border-border">
                     {tableDetails.columns.map((column: string) => (
-                      <th key={column} className="text-left p-2 font-medium text-gray-600">
+                      <th key={column} className="text-left p-3 font-medium text-muted-foreground bg-muted/30">
                         {column}
                       </th>
                     ))}
@@ -521,13 +521,15 @@ export default function DatabasePage() {
                 </thead>
                 <tbody>
                   {tableDetails.sampleData.map((row: any, index: number) => (
-                    <tr key={index} className="border-b hover:bg-gray-50">
+                    <tr key={index} className="border-b border-border hover:bg-muted/20 transition-colors">
                       {tableDetails.columns.map((column: string) => (
-                        <td key={column} className="p-2 text-gray-800">
-                          {typeof row[column] === 'object' 
-                            ? JSON.stringify(row[column]) 
-                            : String(row[column] || '')
-                          }
+                        <td key={column} className="p-3 text-foreground">
+                          <span className="font-mono text-xs">
+                            {typeof row[column] === 'object' 
+                              ? JSON.stringify(row[column]) 
+                              : String(row[column] || '')
+                            }
+                          </span>
                         </td>
                       ))}
                     </tr>
@@ -551,12 +553,12 @@ export default function DatabasePage() {
           <CardContent>
             <div className="space-y-3">
               {data.recentActivity.users.map((user) => (
-                <div key={user.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div key={user.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border">
                   <div>
-                    <p className="text-sm font-medium text-blue-600">@{user.username}</p>
-                    <p className="text-xs text-gray-500">{user.email}</p>
+                    <p className="text-sm font-medium text-primary">@{user.username}</p>
+                    <p className="text-xs text-muted-foreground">{user.email}</p>
                   </div>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-muted-foreground">
                     {formatDistanceToNow(new Date(user.createdAt), { addSuffix: true })}
                   </span>
                 </div>
@@ -575,12 +577,12 @@ export default function DatabasePage() {
           <CardContent>
             <div className="space-y-3">
               {data.recentActivity.links.map((link) => (
-                <div key={link.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div key={link.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border">
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-blue-600 truncate">{link.title}</p>
-                    <p className="text-xs text-gray-500">by @{link.User.username}</p>
+                    <p className="text-sm font-medium text-primary truncate">{link.title}</p>
+                    <p className="text-xs text-muted-foreground">by @{link.User.username}</p>
                   </div>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-muted-foreground">
                     {formatDistanceToNow(new Date(link.createdAt), { addSuffix: true })}
                   </span>
                 </div>
