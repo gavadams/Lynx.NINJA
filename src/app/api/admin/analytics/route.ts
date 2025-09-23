@@ -75,8 +75,8 @@ export async function GET(request: NextRequest) {
     // Get user registration trends
     const { data: userRegistrations } = await supabase
       .from('User')
-      .select('clickTime')
-      .gte('clickTime', dateFilter.split(',')[0].replace('gte.', ''))
+      .select('createdAt')
+      .gte('createdAt', dateFilter.split(',')[0].replace('gte.', ''))
 
     // Get click trends
     const { data: clickTrends } = await supabase
@@ -91,14 +91,34 @@ export async function GET(request: NextRequest) {
         id,
         title,
         url,
-        clickCount,
-        User (
-          username,
-          displayName
-        )
+        clicks,
+        userId
       `)
-      .order('clickCount', { ascending: false })
+      .order('clicks', { ascending: false })
       .limit(10)
+
+    // Get user data for top links
+    let userData: Record<string, any> = {}
+    if (topLinks && topLinks.length > 0) {
+      const userIds = [...new Set(topLinks.map(link => link.userId))]
+      const { data: users } = await supabase
+        .from('User')
+        .select('id, username, displayName')
+        .in('id', userIds)
+      
+      if (users) {
+        userData = users.reduce((acc, user) => {
+          acc[user.id] = user
+          return acc
+        }, {} as Record<string, any>)
+      }
+    }
+
+    // Combine links with user data
+    const topLinksWithUsers = (topLinks || []).map(link => ({
+      ...link,
+      User: userData[link.userId] || { id: link.userId, username: 'Unknown', displayName: 'Unknown User' }
+    }))
 
     // Get geographic distribution
     const { data: geoData } = await supabase
@@ -128,7 +148,7 @@ export async function GET(request: NextRequest) {
     }
 
     const userRegistrationTrends = processTimeSeriesData(userRegistrations || [], 'createdAt')
-    const clickTrendsData = processTimeSeriesData(clickTrends || [], 'createdAt')
+    const clickTrendsData = processTimeSeriesData(clickTrends || [], 'clickTime')
 
     // Process geographic data
     const countryStats = geoData?.reduce((acc, click) => {
@@ -167,7 +187,7 @@ export async function GET(request: NextRequest) {
         userRegistrations: userRegistrationTrends,
         clicks: clickTrendsData
       },
-      topLinks: topLinks || [],
+      topLinks: topLinksWithUsers || [],
       geographic: {
         topCountries
       },
