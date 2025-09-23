@@ -37,7 +37,7 @@ interface AnalyticsData {
     id: string
     title: string
     url: string
-    clickCount: number
+    clicks: number
     User: {
       username: string
       displayName: string
@@ -156,7 +156,7 @@ export default function AnalyticsPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Total Users</p>
-                <p className="text-2xl font-bold text-blue-600">{data.overview.totalUsers.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-blue-600">{(data.overview.totalUsers || 0).toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -170,7 +170,7 @@ export default function AnalyticsPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Total Links</p>
-                <p className="text-2xl font-bold text-blue-600">{data.overview.totalLinks.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-blue-600">{(data.overview.totalLinks || 0).toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -184,7 +184,7 @@ export default function AnalyticsPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Total Clicks</p>
-                <p className="text-2xl font-bold text-blue-600">{data.overview.totalClicks.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-blue-600">{(data.overview.totalClicks || 0).toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -198,7 +198,7 @@ export default function AnalyticsPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Premium Users</p>
-                <p className="text-2xl font-bold text-blue-600">{data.overview.premiumUsers.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-blue-600">{(data.overview.premiumUsers || 0).toLocaleString()}</p>
                 <p className="text-xs text-gray-500">{data.overview.conversionRate}% conversion</p>
               </div>
             </div>
@@ -232,7 +232,7 @@ export default function AnalyticsPage() {
                   </div>
                   <div className="flex items-center space-x-2">
                     <span className="text-sm font-medium text-blue-600">
-                      {link.clickCount.toLocaleString()}
+                      {(link.clicks || 0).toLocaleString()}
                     </span>
                     <span className="text-xs text-gray-500">clicks</span>
                   </div>
@@ -264,7 +264,7 @@ export default function AnalyticsPage() {
                   </div>
                   <div className="flex items-center space-x-2">
                     <span className="text-sm font-medium text-blue-600">
-                      {country.count.toLocaleString()}
+                      {(country.count || 0).toLocaleString()}
                     </span>
                     <span className="text-xs text-gray-500">clicks</span>
                   </div>
@@ -296,7 +296,7 @@ export default function AnalyticsPage() {
                   </div>
                   <div className="flex items-center space-x-2">
                     <span className="text-sm font-medium text-blue-600">
-                      {device.count.toLocaleString()}
+                      {(device.count || 0).toLocaleString()}
                     </span>
                     <span className="text-xs text-gray-500">clicks</span>
                   </div>
@@ -325,7 +325,7 @@ export default function AnalyticsPage() {
                   </div>
                   <div className="flex items-center space-x-2">
                     <span className="text-sm font-medium text-blue-600">
-                      {browser.count.toLocaleString()}
+                      {(browser.count || 0).toLocaleString()}
                     </span>
                     <span className="text-xs text-gray-500">clicks</span>
                   </div>
