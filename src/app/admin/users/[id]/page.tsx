@@ -33,7 +33,7 @@ interface User {
   isPremium: boolean
   createdAt: string
   updatedAt: string
-  stats: {
+  stats?: {
     linksCount: number
     totalClicks: number
     recentClicks: number
@@ -264,17 +264,17 @@ export default function UserDetailPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="text-center p-4 bg-gray-50 rounded-lg">
                   <LinkIcon className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-blue-600">{user.stats.linksCount}</div>
+                  <div className="text-2xl font-bold text-blue-600">{user.stats?.linksCount || 0}</div>
                   <div className="text-sm text-gray-500">Total Links</div>
                 </div>
                 <div className="text-center p-4 bg-gray-50 rounded-lg">
                   <MousePointer className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-blue-600">{user.stats.totalClicks}</div>
+                  <div className="text-2xl font-bold text-blue-600">{user.stats?.totalClicks || 0}</div>
                   <div className="text-sm text-gray-500">Total Clicks</div>
                 </div>
                 <div className="text-center p-4 bg-gray-50 rounded-lg">
                   <Activity className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-blue-600">{user.stats.recentClicks}</div>
+                  <div className="text-2xl font-bold text-blue-600">{user.stats?.recentClicks || 0}</div>
                   <div className="text-sm text-gray-500">Recent Clicks (7d)</div>
                 </div>
               </div>
