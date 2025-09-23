@@ -79,7 +79,7 @@ function SortableLinkItem({
         
         <div className="flex-1 min-w-0">
           <div className="flex items-center space-x-2 mb-1">
-            <h3 className="font-medium text-gray-900 truncate">{link.title}</h3>
+            <h3 className="font-medium text-blue-600 truncate">{link.title}</h3>
             <Badge variant={
               displayStatus === 'Active' ? "default" : 
               displayStatus === 'Scheduled' ? "secondary" :

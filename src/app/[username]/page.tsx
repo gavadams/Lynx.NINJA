@@ -265,7 +265,7 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <Card className="w-full max-w-md mx-4">
           <CardContent className="p-8 text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Profile Not Found</h1>
+            <h1 className="text-2xl font-bold text-blue-600 mb-4">Profile Not Found</h1>
             <p className="text-gray-600 mb-6">
               The user you&apos;re looking for doesn&apos;t exist or has made their profile private.
             </p>
@@ -315,7 +315,7 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
               </AvatarFallback>
             </Avatar>
             
-            <h1 className="text-2xl font-bold text-gray-900 mb-2 prevent-overflow">
+            <h1 className="text-2xl font-bold text-blue-600 mb-2 prevent-overflow">
               {user.displayName}
             </h1>
             
@@ -437,7 +437,7 @@ export default function PublicProfilePage({ params }: { params: Promise<{ userna
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-1">
-                          <h3 className="text-lg font-semibold text-gray-900 prevent-overflow">
+                          <h3 className="text-lg font-semibold text-blue-600 prevent-overflow">
                             {link.title}
                           </h3>
                           {isPasswordProtected && (

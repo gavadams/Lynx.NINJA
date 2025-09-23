@@ -339,7 +339,7 @@ export default function SettingsPage() {
               <div className="rounded-lg p-6 bg-gradient-to-br from-blue-50 to-indigo-100">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-gray-300 rounded-full mx-auto mb-4"></div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                  <h3 className="text-lg font-semibold text-blue-600 mb-1">
                     {formData.displayName || 'Your Name'}
                   </h3>
                   <p className="text-gray-600 mb-2">@{formData.username || 'username'}</p>

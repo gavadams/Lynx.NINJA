@@ -70,7 +70,7 @@ export function EmailCaptureForm({
       <Card className={`${className}`}>
         <CardContent className="p-6 text-center">
           <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+          <h3 className="text-lg font-semibold text-blue-600 mb-2">
             {successMessage}
           </h3>
           <p className="text-gray-600">
@@ -86,7 +86,7 @@ export function EmailCaptureForm({
       <CardContent className="p-6">
         <div className="text-center mb-6">
           <Mail className="h-8 w-8 text-blue-500 mx-auto mb-3" />
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">
+          <h3 className="text-xl font-semibold text-blue-600 mb-2">
             {title}
           </h3>
           {description && (

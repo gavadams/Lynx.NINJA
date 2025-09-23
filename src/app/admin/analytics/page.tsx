@@ -156,7 +156,7 @@ export default function AnalyticsPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Total Users</p>
-                <p className="text-2xl font-bold text-gray-900">{data.overview.totalUsers.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.overview.totalUsers.toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -170,7 +170,7 @@ export default function AnalyticsPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Total Links</p>
-                <p className="text-2xl font-bold text-gray-900">{data.overview.totalLinks.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.overview.totalLinks.toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -184,7 +184,7 @@ export default function AnalyticsPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Total Clicks</p>
-                <p className="text-2xl font-bold text-gray-900">{data.overview.totalClicks.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.overview.totalClicks.toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -198,7 +198,7 @@ export default function AnalyticsPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Premium Users</p>
-                <p className="text-2xl font-bold text-gray-900">{data.overview.premiumUsers.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.overview.premiumUsers.toLocaleString()}</p>
                 <p className="text-xs text-gray-500">{data.overview.conversionRate}% conversion</p>
               </div>
             </div>
@@ -223,7 +223,7 @@ export default function AnalyticsPage() {
               {data.topLinks.slice(0, 5).map((link, index) => (
                 <div key={link.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">
+                    <p className="text-sm font-medium text-blue-600 truncate">
                       {link.title}
                     </p>
                     <p className="text-xs text-gray-500 truncate">
@@ -231,7 +231,7 @@ export default function AnalyticsPage() {
                     </p>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <span className="text-sm font-medium text-gray-900">
+                    <span className="text-sm font-medium text-blue-600">
                       {link.clickCount.toLocaleString()}
                     </span>
                     <span className="text-xs text-gray-500">clicks</span>
@@ -258,12 +258,12 @@ export default function AnalyticsPage() {
               {data.geographic.topCountries.slice(0, 5).map((country, index) => (
                 <div key={country.country} className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <span className="text-sm font-medium text-gray-900">
+                    <span className="text-sm font-medium text-blue-600">
                       {country.country}
                     </span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <span className="text-sm font-medium text-gray-900">
+                    <span className="text-sm font-medium text-blue-600">
                       {country.count.toLocaleString()}
                     </span>
                     <span className="text-xs text-gray-500">clicks</span>
@@ -290,12 +290,12 @@ export default function AnalyticsPage() {
                 <div key={device.device} className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     {getDeviceIcon(device.device)}
-                    <span className="text-sm font-medium text-gray-900 capitalize">
+                    <span className="text-sm font-medium text-blue-600 capitalize">
                       {device.device}
                     </span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <span className="text-sm font-medium text-gray-900">
+                    <span className="text-sm font-medium text-blue-600">
                       {device.count.toLocaleString()}
                     </span>
                     <span className="text-xs text-gray-500">clicks</span>
@@ -319,12 +319,12 @@ export default function AnalyticsPage() {
               {data.devices.browsers.slice(0, 5).map((browser) => (
                 <div key={browser.browser} className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <span className="text-sm font-medium text-gray-900">
+                    <span className="text-sm font-medium text-blue-600">
                       {browser.browser}
                     </span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <span className="text-sm font-medium text-gray-900">
+                    <span className="text-sm font-medium text-blue-600">
                       {browser.count.toLocaleString()}
                     </span>
                     <span className="text-xs text-gray-500">clicks</span>

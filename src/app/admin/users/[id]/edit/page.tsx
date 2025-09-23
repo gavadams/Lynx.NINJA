@@ -230,7 +230,7 @@ export default function EditUserPage() {
             <CardContent className="space-y-6">
               {/* Basic Information */}
               <div className="space-y-4">
-                <h3 className="text-lg font-medium text-gray-900">Basic Information</h3>
+                <h3 className="text-lg font-medium text-blue-600">Basic Information</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -267,7 +267,7 @@ export default function EditUserPage() {
 
               {/* Settings */}
               <div className="space-y-4">
-                <h3 className="text-lg font-medium text-gray-900">Settings</h3>
+                <h3 className="text-lg font-medium text-blue-600">Settings</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -315,21 +315,21 @@ export default function EditUserPage() {
             <CardContent className="space-y-3">
               <div>
                 <label className="text-sm font-medium text-gray-500">Email</label>
-                <p className="text-gray-900">{user?.email}</p>
+                <p className="text-blue-600">{user?.email}</p>
               </div>
               <div>
                 <label className="text-sm font-medium text-gray-500">User ID</label>
-                <p className="text-gray-900 font-mono text-sm">{user?.id}</p>
+                <p className="text-blue-600 font-mono text-sm">{user?.id}</p>
               </div>
               <div>
                 <label className="text-sm font-medium text-gray-500">Created</label>
-                <p className="text-gray-900">
+                <p className="text-blue-600">
                   {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Unknown'}
                 </p>
               </div>
               <div>
                 <label className="text-sm font-medium text-gray-500">Last Updated</label>
-                <p className="text-gray-900">
+                <p className="text-blue-600">
                   {user?.updatedAt ? new Date(user.updatedAt).toLocaleDateString() : 'Unknown'}
                 </p>
               </div>

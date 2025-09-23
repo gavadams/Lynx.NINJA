@@ -238,7 +238,7 @@ export default function BillingPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">MRR</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-2xl font-bold text-blue-600">
                   £{data.overview.monthlyRecurringRevenue.toFixed(2)}
                 </p>
               </div>
@@ -254,7 +254,7 @@ export default function BillingPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Premium Users</p>
-                <p className="text-2xl font-bold text-gray-900">{data.overview.premiumUsers.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.overview.premiumUsers.toLocaleString()}</p>
                 <p className="text-xs text-gray-500">{data.overview.conversionRate}% conversion</p>
               </div>
             </div>
@@ -269,7 +269,7 @@ export default function BillingPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Churn Rate</p>
-                <p className="text-2xl font-bold text-gray-900">{data.overview.churnRate}%</p>
+                <p className="text-2xl font-bold text-blue-600">{data.overview.churnRate}%</p>
               </div>
             </div>
           </CardContent>
@@ -283,7 +283,7 @@ export default function BillingPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">ARPU</p>
-                <p className="text-2xl font-bold text-gray-900">${data.overview.averageRevenuePerUser}</p>
+                <p className="text-2xl font-bold text-blue-600">${data.overview.averageRevenuePerUser}</p>
               </div>
             </div>
           </CardContent>
@@ -310,11 +310,11 @@ export default function BillingPage() {
                     <Badge className={getStatusColor(status)}>
                       {status}
                     </Badge>
-                    <span className="text-sm font-medium text-gray-900 capitalize">
+                    <span className="text-sm font-medium text-blue-600 capitalize">
                       {status.replace('_', ' ')}
                     </span>
                   </div>
-                  <span className="text-sm font-medium text-gray-900">
+                  <span className="text-sm font-medium text-blue-600">
                     {count}
                   </span>
                 </div>
@@ -339,7 +339,7 @@ export default function BillingPage() {
               {data.issues.failedPayments.slice(0, 3).map((payment) => (
                 <div key={payment.id} className="flex items-center justify-between p-3 bg-red-50 rounded-lg">
                   <div>
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-blue-600">
                       {payment.User.displayName || payment.User.email}
                     </p>
                     <p className="text-xs text-gray-500">
@@ -354,7 +354,7 @@ export default function BillingPage() {
               {data.issues.recentCancellations.slice(0, 3).map((cancellation) => (
                 <div key={cancellation.id} className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
                   <div>
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-blue-600">
                       {cancellation.User.displayName || cancellation.User.email}
                     </p>
                     <p className="text-xs text-gray-500">
@@ -391,7 +391,7 @@ export default function BillingPage() {
               <div key={subscription.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center space-x-2 mb-2">
-                    <h4 className="text-sm font-medium text-gray-900">
+                    <h4 className="text-sm font-medium text-blue-600">
                       {subscription.User.displayName || 'No display name'}
                     </h4>
                     <span className="text-sm text-gray-500">@{subscription.User.username}</span>

@@ -232,7 +232,7 @@ export default function ScheduledLinksPage() {
           <Card className="card-ninja hover:glow-ninja transition-all duration-300">
             <CardContent className="p-8 text-center">
               <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No scheduled links found</h3>
+              <h3 className="text-lg font-medium text-blue-600 mb-2">No scheduled links found</h3>
               <p className="text-gray-500">
                 {searchTerm ? "Try adjusting your search terms" : "No links with scheduling found"}
               </p>
@@ -249,7 +249,7 @@ export default function ScheduledLinksPage() {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-2">
-                        <h3 className="text-lg font-semibold text-gray-900">{link.title}</h3>
+                        <h3 className="text-lg font-semibold text-blue-600">{link.title}</h3>
                         <Badge variant={
                           displayStatus === 'Active' ? "default" : 
                           displayStatus === 'Scheduled' ? "secondary" :

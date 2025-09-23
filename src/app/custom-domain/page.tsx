@@ -61,7 +61,7 @@ function CustomDomainContent() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <Card className="w-full max-w-md mx-4">
           <CardContent className="p-8 text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Domain Not Found</h1>
+            <h1 className="text-2xl font-bold text-blue-600 mb-4">Domain Not Found</h1>
             <p className="text-gray-600 mb-6">{error}</p>
             <div className="space-y-2">
               <p className="text-sm text-gray-500">Domain: {domain}</p>

@@ -244,18 +244,18 @@ export default function EmailPage() {
                 <XCircle className="h-5 w-5 text-red-600" />
               )}
               <div>
-                <p className="text-sm font-medium text-gray-900">Resend API</p>
+                <p className="text-sm font-medium text-blue-600">Resend API</p>
                 <p className="text-xs text-gray-500">
                   {data.overview.emailConfig.resendConfigured ? 'Configured' : 'Not configured'}
                 </p>
               </div>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-900">From Email</p>
+              <p className="text-sm font-medium text-blue-600">From Email</p>
               <p className="text-xs text-gray-500">{data.overview.emailConfig.fromEmail}</p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-900">API Key Length</p>
+              <p className="text-sm font-medium text-blue-600">API Key Length</p>
               <p className="text-xs text-gray-500">{data.overview.emailConfig.apiKeyLength} characters</p>
             </div>
           </div>
@@ -272,7 +272,7 @@ export default function EmailPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Total Sent</p>
-                <p className="text-2xl font-bold text-gray-900">{data.overview.stats.totalSent.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.overview.stats.totalSent.toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -286,7 +286,7 @@ export default function EmailPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Delivered</p>
-                <p className="text-2xl font-bold text-gray-900">{data.overview.stats.delivered.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.overview.stats.delivered.toLocaleString()}</p>
                 <p className="text-xs text-gray-500">{data.overview.stats.deliveryRate}% rate</p>
               </div>
             </div>
@@ -301,7 +301,7 @@ export default function EmailPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Email Captures</p>
-                <p className="text-2xl font-bold text-gray-900">{data.overview.totalEmailCaptures.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.overview.totalEmailCaptures.toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -315,7 +315,7 @@ export default function EmailPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Pending Invites</p>
-                <p className="text-2xl font-bold text-gray-900">{data.overview.pendingInvitations}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.overview.pendingInvitations}</p>
               </div>
             </div>
           </CardContent>
@@ -478,7 +478,7 @@ export default function EmailPage() {
               {data.recentActivity.emailCaptures.map((capture) => (
                 <div key={capture.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                   <div>
-                    <p className="text-sm font-medium text-gray-900">{capture.email}</p>
+                    <p className="text-sm font-medium text-blue-600">{capture.email}</p>
                     <p className="text-xs text-gray-500">
                       from {capture.Link.title} by @{capture.Link.User.username}
                     </p>
@@ -510,7 +510,7 @@ export default function EmailPage() {
               {data.recentActivity.teamInvitations.map((invitation) => (
                 <div key={invitation.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900">{invitation.email}</p>
+                    <p className="text-sm font-medium text-blue-600">{invitation.email}</p>
                     <p className="text-xs text-gray-500">
                       {invitation.role} in {invitation.Team.name} by @{invitation.InvitedBy.username}
                     </p>

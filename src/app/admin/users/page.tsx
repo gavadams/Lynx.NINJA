@@ -295,7 +295,7 @@ export default function UsersPage() {
                           )}
                         </div>
                         <div className="min-w-0">
-                          <div className="font-medium text-gray-900 prevent-overflow">
+                          <div className="font-medium text-blue-600 prevent-overflow">
                             {user.displayName || 'No name'}
                           </div>
                           {user.bio && (
@@ -307,10 +307,10 @@ export default function UsersPage() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="text-sm text-gray-900 prevent-overflow">{user.email}</div>
+                      <div className="text-sm text-blue-600 prevent-overflow">{user.email}</div>
                     </TableCell>
                     <TableCell>
-                      <div className="text-sm text-gray-900 prevent-overflow">@{user.username}</div>
+                      <div className="text-sm text-blue-600 prevent-overflow">@{user.username}</div>
                     </TableCell>
                     <TableCell>
                       {getStatusBadge(user)}

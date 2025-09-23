@@ -170,7 +170,7 @@ export function MailingListPreferences({ className }: MailingListPreferencesProp
 
         {/* Current Subscriptions */}
         <div className="space-y-4">
-          <h3 className="text-lg font-medium text-gray-900">Your Subscriptions</h3>
+          <h3 className="text-lg font-medium text-blue-600">Your Subscriptions</h3>
           {subscriptions.length === 0 ? (
             <div className="text-center py-8 bg-gray-50 rounded-lg">
               <Mail className="h-12 w-12 text-gray-400 mx-auto mb-4" />
@@ -185,7 +185,7 @@ export function MailingListPreferences({ className }: MailingListPreferencesProp
                 >
                   <div className="flex-1">
                     <div className="flex items-center space-x-2 mb-1">
-                      <h4 className="font-medium text-gray-900">
+                      <h4 className="font-medium text-blue-600">
                         {subscription.mailingListName}
                       </h4>
                       {subscription.isSubscribed ? (
@@ -229,7 +229,7 @@ export function MailingListPreferences({ className }: MailingListPreferencesProp
         {/* Available Mailing Lists */}
         {availableLists.length > 0 && (
           <div className="space-y-4 pt-6 border-t">
-            <h3 className="text-lg font-medium text-gray-900">Available Mailing Lists</h3>
+            <h3 className="text-lg font-medium text-blue-600">Available Mailing Lists</h3>
             <div className="space-y-3">
               {availableLists.map((list) => {
                 const isSubscribed = subscriptions.some(sub => 
@@ -246,7 +246,7 @@ export function MailingListPreferences({ className }: MailingListPreferencesProp
                   >
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-1">
-                        <h4 className="font-medium text-gray-900">
+                        <h4 className="font-medium text-blue-600">
                           {list.name}
                         </h4>
                         {list.isDefault && (

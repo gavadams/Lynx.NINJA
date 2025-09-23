@@ -250,7 +250,7 @@ export default function ModerationPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Total Links</p>
-                <p className="text-2xl font-bold text-gray-900">{data.stats.totalLinks.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.stats.totalLinks.toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -264,7 +264,7 @@ export default function ModerationPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Total Users</p>
-                <p className="text-2xl font-bold text-gray-900">{data.stats.totalUsers.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.stats.totalUsers.toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -278,7 +278,7 @@ export default function ModerationPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Flagged Links</p>
-                <p className="text-2xl font-bold text-gray-900">{data.stats.flaggedLinks}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.stats.flaggedLinks}</p>
               </div>
             </div>
           </CardContent>
@@ -292,7 +292,7 @@ export default function ModerationPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Flagged Users</p>
-                <p className="text-2xl font-bold text-gray-900">{data.stats.flaggedUsers}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.stats.flaggedUsers}</p>
               </div>
             </div>
           </CardContent>
@@ -317,7 +317,7 @@ export default function ModerationPage() {
                 <div key={link.id} className="flex items-center justify-between p-4 bg-red-50 rounded-lg">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2 mb-2">
-                      <h4 className="text-sm font-medium text-gray-900 truncate">
+                      <h4 className="text-sm font-medium text-blue-600 truncate">
                         {link.title}
                       </h4>
                       <Badge className={getRiskColor(getRiskLevel(link))}>
@@ -413,7 +413,7 @@ export default function ModerationPage() {
                 <div key={link.id} className="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2 mb-2">
-                      <h4 className="text-sm font-medium text-gray-900 truncate">
+                      <h4 className="text-sm font-medium text-blue-600 truncate">
                         {link.title}
                       </h4>
                       <Badge className={getRiskColor(getRiskLevel(link))}>
@@ -461,7 +461,7 @@ export default function ModerationPage() {
                 <div key={user.id} className="flex items-center justify-between p-4 bg-purple-50 rounded-lg">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2 mb-2">
-                      <h4 className="text-sm font-medium text-gray-900">
+                      <h4 className="text-sm font-medium text-blue-600">
                         {user.displayName || 'No display name'}
                       </h4>
                       <span className="text-sm text-gray-500">@{user.username}</span>
@@ -529,7 +529,7 @@ export default function ModerationPage() {
                 <div key={user.id} className="flex items-center justify-between p-4 bg-orange-50 rounded-lg">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2 mb-2">
-                      <h4 className="text-sm font-medium text-gray-900">
+                      <h4 className="text-sm font-medium text-blue-600">
                         {user.displayName || 'No display name'}
                       </h4>
                       <span className="text-sm text-gray-500">@{user.username}</span>

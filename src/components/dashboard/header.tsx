@@ -22,7 +22,7 @@ export function Header({ onMenuClick }: HeaderProps) {
             >
               <Menu className="h-6 w-6" />
             </button>
-            <h2 className="text-lg lg:text-xl font-semibold text-gray-900 truncate">
+            <h2 className="text-lg lg:text-xl font-semibold text-blue-600 truncate">
               <span className="hidden sm:inline">Welcome back, </span>{session?.user?.name || "User"}
             </h2>
           </div>

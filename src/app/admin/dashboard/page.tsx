@@ -142,7 +142,7 @@ export default function AdminDashboard() {
                   <dt className="text-xs sm:text-sm font-medium text-gray-500 truncate">
                     Total Users
                   </dt>
-                  <dd className="text-base sm:text-lg font-medium text-gray-900">
+                  <dd className="text-base sm:text-lg font-medium text-blue-600">
                     {stats.totalUsers.toLocaleString()}
                   </dd>
                 </dl>
@@ -162,7 +162,7 @@ export default function AdminDashboard() {
                   <dt className="text-xs sm:text-sm font-medium text-gray-500 truncate">
                     Total Links
                   </dt>
-                  <dd className="text-base sm:text-lg font-medium text-gray-900">
+                  <dd className="text-base sm:text-lg font-medium text-blue-600">
                     {stats.totalLinks.toLocaleString()}
                   </dd>
                 </dl>
@@ -182,7 +182,7 @@ export default function AdminDashboard() {
                   <dt className="text-xs sm:text-sm font-medium text-gray-500 truncate">
                     Total Clicks
                   </dt>
-                  <dd className="text-base sm:text-lg font-medium text-gray-900">
+                  <dd className="text-base sm:text-lg font-medium text-blue-600">
                     {stats.totalClicks.toLocaleString()}
                   </dd>
                 </dl>
@@ -202,7 +202,7 @@ export default function AdminDashboard() {
                   <dt className="text-xs sm:text-sm font-medium text-gray-500 truncate">
                     Total Revenue
                   </dt>
-                  <dd className="text-base sm:text-lg font-medium text-gray-900">
+                  <dd className="text-base sm:text-lg font-medium text-blue-600">
                     ${stats.totalRevenue.toLocaleString()}
                   </dd>
                 </dl>

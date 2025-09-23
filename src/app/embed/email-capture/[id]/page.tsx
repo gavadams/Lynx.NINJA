@@ -59,7 +59,7 @@ export default function EmailCaptureEmbedPage({
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-xl font-semibold text-gray-900 mb-2">Form Not Found</h1>
+          <h1 className="text-xl font-semibold text-blue-600 mb-2">Form Not Found</h1>
           <p className="text-gray-600">This email capture form doesn't exist or has been removed.</p>
         </div>
       </div>
@@ -70,7 +70,7 @@ export default function EmailCaptureEmbedPage({
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-xl font-semibold text-gray-900 mb-2">Form Inactive</h1>
+          <h1 className="text-xl font-semibold text-blue-600 mb-2">Form Inactive</h1>
           <p className="text-gray-600">This email capture form is currently inactive.</p>
         </div>
       </div>

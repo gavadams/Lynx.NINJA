@@ -76,7 +76,7 @@ export function AdminHeader({ onMenuClick }: AdminHeaderProps) {
               <Menu className="h-6 w-6" />
             </button>
             <div>
-              <h2 className="text-lg font-semibold text-gray-900">Admin Panel</h2>
+              <h2 className="text-lg font-semibold text-blue-600">Admin Panel</h2>
               <p className="text-sm text-gray-500 hidden sm:block">Manage your Lynx.NINJA platform</p>
             </div>
           </div>
@@ -89,7 +89,7 @@ export function AdminHeader({ onMenuClick }: AdminHeaderProps) {
                       <User className="h-4 w-4 text-gray-600" />
                     </div>
                     <div className="text-left hidden sm:block">
-                      <div className="text-sm font-medium text-gray-900 truncate max-w-32 lg:max-w-none">{admin.email}</div>
+                      <div className="text-sm font-medium text-blue-600 truncate max-w-32 lg:max-w-none">{admin.email}</div>
                       <div className="text-xs text-gray-500 capitalize">{admin.role}</div>
                     </div>
                   </Button>

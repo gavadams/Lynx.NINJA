@@ -200,7 +200,7 @@ export default function UserDetailPage() {
                   )}
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900">
+                  <h3 className="text-xl font-semibold text-blue-600">
                     {user.displayName || 'No display name'}
                   </h3>
                   <p className="text-gray-600">@{user.username}</p>
@@ -218,21 +218,21 @@ export default function UserDetailPage() {
                   <label className="text-sm font-medium text-gray-500">Email</label>
                   <div className="flex items-center mt-1">
                     <Mail className="h-4 w-4 text-gray-400 mr-2" />
-                    <span className="text-gray-900">{user.email}</span>
+                    <span className="text-blue-600">{user.email}</span>
                   </div>
                 </div>
                 <div>
                   <label className="text-sm font-medium text-gray-500">Username</label>
                   <div className="flex items-center mt-1">
                     <User className="h-4 w-4 text-gray-400 mr-2" />
-                    <span className="text-gray-900">@{user.username}</span>
+                    <span className="text-blue-600">@{user.username}</span>
                   </div>
                 </div>
                 <div>
                   <label className="text-sm font-medium text-gray-500">Theme</label>
                   <div className="flex items-center mt-1">
                     <Globe className="h-4 w-4 text-gray-400 mr-2" />
-                    <span className="text-gray-900 capitalize">{user.theme}</span>
+                    <span className="text-blue-600 capitalize">{user.theme}</span>
                   </div>
                 </div>
                 <div>
@@ -246,7 +246,7 @@ export default function UserDetailPage() {
               {user.bio && (
                 <div>
                   <label className="text-sm font-medium text-gray-500">Bio</label>
-                  <p className="text-gray-900 mt-1">{user.bio}</p>
+                  <p className="text-blue-600 mt-1">{user.bio}</p>
                 </div>
               )}
             </CardContent>
@@ -264,17 +264,17 @@ export default function UserDetailPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="text-center p-4 bg-gray-50 rounded-lg">
                   <LinkIcon className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-gray-900">{user.stats.linksCount}</div>
+                  <div className="text-2xl font-bold text-blue-600">{user.stats.linksCount}</div>
                   <div className="text-sm text-gray-500">Total Links</div>
                 </div>
                 <div className="text-center p-4 bg-gray-50 rounded-lg">
                   <MousePointer className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-gray-900">{user.stats.totalClicks}</div>
+                  <div className="text-2xl font-bold text-blue-600">{user.stats.totalClicks}</div>
                   <div className="text-sm text-gray-500">Total Clicks</div>
                 </div>
                 <div className="text-center p-4 bg-gray-50 rounded-lg">
                   <Activity className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-gray-900">{user.stats.recentClicks}</div>
+                  <div className="text-2xl font-bold text-blue-600">{user.stats.recentClicks}</div>
                   <div className="text-sm text-gray-500">Recent Clicks (7d)</div>
                 </div>
               </div>
@@ -294,7 +294,7 @@ export default function UserDetailPage() {
                 <label className="text-sm font-medium text-gray-500">Member Since</label>
                 <div className="flex items-center mt-1">
                   <Calendar className="h-4 w-4 text-gray-400 mr-2" />
-                  <span className="text-gray-900">
+                  <span className="text-blue-600">
                     {formatDistanceToNow(new Date(user.createdAt), { addSuffix: true })}
                   </span>
                 </div>
@@ -303,7 +303,7 @@ export default function UserDetailPage() {
                 <label className="text-sm font-medium text-gray-500">Last Updated</label>
                 <div className="flex items-center mt-1">
                   <Calendar className="h-4 w-4 text-gray-400 mr-2" />
-                  <span className="text-gray-900">
+                  <span className="text-blue-600">
                     {formatDistanceToNow(new Date(user.updatedAt), { addSuffix: true })}
                   </span>
                 </div>
@@ -312,7 +312,7 @@ export default function UserDetailPage() {
                 <label className="text-sm font-medium text-gray-500">Last Login</label>
                 <div className="flex items-center mt-1">
                   <Activity className="h-4 w-4 text-gray-400 mr-2" />
-                  <span className="text-gray-900">
+                  <span className="text-blue-600">
                     Active
                   </span>
                 </div>

@@ -145,7 +145,7 @@ export default function PremiumFeatures({ isPremium, onUpgrade, onManageBilling 
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center space-x-2">
-                    <h3 className="font-semibold text-gray-900">{feature.title}</h3>
+                    <h3 className="font-semibold text-blue-600">{feature.title}</h3>
                     {feature.premium && (
                       <Badge variant="secondary" className="text-xs">
                         Premium

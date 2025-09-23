@@ -225,7 +225,7 @@ export default function MonitoringPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500">System Health</p>
-                <p className="text-2xl font-bold text-gray-900">{data.health.score}%</p>
+                <p className="text-2xl font-bold text-blue-600">{data.health.score}%</p>
               </div>
               {getHealthStatusIcon(data.health.status)}
             </div>
@@ -240,7 +240,7 @@ export default function MonitoringPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500">Database</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-2xl font-bold text-blue-600">
                   {data.health.database.connected ? 'Connected' : 'Disconnected'}
                 </p>
               </div>
@@ -261,7 +261,7 @@ export default function MonitoringPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500">Uptime</p>
-                <p className="text-2xl font-bold text-gray-900">{data.metrics.uptime.percentage}%</p>
+                <p className="text-2xl font-bold text-blue-600">{data.metrics.uptime.percentage}%</p>
               </div>
               <Server className="h-5 w-5 text-blue-600" />
             </div>
@@ -276,7 +276,7 @@ export default function MonitoringPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-500">Avg Response</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-2xl font-bold text-blue-600">
                   {data.performance.averageResponseTime.toFixed(0)}ms
                 </p>
               </div>
@@ -297,7 +297,7 @@ export default function MonitoringPage() {
               <Users className="h-8 w-8 text-blue-600" />
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">New Users</p>
-                <p className="text-2xl font-bold text-gray-900">{data.metrics.recent.users}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.metrics.recent.users}</p>
                 <p className="text-xs text-gray-500">Last hour</p>
               </div>
             </div>
@@ -310,7 +310,7 @@ export default function MonitoringPage() {
               <LinkIcon className="h-8 w-8 text-green-600" />
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">New Links</p>
-                <p className="text-2xl font-bold text-gray-900">{data.metrics.recent.links}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.metrics.recent.links}</p>
                 <p className="text-xs text-gray-500">Last hour</p>
               </div>
             </div>
@@ -323,7 +323,7 @@ export default function MonitoringPage() {
               <MousePointer className="h-8 w-8 text-purple-600" />
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Clicks</p>
-                <p className="text-2xl font-bold text-gray-900">{data.metrics.recent.clicks}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.metrics.recent.clicks}</p>
                 <p className="text-xs text-gray-500">Last hour</p>
               </div>
             </div>
@@ -336,7 +336,7 @@ export default function MonitoringPage() {
               <Bug className="h-8 w-8 text-red-600" />
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Errors</p>
-                <p className="text-2xl font-bold text-gray-900">{data.metrics.recent.errors}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.metrics.recent.errors}</p>
                 <p className="text-xs text-gray-500">Last hour</p>
               </div>
             </div>
@@ -361,7 +361,7 @@ export default function MonitoringPage() {
                     {log.logLevel}
                   </Badge>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-gray-900 text-wrap-balance">{log.message}</p>
+                    <p className="text-sm text-blue-600 text-wrap-balance">{log.message}</p>
                     <p className="text-xs text-gray-500">
                       {formatDistanceToNow(new Date(log.timestamp), { addSuffix: true })}
                     </p>
@@ -389,7 +389,7 @@ export default function MonitoringPage() {
                       {log.logLevel}
                     </Badge>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm text-gray-900 text-wrap-balance">{log.message}</p>
+                      <p className="text-sm text-blue-600 text-wrap-balance">{log.message}</p>
                       <p className="text-xs text-gray-500">
                         {formatDistanceToNow(new Date(log.timestamp), { addSuffix: true })}
                       </p>
@@ -420,7 +420,7 @@ export default function MonitoringPage() {
             {data.configuration.featureFlags.map((flag) => (
               <div key={flag.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                 <div>
-                  <p className="text-sm font-medium text-gray-900">{flag.name}</p>
+                  <p className="text-sm font-medium text-blue-600">{flag.name}</p>
                   {flag.description && (
                     <p className="text-xs text-gray-500">{flag.description}</p>
                   )}

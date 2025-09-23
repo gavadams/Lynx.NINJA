@@ -148,7 +148,7 @@ function SortableLinkItem({
               />
             ) : (
               <p 
-                className="text-sm sm:text-base font-medium text-gray-900 prevent-overflow cursor-pointer hover:bg-gray-50 p-1 rounded truncate"
+                className="text-sm sm:text-base font-medium text-blue-600 prevent-overflow cursor-pointer hover:bg-gray-50 p-1 rounded truncate"
                 onClick={() => setIsEditingTitle(true)}
                 title="Click to edit title"
               >
@@ -473,7 +473,7 @@ export default function LinksPage() {
       {/* Add Link Form */}
       {isAdding && (
         <div className="bg-white shadow rounded-lg p-4 sm:p-6 mb-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Add New Link</h3>
+          <h3 className="text-lg font-medium text-blue-600 mb-4">Add New Link</h3>
           <div className="space-y-4">
             <div>
               <Label htmlFor="title" className="text-sm font-medium">Title</Label>
@@ -527,7 +527,7 @@ export default function LinksPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
             </svg>
           </div>
-          <h3 className="mt-2 text-sm font-medium text-gray-900">No links</h3>
+          <h3 className="mt-2 text-sm font-medium text-blue-600">No links</h3>
           <p className="mt-1 text-sm text-gray-500">
             Get started by creating a new link.
           </p>

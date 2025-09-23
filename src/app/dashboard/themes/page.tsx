@@ -355,7 +355,7 @@ export default function ThemesPage() {
     return (
       <div className="flex h-screen items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Profile Not Found</h1>
+          <h1 className="text-2xl font-bold text-blue-600 mb-4">Profile Not Found</h1>
           <Button onClick={() => router.push('/dashboard')}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Dashboard
@@ -834,7 +834,7 @@ export default function ThemesPage() {
                     </div>
 
                     {/* Profile Info */}
-                    <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                    <h1 className="text-2xl font-bold text-blue-600 mb-2">
                       {profile.displayName}
                     </h1>
                     <p className="text-gray-600 mb-4">
@@ -849,11 +849,11 @@ export default function ThemesPage() {
                     {/* Sample Links */}
                     <div className="space-y-3">
                       <div className="bg-white/90 backdrop-blur-sm rounded-lg p-4 text-left">
-                        <div className="font-medium text-gray-900">Sample Link 1</div>
+                        <div className="font-medium text-blue-600">Sample Link 1</div>
                         <div className="text-sm text-gray-600">example.com</div>
                       </div>
                       <div className="bg-white/90 backdrop-blur-sm rounded-lg p-4 text-left">
-                        <div className="font-medium text-gray-900">Sample Link 2</div>
+                        <div className="font-medium text-blue-600">Sample Link 2</div>
                         <div className="text-sm text-gray-600">another-example.com</div>
                       </div>
                     </div>

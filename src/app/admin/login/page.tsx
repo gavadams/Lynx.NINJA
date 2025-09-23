@@ -51,7 +51,7 @@ export default function AdminLoginPage() {
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <Shield className="mx-auto h-12 w-12 text-gray-400" />
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-6 text-3xl font-extrabold text-blue-600">
             Admin Login
           </h2>
           <p className="mt-2 text-sm text-gray-600">

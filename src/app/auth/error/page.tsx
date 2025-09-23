@@ -27,7 +27,7 @@ function AuthErrorContent() {
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <AlertCircle className="mx-auto h-12 w-12 text-red-500" />
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-blue-600">
             Authentication Error
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">

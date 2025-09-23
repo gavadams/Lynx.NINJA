@@ -214,7 +214,7 @@ export default function DatabasePage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Total Tables</p>
-                <p className="text-2xl font-bold text-gray-900">{data.overview.totalTables}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.overview.totalTables}</p>
               </div>
             </div>
           </CardContent>
@@ -228,7 +228,7 @@ export default function DatabasePage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Total Rows</p>
-                <p className="text-2xl font-bold text-gray-900">{data.overview.totalRows.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.overview.totalRows.toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -242,7 +242,7 @@ export default function DatabasePage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Database Size</p>
-                <p className="text-2xl font-bold text-gray-900">{data.overview.totalSize}</p>
+                <p className="text-2xl font-bold text-blue-600">{data.overview.totalSize}</p>
               </div>
             </div>
           </CardContent>
@@ -256,7 +256,7 @@ export default function DatabasePage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Last Backup</p>
-                <p className="text-sm font-bold text-gray-900">
+                <p className="text-sm font-bold text-blue-600">
                   {formatDistanceToNow(new Date(data.overview.lastBackup), { addSuffix: true })}
                 </p>
               </div>
@@ -280,10 +280,10 @@ export default function DatabasePage() {
                 <div key={table.table} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                   <div className="flex items-center space-x-3">
                     {getTableIcon(table.table)}
-                    <span className="text-sm font-medium text-gray-900">{table.table}</span>
+                    <span className="text-sm font-medium text-blue-600">{table.table}</span>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-medium text-gray-900">{table.rows.toLocaleString()} rows</p>
+                    <p className="text-sm font-medium text-blue-600">{table.rows.toLocaleString()} rows</p>
                     <p className="text-xs text-gray-500">{table.size}</p>
                   </div>
                 </div>
@@ -439,7 +439,7 @@ export default function DatabasePage() {
               {data.recentActivity.users.map((user) => (
                 <div key={user.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                   <div>
-                    <p className="text-sm font-medium text-gray-900">@{user.username}</p>
+                    <p className="text-sm font-medium text-blue-600">@{user.username}</p>
                     <p className="text-xs text-gray-500">{user.email}</p>
                   </div>
                   <span className="text-xs text-gray-500">
@@ -463,7 +463,7 @@ export default function DatabasePage() {
               {data.recentActivity.links.map((link) => (
                 <div key={link.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">{link.title}</p>
+                    <p className="text-sm font-medium text-blue-600 truncate">{link.title}</p>
                     <p className="text-xs text-gray-500">by @{link.User.username}</p>
                   </div>
                   <span className="text-xs text-gray-500">
