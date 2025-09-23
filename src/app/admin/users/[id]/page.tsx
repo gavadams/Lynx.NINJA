@@ -17,7 +17,8 @@ import {
   Crown,
   User,
   Globe,
-  RefreshCw
+  RefreshCw,
+  Eye
 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import Link from 'next/link'
@@ -37,7 +38,7 @@ interface User {
   stats?: {
     linksCount: number
     totalClicks: number
-    recentClicks: number
+    recentProfileViews: number
   }
 }
 
@@ -289,9 +290,9 @@ export default function UserDetailPage() {
                   <div className="text-sm text-gray-500">Total Clicks</div>
                 </div>
                 <div className="text-center p-4 bg-gray-50 rounded-lg">
-                  <Activity className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-blue-600">{user.stats?.recentClicks || 0}</div>
-                  <div className="text-sm text-gray-500">Recent Clicks (7d)</div>
+                  <Eye className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+                  <div className="text-2xl font-bold text-blue-600">{user.stats?.recentProfileViews || 0}</div>
+                  <div className="text-sm text-gray-500">Profile Views (7d)</div>
                 </div>
               </div>
             </CardContent>

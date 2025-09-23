@@ -67,20 +67,20 @@ export async function GET(
       .select('*', { count: 'exact', head: true })
       .eq('userId', id)
 
-    // Get user's total clicks
+    // Get user's total clicks from Analytics table
     const { data: clicksData } = await supabase
-      .from('Click')
+      .from('Analytics')
       .select('id')
       .eq('userId', id)
 
     const totalClicks = clicksData?.length || 0
 
-    // Get recent activity (last 7 days)
+    // Get recent profile views (last 7 days)
     const sevenDaysAgo = new Date()
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
 
-    const { data: recentClicks } = await supabase
-      .from('Click')
+    const { data: recentProfileViews } = await supabase
+      .from('ProfileViewAnalytics')
       .select('id, createdAt')
       .eq('userId', id)
       .gte('createdAt', sevenDaysAgo.toISOString())
@@ -91,7 +91,7 @@ export async function GET(
         stats: {
           linksCount: linksCount || 0,
           totalClicks,
-          recentClicks: recentClicks?.length || 0
+          recentProfileViews: recentProfileViews?.length || 0
         }
       }
     })
