@@ -46,7 +46,8 @@ export async function GET(
         theme,
         isPremium,
         createdAt,
-        updatedAt
+        updatedAt,
+        lastLoginAt
       `)
       .eq('id', id)
       .single()
@@ -87,7 +88,6 @@ export async function GET(
     return NextResponse.json({
       user: {
         ...user,
-        lastLoginAt: null, // This field doesn't exist in the database
         stats: {
           linksCount: linksCount || 0,
           totalClicks,
