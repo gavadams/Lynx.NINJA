@@ -208,7 +208,7 @@ export default function MonitoringPage() {
 
       <div className="flex items-center justify-end mb-6">
         <div className="flex items-center space-x-4">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-muted-foreground">
             Last updated: {formatDistanceToNow(lastRefresh, { addSuffix: true })}
           </p>
           <Button onClick={fetchMonitoringData} disabled={loading}>
@@ -224,8 +224,8 @@ export default function MonitoringPage() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-500">System Health</p>
-                <p className="text-2xl font-bold text-blue-600">{data.health.score}%</p>
+                <p className="text-sm font-medium text-muted-foreground">System Health</p>
+                <p className="text-2xl font-bold text-foreground">{data.health.score}%</p>
               </div>
               {getHealthStatusIcon(data.health.status)}
             </div>
@@ -239,8 +239,8 @@ export default function MonitoringPage() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-500">Database</p>
-                <p className="text-2xl font-bold text-blue-600">
+                <p className="text-sm font-medium text-muted-foreground">Database</p>
+                <p className="text-2xl font-bold text-foreground">
                   {data.health.database.connected ? 'Connected' : 'Disconnected'}
                 </p>
               </div>
@@ -250,7 +250,7 @@ export default function MonitoringPage() {
                 <XCircle className="h-5 w-5 text-red-600" />
               )}
             </div>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-muted-foreground mt-1">
               Response time: {data.health.database.responseTime}ms
             </p>
           </CardContent>
@@ -260,12 +260,12 @@ export default function MonitoringPage() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-500">Uptime</p>
-                <p className="text-2xl font-bold text-blue-600">{data.metrics.uptime.percentage}%</p>
+                <p className="text-sm font-medium text-muted-foreground">Uptime</p>
+                <p className="text-2xl font-bold text-foreground">{data.metrics.uptime.percentage}%</p>
               </div>
               <Server className="h-5 w-5 text-blue-600" />
             </div>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-muted-foreground mt-1">
               Last 30 days
             </p>
           </CardContent>
@@ -275,14 +275,14 @@ export default function MonitoringPage() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-500">Avg Response</p>
-                <p className="text-2xl font-bold text-blue-600">
+                <p className="text-sm font-medium text-muted-foreground">Avg Response</p>
+                <p className="text-2xl font-bold text-foreground">
                   {data.performance.averageResponseTime.toFixed(0)}ms
                 </p>
               </div>
               <Clock className="h-5 w-5 text-purple-600" />
             </div>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-muted-foreground mt-1">
               Last 24 hours
             </p>
           </CardContent>
@@ -296,9 +296,9 @@ export default function MonitoringPage() {
             <div className="flex items-center">
               <Users className="h-8 w-8 text-blue-600" />
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">New Users</p>
-                <p className="text-2xl font-bold text-blue-600">{data.metrics.recent.users}</p>
-                <p className="text-xs text-gray-500">Last hour</p>
+                <p className="text-sm font-medium text-muted-foreground">New Users</p>
+                <p className="text-2xl font-bold text-foreground">{data.metrics.recent.users}</p>
+                <p className="text-xs text-muted-foreground">Last hour</p>
               </div>
             </div>
           </CardContent>
@@ -309,9 +309,9 @@ export default function MonitoringPage() {
             <div className="flex items-center">
               <LinkIcon className="h-8 w-8 text-green-600" />
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">New Links</p>
-                <p className="text-2xl font-bold text-blue-600">{data.metrics.recent.links}</p>
-                <p className="text-xs text-gray-500">Last hour</p>
+                <p className="text-sm font-medium text-muted-foreground">New Links</p>
+                <p className="text-2xl font-bold text-foreground">{data.metrics.recent.links}</p>
+                <p className="text-xs text-muted-foreground">Last hour</p>
               </div>
             </div>
           </CardContent>
@@ -322,9 +322,9 @@ export default function MonitoringPage() {
             <div className="flex items-center">
               <MousePointer className="h-8 w-8 text-purple-600" />
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">Clicks</p>
-                <p className="text-2xl font-bold text-blue-600">{data.metrics.recent.clicks}</p>
-                <p className="text-xs text-gray-500">Last hour</p>
+                <p className="text-sm font-medium text-muted-foreground">Clicks</p>
+                <p className="text-2xl font-bold text-foreground">{data.metrics.recent.clicks}</p>
+                <p className="text-xs text-muted-foreground">Last hour</p>
               </div>
             </div>
           </CardContent>
@@ -335,9 +335,9 @@ export default function MonitoringPage() {
             <div className="flex items-center">
               <Bug className="h-8 w-8 text-red-600" />
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">Errors</p>
-                <p className="text-2xl font-bold text-blue-600">{data.metrics.recent.errors}</p>
-                <p className="text-xs text-gray-500">Last hour</p>
+                <p className="text-sm font-medium text-muted-foreground">Errors</p>
+                <p className="text-2xl font-bold text-foreground">{data.metrics.recent.errors}</p>
+                <p className="text-xs text-muted-foreground">Last hour</p>
               </div>
             </div>
           </CardContent>
@@ -356,13 +356,13 @@ export default function MonitoringPage() {
           <CardContent>
             <div className="space-y-3 max-h-96 overflow-y-auto">
               {data.logs.system.slice(0, 10).map((log) => (
-                <div key={log.id} className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
+                <div key={log.id} className="flex items-start space-x-3 p-3 bg-muted/30 rounded-lg border">
                   <Badge className={getLogLevelColor(log.logLevel)}>
                     {log.logLevel}
                   </Badge>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-blue-600 text-wrap-balance">{log.message}</p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-sm text-foreground text-wrap-balance">{log.message}</p>
+                    <p className="text-xs text-muted-foreground">
                       {formatDistanceToNow(new Date(log.timestamp), { addSuffix: true })}
                     </p>
                   </div>
@@ -384,13 +384,13 @@ export default function MonitoringPage() {
             <div className="space-y-3 max-h-96 overflow-y-auto">
               {data.logs.errors.length > 0 ? (
                 data.logs.errors.slice(0, 10).map((log) => (
-                  <div key={log.id} className="flex items-start space-x-3 p-3 bg-red-50 rounded-lg">
+                  <div key={log.id} className="flex items-start space-x-3 p-3 bg-destructive/10 rounded-lg border border-destructive/20">
                     <Badge className="bg-red-100 text-red-800">
                       {log.logLevel}
                     </Badge>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm text-blue-600 text-wrap-balance">{log.message}</p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-sm text-foreground text-wrap-balance">{log.message}</p>
+                      <p className="text-xs text-muted-foreground">
                         {formatDistanceToNow(new Date(log.timestamp), { addSuffix: true })}
                       </p>
                     </div>
@@ -399,7 +399,7 @@ export default function MonitoringPage() {
               ) : (
                 <div className="text-center py-8">
                   <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                  <p className="text-sm text-gray-500">No recent errors</p>
+                  <p className="text-sm text-muted-foreground">No recent errors</p>
                 </div>
               )}
             </div>
@@ -418,11 +418,11 @@ export default function MonitoringPage() {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {data.configuration.featureFlags.map((flag) => (
-              <div key={flag.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div key={flag.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border">
                 <div>
-                  <p className="text-sm font-medium text-blue-600">{flag.name}</p>
+                  <p className="text-sm font-medium text-foreground">{flag.name}</p>
                   {flag.description && (
-                    <p className="text-xs text-gray-500">{flag.description}</p>
+                    <p className="text-xs text-muted-foreground">{flag.description}</p>
                   )}
                 </div>
                 <Badge variant={flag.isEnabled ? "default" : "secondary"}>
