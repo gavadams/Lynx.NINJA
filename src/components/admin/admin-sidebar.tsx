@@ -81,6 +81,7 @@ export function AdminSidebar({ isOpen = true, onClose }: AdminSidebarProps) {
                 <li key={item.name}>
                   <Link
                     href={item.href}
+                    onClick={() => onClose?.()}
                     className={cn(
                       isActive
                         ? "bg-gray-800 text-white"

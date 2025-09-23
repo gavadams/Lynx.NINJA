@@ -96,6 +96,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   <li key={item.name}>
                     <Link
                       href={item.href}
+                      onClick={() => onClose?.()}
                       className={cn(
                         isActive
                           ? "bg-gray-800 text-white"
@@ -118,6 +119,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 <li>
                   <Link
                     href="/dashboard/teams/invitations"
+                    onClick={() => onClose?.()}
                     className={cn(
                       pathname === "/dashboard/teams/invitations"
                         ? "bg-gray-800 text-white"
