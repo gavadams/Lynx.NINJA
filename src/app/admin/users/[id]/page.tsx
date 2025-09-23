@@ -33,7 +33,6 @@ interface User {
   isPremium: boolean
   createdAt: string
   updatedAt: string
-  lastLoginAt?: string | null
   stats?: {
     linksCount: number
     totalClicks: number
@@ -325,11 +324,11 @@ export default function UserDetailPage() {
                 </div>
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-500">Last Login</label>
+                <label className="text-sm font-medium text-gray-500">Last Activity</label>
                 <div className="flex items-center mt-1">
                   <Activity className="h-4 w-4 text-gray-400 mr-2" />
                   <span className="text-blue-600">
-                    {user.lastLoginAt ? formatDistanceToNow(new Date(user.lastLoginAt), { addSuffix: true }) : 'Never'}
+                    {user.updatedAt ? formatDistanceToNow(new Date(user.updatedAt), { addSuffix: true }) : 'Unknown'}
                   </span>
                 </div>
               </div>
