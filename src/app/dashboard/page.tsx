@@ -94,12 +94,7 @@ function SortableLinkItem({
               </Badge>
             )}
           </div>
-          {displayStatus !== 'Expired' && (
-            <p className="text-sm text-gray-500 truncate">{link.url}</p>
-          )}
-          {displayStatus === 'Expired' && (
-            <p className="text-sm text-gray-400 italic">URL hidden - Link expired</p>
-          )}
+          <p className="text-sm text-gray-500 truncate">{link.url}</p>
           <div className="flex items-center space-x-4 text-xs text-gray-400 mt-1">
             <span>{link.clicks} clicks</span>
             {link.scheduledAt && (
