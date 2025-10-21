@@ -3,21 +3,41 @@ name: Keep Supabase Active
 on:
   schedule:
     # Runs every 3 days at 2 AM UTC
-    - cron: '0 2 */3 * *'
+    - cron: '0 2 * * *'
   workflow_dispatch: # Allows manual trigger
 
 jobs:
   keep-alive:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Supabase
+      - name: Ping Supabase Database
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: |
+          TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          
+          # Insert a new row
           curl -X POST "${SUPABASE_URL}/rest/v1/keepalive" \
             -H "apikey: ${SUPABASE_KEY}" \
             -H "Authorization: Bearer ${SUPABASE_KEY}" \
             -H "Content-Type: application/json" \
-            -H "Prefer: return=minimal" \
-            -d "{\"pinged_at\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}"
+            -H "Prefer: return=representation" \
+            -d "{\"pinged_at\":\"${TIMESTAMP}\"}"
+          
+          echo "Inserted row"
+          
+          # Read the data back
+          curl -X GET "${SUPABASE_URL}/rest/v1/keepalive?select=*&limit=5&order=id.desc" \
+            -H "apikey: ${SUPABASE_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_KEY}"
+          
+          echo "Read rows"
+          
+          # Delete old rows (older than 30 days)
+          CUTOFF_DATE=$(date -u -d '30 days ago' +%Y-%m-%dT%H:%M:%SZ)
+          curl -X DELETE "${SUPABASE_URL}/rest/v1/keepalive?pinged_at=lt.${CUTOFF_DATE}" \
+            -H "apikey: ${SUPABASE_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_KEY}"
+          
+          echo "Cleaned up old rows"
